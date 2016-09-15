@@ -19,4 +19,7 @@ target_link_libraries(NewsClustering Analyzer)
 
 include(googletest.cmake)
 
-build_googletest_executable(NewsClusteringTest "Test.cpp" Analyzer)
+set(test_source_files
+   EntidadNombradaTest.cpp
+)
+build_googletest_executable(NewsClusteringTest ${test_source_files} Analyzer)
