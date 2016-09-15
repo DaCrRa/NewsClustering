@@ -7,14 +7,16 @@ set(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin")
 #add_subdirectory(src)
 #add_subdirectory(test)
 
-set(news_clustering_source_files
+set(analyzer_source_files
    Analizador.cpp
    EntidadNombrada.cpp
-   Main.cpp
    Noticia.cpp
 )
-add_executable(NewsClustering "${news_clustering_source_files}")
+add_library(Analyzer SHARED ${analyzer_source_files})
+
+add_executable(NewsClustering "Main.cpp")
+target_link_libraries(NewsClustering Analyzer)
 
 include(googletest.cmake)
 
-build_googletest_executable(NewsClusteringTest "Test.cpp;${news_clustering_source_files}" "")
+build_googletest_executable(NewsClusteringTest "Test.cpp" Analyzer)
