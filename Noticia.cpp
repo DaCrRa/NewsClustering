@@ -92,7 +92,7 @@ std::list<EntidadNombrada> Noticia::getEntidadesRelevantes() const {
 	return lista;
 }
 
-bool Noticia::esAgrupable(Noticia n) const {
+bool Noticia::esAgrupable(NoticiaIf& n) const {
 
 	bool salida = false;
 
