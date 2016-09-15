@@ -7,13 +7,14 @@
 
 #ifndef ANALIZADOR_H_
 #define ANALIZADOR_H_
-#include "string"
+#include <string>
 #include <list>
-#include "Noticia.h"
+
+#include "NoticiaIf.h"
 
 class Analizador {
 
-	std::list<Noticia> noticias;
+	std::list<NoticiaIfPtr> noticias;
 	std::string ruta;
 
 
@@ -21,7 +22,7 @@ public:
 	Analizador();
 	Analizador(std::string ruta);
 
-	std::list<Noticia> getNoticias() const;
+	std::list<NoticiaIfPtr> getNoticias() const;
 	void setNoticas(std::string ruta);
 
 	std::string agruparNoticias();
