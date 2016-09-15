@@ -21,5 +21,6 @@ include(googletest.cmake)
 
 set(test_source_files
    EntidadNombradaTest.cpp
+   NoticiaTest.cpp
 )
-build_googletest_executable(NewsClusteringTest ${test_source_files} Analyzer)
+build_googletest_executable(NewsClusteringTest "${test_source_files}" Analyzer)
