@@ -7,8 +7,14 @@ set(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin")
 #add_subdirectory(src)
 #add_subdirectory(test)
 
-file(GLOB news_clustering_source_files
-    "*.cpp"
+set(news_clustering_source_files
+   Analizador.cpp
+   EntidadNombrada.cpp
+   Main.cpp
+   Noticia.cpp
 )
+add_executable(NewsClustering "${news_clustering_source_files}")
 
-add_executable(NewsClustering ${news_clustering_source_files})
+include(googletest.cmake)
+
+build_googletest_executable(NewsClusteringTest "Test.cpp" "")
