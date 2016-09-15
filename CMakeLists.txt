@@ -17,4 +17,4 @@ add_executable(NewsClustering "${news_clustering_source_files}")
 
 include(googletest.cmake)
 
-build_googletest_executable(NewsClusteringTest "Test.cpp" "")
+build_googletest_executable(NewsClusteringTest "Test.cpp;${news_clustering_source_files}" "")
