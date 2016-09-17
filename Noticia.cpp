@@ -42,7 +42,7 @@ void Noticia::setPalabrasReservadas(std::string ruta) {
 	std::ifstream f;
 	f.open(ruta.c_str(), std::ofstream::in);
 	std::string aux;
-	while (!f.eof()) {
+	while (f.good()) {
 		f >> aux;
 		this->entidadesR.push_back(aux);
 	}
