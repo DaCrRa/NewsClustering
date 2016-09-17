@@ -9,6 +9,7 @@
 #include "list"
 #include "EntidadNombrada.h"
 #include <iostream>
+#include <sstream>
 #include <fstream>
 
 Noticia::Noticia() {
@@ -148,18 +149,13 @@ std::string Noticia::toString() const {
 }
 
 void Noticia::setEntidades() {
-	std::string aux = "";
-	std::list<EntidadNombrada> lista;
+	std::string aux;
 
-	for (unsigned int i = 0; i <= this->cuerpo.size(); i++) {
-		if (this->cuerpo[i] != ' ') {
-			if (this->esletra(this->cuerpo[i])) {
-				aux += this->cuerpo[i];
-			}
-		} else {
-			this->agregarEntidad(aux);
-			aux = "";
-		}
+	std::istringstream iss(cuerpo);
+
+	while (iss) {
+		iss >> aux;
+		this->agregarEntidad(aux);
 	}
 }
 
