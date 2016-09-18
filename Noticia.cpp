@@ -113,7 +113,7 @@ bool Noticia::esAgrupablePorTematica(NoticiaIf& n) const {
 	}
 
 	std::list<EntidadNombrada> primero = this->getEntidadesRelevantes();
-	std::list<EntidadNombrada> segundo = n.getEntidadesRelevantes();
+	std::list<EntidadNombrada> segundo = n.getEntidades();
 	std::list<EntidadNombrada> final;
 	EntidadNombrada en1;
 	EntidadNombrada en2;
@@ -132,7 +132,7 @@ bool Noticia::esAgrupablePorTematica(NoticiaIf& n) const {
 		}
 	}
 
-	if (final.size() > 0 && final.size() >= (segundo.size() / 3)) {
+	if (final.size() > 0 && final.size() >= (primero.size() / 3.0)) {
 		salida = true;
 	}
 	return salida;
