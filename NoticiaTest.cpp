@@ -157,3 +157,17 @@ TEST_F(NoticiaTest, givenNoticiaWithThreeEntidadNombradaOneRelevant_whenCallingG
    ASSERT_THAT(entidadesRelevantes.begin()->getEntidadNombrada(), StrEq("Entidad1"));
    ASSERT_EQ(2, entidadesRelevantes.begin()->getFrecuencia());
 }
+
+TEST_F(NoticiaTest, givenNoticiaWithBlockedWordsList_whenCallingGetPalabrasReservadas_thenListContainsTheBlockedWords) {
+   Noticia n("Titulo de noticia", "EntidadExcluida no deberia aparecer", STOP_LIST_FILENAME);
+
+   std::list<std::string> blockedWords = n.getPalabrasReservadas();
+   ASSERT_THAT(blockedWords, UnorderedElementsAre("EntidadExcluida"));
+}
+
+TEST_F(NoticiaTest, givenNoticiaWithBlockedEntidadNombrada_whenCallingGetEntidades_thenListIsEmpty) {
+   Noticia n("Titulo de noticia", "EntidadExcluida no deberia aparecer", STOP_LIST_FILENAME);
+
+   std::list<EntidadNombrada> entidades = n.getEntidades();
+   ASSERT_THAT(entidades, SizeIs(0));
+}
