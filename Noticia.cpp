@@ -153,7 +153,7 @@ void Noticia::setEntidades() {
 
 	std::istringstream iss(cuerpo);
 
-	while (iss) {
+	while (iss.good()) {
 		iss >> aux;
 		this->agregarEntidad(aux);
 	}
