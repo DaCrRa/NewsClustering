@@ -96,6 +96,14 @@ std::list<EntidadNombrada> Noticia::getEntidadesRelevantes() const {
 }
 
 bool Noticia::esAgrupable(NoticiaIf& n) const {
+	return esAgrupablePorEntidadMasNombrada(n) || esAgrupablePorTematica(n);
+}
+
+bool Noticia::esAgrupablePorEntidadMasNombrada(NoticiaIf& n) const {
+	return masFrecuente.esIgual(n.getMasFrecuente());
+}
+
+bool Noticia::esAgrupablePorTematica(NoticiaIf& n) const {
 
 	bool salida = false;
 
