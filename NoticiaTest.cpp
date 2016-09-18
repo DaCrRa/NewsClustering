@@ -72,6 +72,7 @@ TEST(NoticiaTest, givenNoticiaWithOneEntidadNombradaInBetween_whenCallingGetMasF
 
    EntidadNombrada entidad = n.getMasFrecuente();
    ASSERT_THAT(entidad.getEntidadNombrada(), StrEq("EntidadNombrada"));
+   ASSERT_EQ(1, entidad.getFrecuencia());
 }
 
 TEST(NoticiaTest, givenNoticiaWithOneEntidadNombradaAtBegining_whenCallingGetMasFrecuente_thenEntidadNombradaIsReturned) {
@@ -79,6 +80,7 @@ TEST(NoticiaTest, givenNoticiaWithOneEntidadNombradaAtBegining_whenCallingGetMas
 
    EntidadNombrada entidad = n.getMasFrecuente();
    ASSERT_THAT(entidad.getEntidadNombrada(), StrEq("EntidadNombrada"));
+   ASSERT_EQ(1, entidad.getFrecuencia());
 }
 
 TEST(NoticiaTest, givenNoticiaWithOneEntidadNombradaAtTheEnd_whenCallingGetMasFrecuente_thenEntidadNombradaIsReturned) {
@@ -86,4 +88,5 @@ TEST(NoticiaTest, givenNoticiaWithOneEntidadNombradaAtTheEnd_whenCallingGetMasFr
 
    EntidadNombrada entidad = n.getMasFrecuente();
    ASSERT_THAT(entidad.getEntidadNombrada(), StrEq("EntidadNombrada"));
+   ASSERT_EQ(1, entidad.getFrecuencia());
 }
