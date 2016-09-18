@@ -235,3 +235,27 @@ TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupableWithNoticiaWithDifferentE
 
    ASSERT_FALSE(noticiaUnderTest.esAgrupable(noticiaMock));
 }
+
+TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupableWithNoticiaWithEntidadMasNombradaInTitle_thenReturnsTrue) {
+   Noticia noticiaUnderTest("Titulo de noticia",
+                            "la EntidadNombrada1 primero, la EntidadNombrada2 segundo, \
+                             otra vez la EntidadNombrada1 , de nuevo EntidadNombrada1 , \
+                             luego la EntidadNombrada3 dos veces: EntidadNombrada3", "");
+
+   NoticiaIfMock noticiaMock;
+   EXPECT_CALL(noticiaMock, getTitulo()).WillRepeatedly(Return("Titulo que contiene EntidadNombrada1"));
+
+   ASSERT_TRUE(noticiaUnderTest.esAgrupable(noticiaMock));
+}
+
+TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupableWithNoticiaThatDoesNotContainEntidadNombrada_thenReturnsFalse) {
+   Noticia noticiaUnderTest("Titulo de noticia",
+                            "la EntidadNombrada1 primero, la EntidadNombrada2 segundo, \
+                             otra vez la EntidadNombrada1 , de nuevo EntidadNombrada1 , \
+                             luego la EntidadNombrada3 dos veces: EntidadNombrada3", "");
+
+   NoticiaIfMock noticiaMock;
+   EXPECT_CALL(noticiaMock, getMasFrecuente()).WillRepeatedly(Return(EntidadNombrada("", 0)));
+
+   ASSERT_FALSE(noticiaUnderTest.esAgrupable(noticiaMock));
+}
