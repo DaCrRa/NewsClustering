@@ -42,10 +42,12 @@ void Noticia::setCuerpo(std::string cuerpo) {
 void Noticia::setPalabrasReservadas(std::string ruta) {
 	std::ifstream f;
 	f.open(ruta.c_str(), std::ofstream::in);
-	std::string aux;
 	while (f.good()) {
+		std::string aux;
 		f >> aux;
-		this->entidadesR.push_back(aux);
+		if (aux.compare("") != 0) {
+			this->entidadesR.push_back(aux);
+		}
 	}
 }
 
