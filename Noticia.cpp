@@ -179,13 +179,10 @@ void Noticia::agregarEntidad(std::string nombre) {
 	bool empezar = true;
 	for (std::list<std::string>::iterator i = this->entidadesR.begin();
 			i != this->entidadesR.end(); i++) {
-		std::string aux = nombre;
-		int ascii = static_cast<int>(aux[0]);
-		if ((ascii >= 65) && (ascii <= 90)) {
-			aux[0] = static_cast<char>(aux[0] + 32);
-		}
-		if (i->compare(aux) == 0) {
+
+		if (i->compare(nombre) == 0) {
 			empezar = false;
+			break;
 		}
 	}
 	if (empezar) {
