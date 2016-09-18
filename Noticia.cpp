@@ -132,7 +132,7 @@ bool Noticia::esAgrupablePorTematica(NoticiaIf& n) const {
 		}
 	}
 
-	if (final.size() >= (segundo.size() / 3)) {
+	if (final.size() > 0 && final.size() >= (segundo.size() / 3)) {
 		salida = true;
 	}
 	return salida;
