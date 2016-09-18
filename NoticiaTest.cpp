@@ -11,6 +11,7 @@
 using testing::StrEq;
 using testing::SizeIs;
 using testing::UnorderedElementsAre;
+using testing::Return;
 
 EntidadNombrada findEntidadNombradaByName(std::list<EntidadNombrada> entidades, std::string name) {
     auto it = std::find_if( std::begin(entidades),
@@ -209,4 +210,28 @@ TEST_F(NoticiaTest, givenNoticiaWithBlockedEntidadNombrada_whenCallingGetEntidad
 
    std::list<EntidadNombrada> entidades = n.getEntidadesRelevantes();
    ASSERT_THAT(entidades, SizeIs(0));
+}
+
+TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupableWithNoticiaWithTheSameEntidadMasFrecuente_thenReturnsTrue) {
+   Noticia noticiaUnderTest("Titulo de noticia",
+                            "la EntidadNombrada1 primero, la EntidadNombrada2 segundo, \
+                             otra vez la EntidadNombrada1 , de nuevo EntidadNombrada1 , \
+                             luego la EntidadNombrada3 dos veces: EntidadNombrada3", "");
+
+   NoticiaIfMock noticiaMock;
+   EXPECT_CALL(noticiaMock, getMasFrecuente()).WillRepeatedly(Return(EntidadNombrada("EntidadNombrada1", 6)));
+
+   ASSERT_TRUE(noticiaUnderTest.esAgrupable(noticiaMock));
+}
+
+TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupableWithNoticiaWithDifferentEntidadMasFrecuente_thenReturnsFalse) {
+   Noticia noticiaUnderTest("Titulo de noticia",
+                            "la EntidadNombrada1 primero, la EntidadNombrada2 segundo, \
+                             otra vez la EntidadNombrada1 , de nuevo EntidadNombrada1 , \
+                             luego la EntidadNombrada3 dos veces: EntidadNombrada3", "");
+
+   NoticiaIfMock noticiaMock;
+   EXPECT_CALL(noticiaMock, getMasFrecuente()).WillRepeatedly(Return(EntidadNombrada("EntidadNombradaDistinta", 6)));
+
+   ASSERT_FALSE(noticiaUnderTest.esAgrupable(noticiaMock));
 }
