@@ -16,14 +16,17 @@ int main() {
 
 	Analizador a1("data");
 
-	std::cout << "Tí­tulo noticias\n\n";
-	std::cout << a1.toString();
-	std::cout << "\n\n";
-	std::cout << "Agrupación 1\n\n";
-	std::cout << a1.agruparNoticias();
-	std::cout << "\n\n";
-	std::cout << "Agrupación 2\n\n";
-	std::cout << a1.agruparNoticiasGeneral();
+	std::list<std::list<std::string> > groups = a1.agruparNoticias();
+
+	int i = 0;
+	for (std::list<std::string> grupo : groups) {
+		std::cout << "GROUP " << ++i << std::endl;
+		for (std::string titulo : grupo) {
+			std::cout << "*[" << titulo << "]" << std::endl;
+		}
+		std::cout << "======" << std::endl;
+		std::cout << std::endl;
+	}
 
 	return 0;
 }

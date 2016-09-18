@@ -92,29 +92,37 @@ void Analizador::setNoticas(std::string ruta) {
 	} while (mantener);
 }
 
-std::string Analizador::agruparNoticias() {
+std::list<std::list<std::string> > Analizador::agruparNoticias() {
 
 	this->ordenarNoticias();
+
+        std::list<std::list<std::string> > groups;
 
 	std::list<NoticiaIfPtr> lista = this->noticias;
 	std::string salida = "";
 	std::string entidad = "";
-	for (std::list<NoticiaIfPtr>::iterator it = lista.begin(); it != lista.end();
-			it++) {
 
-		NoticiaIfPtr n = *it;
-		if (entidad.compare(n->getMasFrecuente().getEntidadNombrada()) == 0) {
-			salida = salida + "*[" + n->getTitulo() + "]\n";
-		} else {
-			entidad = n->getMasFrecuente().getEntidadNombrada();
-			salida = salida + "\n" + entidad + "\n" + "*[" + n->getTitulo()
-					+ "]\n";
+	while (!lista.empty()) {
+		std::list<std::string> grupo;
+		NoticiaIfPtr noticiaDeReferencia(lista.front());
+		lista.pop_front();
+		grupo.push_back(noticiaDeReferencia->getTitulo());
+		for (std::list<NoticiaIfPtr>::iterator it = lista.begin(); it != lista.end(); ) {
+			NoticiaIfPtr noticiaComparada(*it);
+			if (noticiaDeReferencia->esAgrupable(*noticiaComparada)) {
+				grupo.push_back(noticiaComparada->getTitulo());
+				it = lista.erase(it);
+			}
+			if (it != lista.end()) {
+				++it;
+			}
 		}
+		groups.push_back(grupo);
 	}
 
-	return salida;
+	return groups;
 }
-
+/*
 std::string Analizador::agruparNoticiasGeneral() {
 
 	std::cout << "*";
@@ -194,7 +202,7 @@ std::string Analizador::agruparNoticiasGeneral() {
 
 	return salida;
 }
-
+*/
 std::string Analizador::rellenarCeros(int n, int size) const {
 	std::stringstream ss;
 	ss << n;
