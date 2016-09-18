@@ -16,6 +16,14 @@ EntidadNombrada findEntidadNombradaByName(std::list<EntidadNombrada> entidades, 
     return *it;
 }
 
+TEST(NoticiaTest, givenNoticiaWithoutEntidadNombrada_whenCallingGetEntidades_thenListIsEmpty) {
+   Noticia n("Titulo de noticia", "la noticia no nombra nada", "");
+
+   std::list<EntidadNombrada> entidades = n.getEntidades();
+
+   ASSERT_THAT(entidades, SizeIs(0));
+}
+
 TEST(NoticiaTest, givenNoticiaWithSeveralDifferentEntidadNombrada_whenCallingGetEntidades_thenAllEntidadesAreInTheList) {
    Noticia n("Titulo de noticia", "la EntidadNombrada1 primero, la EntidadNombrada2 segundo, \
                                    luego la EntidadNombrada3", "");
@@ -89,4 +97,46 @@ TEST(NoticiaTest, givenNoticiaWithOneEntidadNombradaAtTheEnd_whenCallingGetMasFr
    EntidadNombrada entidad = n.getMasFrecuente();
    ASSERT_THAT(entidad.getEntidadNombrada(), StrEq("EntidadNombrada"));
    ASSERT_EQ(1, entidad.getFrecuencia());
+}
+
+TEST(NoticiaTest, givenNoticiaWithoutEntidadNombrada_whenCallingGetMasFrecuente_thenItsFrecuenciaIsZero) {
+   Noticia n("Titulo de noticia", "la noticia no nombra ninguna entidad", "");
+
+   EntidadNombrada entidad = n.getMasFrecuente();
+   ASSERT_EQ(0, entidad.getFrecuencia());
+}
+
+TEST(NoticiaTest, givenNoticiaWithEntidadNombradaNoRelevant_whenCallingGetEntidadesRelevantes_thenListIsEmpty) {
+   Noticia n("Titulo de noticia", "esta entidad nombrada no es relevante: Entidad1", "");
+
+   std::list<EntidadNombrada> entidadesRelevantes = n.getEntidadesRelevantes();
+   ASSERT_THAT(entidadesRelevantes, SizeIs(0));
+}
+
+TEST(NoticiaTest, givenNoticiaWithEntidadNombradaRelevant_whenCallingGetEntidadesRelevantes_thenEntidadIsInTheList) {
+   Noticia n("Titulo de noticia", "Entidad1 es relevante porque va al principio", "");
+
+   std::list<EntidadNombrada> entidadesRelevantes = n.getEntidadesRelevantes();
+   ASSERT_THAT(entidadesRelevantes, SizeIs(1));
+   ASSERT_THAT(entidadesRelevantes.begin()->getEntidadNombrada(), StrEq("Entidad1"));
+   ASSERT_EQ(1, entidadesRelevantes.begin()->getFrecuencia());
+}
+
+TEST(NoticiaTest, givenNoticiaWithEntidadNombradaRelevantMentionedTwice_whenCallingGetEntidadesRelevantes_thenEntidadIsInTheList) {
+   Noticia n("Titulo de noticia", "Entidad1 es relevante porque va al principio, pero tambien al final Entidad1", "");
+
+   std::list<EntidadNombrada> entidadesRelevantes = n.getEntidadesRelevantes();
+   ASSERT_THAT(entidadesRelevantes, SizeIs(1));
+   ASSERT_THAT(entidadesRelevantes.begin()->getEntidadNombrada(), StrEq("Entidad1"));
+   ASSERT_EQ(2, entidadesRelevantes.begin()->getFrecuencia());
+}
+
+TEST(NoticiaTest, givenNoticiaWithThreeEntidadNombradaOneRelevant_whenCallingGetEntidadesRelevantes_thenEntidadRelevanteIsInTheList) {
+   Noticia n("Titulo de noticia", "Entidad1 es relevante porque va al principio. \
+                                   Entidad2 y Entidad3 no. Entidad1", "");
+
+   std::list<EntidadNombrada> entidadesRelevantes = n.getEntidadesRelevantes();
+   ASSERT_THAT(entidadesRelevantes, SizeIs(1));
+   ASSERT_THAT(entidadesRelevantes.begin()->getEntidadNombrada(), StrEq("Entidad1"));
+   ASSERT_EQ(2, entidadesRelevantes.begin()->getFrecuencia());
 }
