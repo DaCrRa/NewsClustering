@@ -6,6 +6,7 @@
 #include <stdio.h>
 
 #include "Noticia.h"
+#include "NoticiaIfMock.h"
 
 using testing::StrEq;
 using testing::SizeIs;
