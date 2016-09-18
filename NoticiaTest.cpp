@@ -248,6 +248,59 @@ TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupableWithNoticiaWithEntidadMas
    ASSERT_TRUE(noticiaUnderTest.esAgrupable(noticiaMock));
 }
 
+TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupableWithNoticiaThatContains25percentOfTheEntidadRelevante_thenReturnsFalse) {
+   Noticia noticiaUnderTest("Titulo de noticia",
+                            "EntidadNombrada1 , EntidadNombrada2 segundo, \
+                             EntidadNombrada3 , y EntidadNombrada4. \
+                             las cuatro entidades son relevantes, porque aparecen \
+                             al principio, para eso estamos metiendo texto de relleno.\
+                             con esto estamos seguros de que son relevantes. Habra una \
+                             quinta entidad, que no sera relevante: Entidad5", "");
+
+   NoticiaIfMock noticiaMock;
+   EXPECT_CALL(noticiaMock, getEntidades()).WillRepeatedly(Return(std::list<EntidadNombrada>({
+      EntidadNombrada("EntidadNombrada1", 1)
+   })));
+
+   ASSERT_FALSE(noticiaUnderTest.esAgrupable(noticiaMock));
+}
+
+TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupableWithNoticiaThatContains25percentOfTheEntidadRelevanteAndOneIrrelevant_thenReturnsFalse) {
+   Noticia noticiaUnderTest("Titulo de noticia",
+                            "EntidadNombrada1 , EntidadNombrada2 segundo, \
+                             EntidadNombrada3 , y EntidadNombrada4. \
+                             las cuatro entidades son relevantes, porque aparecen \
+                             al principio, para eso estamos metiendo texto de relleno.\
+                             con esto estamos seguros de que son relevantes. Habra una \
+                             quinta entidad, que no sera relevante: Entidad5", "");
+
+   NoticiaIfMock noticiaMock;
+   EXPECT_CALL(noticiaMock, getEntidades()).WillRepeatedly(Return(std::list<EntidadNombrada>({
+      EntidadNombrada("EntidadNombrada1", 1),
+      EntidadNombrada("Entidad5", 1)
+   })));
+
+   ASSERT_FALSE(noticiaUnderTest.esAgrupable(noticiaMock));
+}
+
+TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupableWithNoticiaThatContains50percentOfTheEntidadRelevante_thenReturnsTrue) {
+   Noticia noticiaUnderTest("Titulo de noticia",
+                            "EntidadNombrada1 , EntidadNombrada2 segundo, \
+                             EntidadNombrada3 , y EntidadNombrada4. \
+                             las cuatro entidades son relevantes, porque aparecen \
+                             al principio, para eso estamos metiendo texto de relleno.\
+                             con esto estamos seguros de que son relevantes. Habra una \
+                             quinta entidad, que no sera relevante: Entidad5", "");
+
+   NoticiaIfMock noticiaMock;
+   EXPECT_CALL(noticiaMock, getEntidades()).WillRepeatedly(Return(std::list<EntidadNombrada>({
+      EntidadNombrada("EntidadNombrada1", 1),
+      EntidadNombrada("EntidadNombrada3", 1)
+   })));
+
+   ASSERT_TRUE(noticiaUnderTest.esAgrupable(noticiaMock));
+}
+
 TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupableWithNoticiaThatDoesNotContainEntidadNombrada_thenReturnsFalse) {
    Noticia noticiaUnderTest("Titulo de noticia",
                             "la EntidadNombrada1 primero, la EntidadNombrada2 segundo, \
@@ -255,7 +308,21 @@ TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupableWithNoticiaThatDoesNotCon
                              luego la EntidadNombrada3 dos veces: EntidadNombrada3", "");
 
    NoticiaIfMock noticiaMock;
-   EXPECT_CALL(noticiaMock, getMasFrecuente()).WillRepeatedly(Return(EntidadNombrada("", 0)));
+   EXPECT_CALL(noticiaMock, getEntidades()).WillRepeatedly(Return(std::list<EntidadNombrada>()));
+
+   ASSERT_FALSE(noticiaUnderTest.esAgrupable(noticiaMock));
+}
+
+TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupableWithNoticiaThatDoesNotContainRelevantEntidadNombrada_thenReturnsFalse) {
+   Noticia noticiaUnderTest("Titulo de noticia",
+                            "la EntidadNombrada1 primero, segundo, \
+                             otra vez la EntidadNombrada1 , de nuevo EntidadNombrada1 , \
+                             luego lados veces: EntidadNombrada3", "");
+
+   NoticiaIfMock noticiaMock;
+   EXPECT_CALL(noticiaMock, getEntidades()).WillRepeatedly(Return(std::list<EntidadNombrada>({
+      EntidadNombrada("EntidadNombrada3", 1)
+   })));
 
    ASSERT_FALSE(noticiaUnderTest.esAgrupable(noticiaMock));
 }
