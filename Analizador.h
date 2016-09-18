@@ -25,9 +25,8 @@ public:
 	std::list<NoticiaIfPtr> getNoticias() const;
 	void setNoticas(std::string ruta);
 
-//	std::list<std::list<std::string> > agruparNoticiasPorEntidadMasFrecuente();
-//	std::list<std::list<std::string> > agruparNoticiasPorTematica();
-	std::list<std::list<std::string> > agruparNoticias();
+	std::list<std::list<NoticiaIfPtr> > agruparNoticiasPorEntidadMasFrecuente();
+//	std::list<std::list<NoticiaIfPtr> > agruparNoticiasPorTematica();
 
 	std::string toString()const;
 

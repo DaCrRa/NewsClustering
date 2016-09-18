@@ -16,6 +16,7 @@ public:
 	MOCK_CONST_METHOD0(getEntidades, std::list<EntidadNombrada>());
 	MOCK_CONST_METHOD0(getPalabrasReservadas, std::list<std::string>());
 	MOCK_CONST_METHOD0(getEntidadesRelevantes, std::list<EntidadNombrada>());
-	MOCK_CONST_METHOD1(esAgrupable, bool(NoticiaIf&));
+	MOCK_CONST_METHOD1(esAgrupablePorEntidadMasNombrada, bool(NoticiaIf&));
+	MOCK_CONST_METHOD1(esAgrupablePorTematica, bool(NoticiaIf&));
 	MOCK_CONST_METHOD0(toString, std::string());
 };

@@ -16,13 +16,13 @@ int main() {
 
 	Analizador a1("data");
 
-	std::list<std::list<std::string> > groups = a1.agruparNoticias();
+	std::list<std::list<NoticiaIfPtr> > groups = a1.agruparNoticiasPorEntidadMasFrecuente();
 
-	int i = 0;
-	for (std::list<std::string> grupo : groups) {
-		std::cout << "GROUP " << ++i << std::endl;
-		for (std::string titulo : grupo) {
-			std::cout << "*[" << titulo << "]" << std::endl;
+
+	for (std::list<NoticiaIfPtr> grupo : groups) {
+		std::cout << grupo.front()->getMasFrecuente().getEntidadNombrada() << std::endl;
+		for (NoticiaIfPtr noticia : grupo) {
+			std::cout << "*[" << noticia->getTitulo() << "]" << std::endl;
 		}
 		std::cout << "======" << std::endl;
 		std::cout << std::endl;

@@ -32,7 +32,8 @@ public:
 	std::list<EntidadNombrada> getEntidades()const;
 	std::list<std::string> getPalabrasReservadas()const;
 	std::list<EntidadNombrada> getEntidadesRelevantes()const;
-	bool esAgrupable(NoticiaIf& n)const;
+        bool esAgrupablePorEntidadMasNombrada(NoticiaIf& n) const;
+        bool esAgrupablePorTematica(NoticiaIf& n) const;
 	std::string toString()const;
 
 
@@ -41,8 +42,6 @@ private:
 	void setMasFrecuente();
 	void agregarEntidad(std::string nombre);
 	bool esletra(char c) const;
-        bool esAgrupablePorEntidadMasNombrada(NoticiaIf& n) const;
-        bool esAgrupablePorTematica(NoticiaIf& n) const;
 };
 
 #endif /* NOTICIA_H_ */

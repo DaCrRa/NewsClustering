@@ -24,7 +24,8 @@ public:
 	virtual std::list<EntidadNombrada> getEntidades() const = 0;
 	virtual std::list<std::string> getPalabrasReservadas() const = 0;
 	virtual std::list<EntidadNombrada> getEntidadesRelevantes() const = 0;
-	virtual bool esAgrupable(NoticiaIf& n) const = 0;
+        virtual bool esAgrupablePorEntidadMasNombrada(NoticiaIf& n) const = 0;
+        virtual bool esAgrupablePorTematica(NoticiaIf& n) const = 0;
 	virtual std::string toString() const = 0;
 
 	virtual ~NoticiaIf() {}

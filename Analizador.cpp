@@ -92,25 +92,25 @@ void Analizador::setNoticas(std::string ruta) {
 	} while (mantener);
 }
 
-std::list<std::list<std::string> > Analizador::agruparNoticias() {
+std::list<std::list<NoticiaIfPtr> > Analizador::agruparNoticiasPorEntidadMasFrecuente() {
 
 	this->ordenarNoticias();
 
-        std::list<std::list<std::string> > groups;
+        std::list<std::list<NoticiaIfPtr> > groups;
 
 	std::list<NoticiaIfPtr> lista = this->noticias;
 	std::string salida = "";
 	std::string entidad = "";
 
 	while (!lista.empty()) {
-		std::list<std::string> grupo;
+		std::list<NoticiaIfPtr> grupo;
 		NoticiaIfPtr noticiaDeReferencia(lista.front());
 		lista.pop_front();
-		grupo.push_back(noticiaDeReferencia->getTitulo());
+		grupo.push_back(noticiaDeReferencia);
 		for (std::list<NoticiaIfPtr>::iterator it = lista.begin(); it != lista.end(); ) {
 			NoticiaIfPtr noticiaComparada(*it);
-			if (noticiaDeReferencia->esAgrupable(*noticiaComparada)) {
-				grupo.push_back(noticiaComparada->getTitulo());
+			if (noticiaDeReferencia->esAgrupablePorEntidadMasNombrada(*noticiaComparada)) {
+				grupo.push_back(noticiaComparada);
 				it = lista.erase(it);
 			}
 			if (it != lista.end()) {
