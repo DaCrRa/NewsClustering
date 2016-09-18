@@ -171,3 +171,41 @@ TEST_F(NoticiaTest, givenNoticiaWithBlockedEntidadNombrada_whenCallingGetEntidad
    std::list<EntidadNombrada> entidades = n.getEntidades();
    ASSERT_THAT(entidades, SizeIs(0));
 }
+
+TEST_F(NoticiaTest, givenNoticiaWithBlockedEntidadNombrada_whenCallingGetMasFrecuente_thenFrecuenciaIsZero) {
+   Noticia n("Titulo de noticia", "EntidadExcluida no deberia aparecer", STOP_LIST_FILENAME);
+
+   EntidadNombrada mostFrequent = n.getMasFrecuente();
+   ASSERT_EQ(0, mostFrequent.getFrecuencia());
+}
+
+TEST_F(NoticiaTest, givenNoticiaWithSeveralEntidadNombradaOneBlocked_whenCallingGetEntidades_thenBlockedDoesNotShowUp) {
+   Noticia n("Titulo de noticia", "EntidadExcluida palabra EntidadExcluida palabra \
+                                   EntidadExcluida palabra Entidad1 Entidad1 Entidad2", STOP_LIST_FILENAME);
+
+   std::list<EntidadNombrada> entidades = n.getEntidades();
+
+   ASSERT_THAT(entidades, SizeIs(2));
+
+   std::list<std::string> entidadesStringList;
+   for(EntidadNombrada entidad : entidades) {
+      entidadesStringList.push_back(entidad.getEntidadNombrada());
+   }
+   ASSERT_THAT(entidadesStringList, UnorderedElementsAre("Entidad1", "Entidad2"));
+}
+
+TEST_F(NoticiaTest, givenNoticiaWithSeveralEntidadNombradaOneBlocked_whenCallingGetMasFrecuente_thenTheBlockedIsNotReturned) {
+   Noticia n("Titulo de noticia", "EntidadExcluida palabra EntidadExcluida palabra \
+                                   EntidadExcluida palabra Entidad1 Entidad1 Entidad2", STOP_LIST_FILENAME);
+
+   EntidadNombrada mostFrequent = n.getMasFrecuente();
+
+   ASSERT_THAT(mostFrequent.getEntidadNombrada(), StrEq("Entidad1"));
+}
+
+TEST_F(NoticiaTest, givenNoticiaWithBlockedEntidadNombrada_whenCallingGetEntidadesRelevantes_thenListIsEmpty) {
+   Noticia n("Titulo de noticia", "EntidadExcluida no deberia aparecer", STOP_LIST_FILENAME);
+
+   std::list<EntidadNombrada> entidades = n.getEntidadesRelevantes();
+   ASSERT_THAT(entidades, SizeIs(0));
+}
