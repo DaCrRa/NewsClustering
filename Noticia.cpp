@@ -107,7 +107,7 @@ bool Noticia::esAgrupablePorTematica(NoticiaIf& n) const {
 
 	bool salida = false;
 
-	if (this->titulo.find(n.getMasFrecuente().getEntidadNombrada())
+	if (masFrecuente.getFrecuencia() > 0 && n.getTitulo().find(masFrecuente.getEntidadNombrada())
 			!= std::string::npos) {
 		salida = true;
 	}
