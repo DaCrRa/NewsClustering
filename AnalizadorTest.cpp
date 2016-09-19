@@ -59,3 +59,52 @@ TEST(AnalizadorTest, givenAnalizadorWithThreeAgrupableNoticias_whenCallingAgrupa
    ASSERT_THAT(groups.front(), SizeIs(3));
    ASSERT_THAT(groups.front(), UnorderedElementsAre(NoticiaIfPtr(noticia1), NoticiaIfPtr(noticia2), NoticiaIfPtr(noticia3)));
 }
+
+TEST(AnalizadorTest, givenAnalizadorWithThreeNotAgrupableNoticias_whenCallingAgrupar_thenReturnsThreeGroups) {
+   std::shared_ptr<NoticiaIfMock> noticia1(new NoticiaIfMock());
+   std::shared_ptr<NoticiaIfMock> noticia2(new NoticiaIfMock());
+   std::shared_ptr<NoticiaIfMock> noticia3(new NoticiaIfMock());
+   EXPECT_CALL(*noticia1, esAgrupablePorEntidadMasNombrada(_)).WillRepeatedly(Return(false));
+   EXPECT_CALL(*noticia2, esAgrupablePorEntidadMasNombrada(_)).WillRepeatedly(Return(false));
+   EXPECT_CALL(*noticia3, esAgrupablePorEntidadMasNombrada(_)).WillRepeatedly(Return(false));
+
+   Analizador a;
+
+   a.setNoticias(std::list<NoticiaIfPtr>({
+      NoticiaIfPtr(noticia1),
+      NoticiaIfPtr(noticia2),
+      NoticiaIfPtr(noticia3)
+   }));
+
+   std::list<std::list<NoticiaIfPtr> > groups = a.agruparNoticiasPorEntidadMasFrecuente();
+
+   ASSERT_THAT(groups, SizeIs(3));
+
+   ASSERT_THAT(groups, UnorderedElementsAre( std::list<NoticiaIfPtr>({NoticiaIfPtr(noticia1)}),
+                                             std::list<NoticiaIfPtr>({NoticiaIfPtr(noticia2)}),
+                                             std::list<NoticiaIfPtr>({NoticiaIfPtr(noticia3)}) ));
+}
+
+TEST(AnalizadorTest, givenAnalizadorWithThreeNoticiasOneAndThreeAreAgrupables_whenCallingAgrupar_thenReturnsTwoGroups) {
+   std::shared_ptr<NoticiaIfMock> noticia1(new NoticiaIfMock());
+   std::shared_ptr<NoticiaIfMock> noticia2(new NoticiaIfMock());
+   std::shared_ptr<NoticiaIfMock> noticia3(new NoticiaIfMock());
+   EXPECT_CALL(*noticia1, esAgrupablePorEntidadMasNombrada(_)).WillRepeatedly(Return(false));
+   EXPECT_CALL(*noticia2, esAgrupablePorEntidadMasNombrada(_)).WillRepeatedly(Return(false));
+   EXPECT_CALL(*noticia3, esAgrupablePorEntidadMasNombrada(_)).WillRepeatedly(Return(false));
+   EXPECT_CALL(*noticia3, esAgrupablePorEntidadMasNombrada(Ref(*noticia1))).Times(1).WillOnce(Return(true));
+
+   Analizador a;
+
+   a.setNoticias(std::list<NoticiaIfPtr>({
+      NoticiaIfPtr(noticia1),
+      NoticiaIfPtr(noticia2),
+      NoticiaIfPtr(noticia3)
+   }));
+
+   std::list<std::list<NoticiaIfPtr> > groups = a.agruparNoticiasPorEntidadMasFrecuente();
+
+   ASSERT_THAT(groups, UnorderedElementsAre( UnorderedElementsAre ( NoticiaIfPtr(noticia1), NoticiaIfPtr(noticia3) ),
+                                             std::list<NoticiaIfPtr>({NoticiaIfPtr(noticia2)})
+                                           ));
+}
