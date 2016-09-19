@@ -114,7 +114,8 @@ std::list<std::list<NoticiaIfPtr> > Analizador::agruparNoticiasPorEntidadMasFrec
 		std::list<NoticiaIfPtr>::iterator it = lista.begin();
 		while (it != lista.end()) {
 			NoticiaIfPtr noticiaComparada(*it);
-			if (noticiaDeReferencia->esAgrupablePorEntidadMasNombrada(*noticiaComparada)) {
+			if (noticiaDeReferencia->esAgrupablePorEntidadMasNombrada(*noticiaComparada) ||
+                            noticiaComparada->esAgrupablePorEntidadMasNombrada(*noticiaDeReferencia) ) {
 				grupo.push_back(noticiaComparada);
 				it = lista.erase(it);
 			} else {
