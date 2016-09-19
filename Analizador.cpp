@@ -24,7 +24,7 @@ Analizador::Analizador() {
 
 Analizador::Analizador(std::string ruta) {
 	this->ruta = ruta;
-	this->setNoticas(ruta);
+	this->setNoticias(ruta);
 }
 
 std::list<NoticiaIfPtr> Analizador::getNoticias() const {
@@ -32,7 +32,11 @@ std::list<NoticiaIfPtr> Analizador::getNoticias() const {
 	return l;
 }
 
-void Analizador::setNoticas(std::string ruta) {
+void Analizador::setNoticias(const std::list<NoticiaIfPtr>& noticias) {
+	this->noticias = noticias;
+}
+
+void Analizador::setNoticias(std::string ruta) {
 
 	std::string rutaRestricciones = ruta + "/ES_stopList.txt";
 	std::string rutaNoticias = ruta + "/news";

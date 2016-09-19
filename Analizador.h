@@ -23,7 +23,8 @@ public:
 	Analizador(std::string ruta);
 
 	std::list<NoticiaIfPtr> getNoticias() const;
-	void setNoticas(std::string ruta);
+	void setNoticias(std::string ruta);
+	void setNoticias(const std::list<NoticiaIfPtr>& noticias);
 
 	std::list<std::list<NoticiaIfPtr> > agruparNoticiasPorEntidadMasFrecuente();
 //	std::list<std::list<NoticiaIfPtr> > agruparNoticiasPorTematica();
