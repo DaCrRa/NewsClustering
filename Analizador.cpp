@@ -111,13 +111,13 @@ std::list<std::list<NoticiaIfPtr> > Analizador::agruparNoticiasPorEntidadMasFrec
 		NoticiaIfPtr noticiaDeReferencia(lista.front());
 		lista.pop_front();
 		grupo.push_back(noticiaDeReferencia);
-		for (std::list<NoticiaIfPtr>::iterator it = lista.begin(); it != lista.end(); ) {
+		std::list<NoticiaIfPtr>::iterator it = lista.begin();
+		while (it != lista.end()) {
 			NoticiaIfPtr noticiaComparada(*it);
 			if (noticiaDeReferencia->esAgrupablePorEntidadMasNombrada(*noticiaComparada)) {
 				grupo.push_back(noticiaComparada);
 				it = lista.erase(it);
-			}
-			if (it != lista.end()) {
+			} else {
 				++it;
 			}
 		}
