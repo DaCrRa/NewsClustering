@@ -27,7 +27,7 @@ public:
 	void setNoticias(const std::list<NoticiaIfPtr>& noticias);
 
 	std::list<std::list<NoticiaIfPtr> > agruparNoticiasPorEntidadMasFrecuente();
-//	std::list<std::list<NoticiaIfPtr> > agruparNoticiasPorTematica();
+	std::list<std::list<NoticiaIfPtr> > agruparNoticiasPorTematica(const std::list<std::list<NoticiaIfPtr> >& preGrouped);
 
 	std::string toString()const;
 

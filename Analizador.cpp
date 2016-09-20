@@ -127,87 +127,13 @@ std::list<std::list<NoticiaIfPtr> > Analizador::agruparNoticiasPorEntidadMasFrec
 
 	return groups;
 }
-/*
-std::string Analizador::agruparNoticiasGeneral() {
 
-	std::cout << "*";
+std::list<std::list<NoticiaIfPtr> > Analizador::agruparNoticiasPorTematica(const std::list<std::list<NoticiaIfPtr> >& preGrouped) {
+	std::list<std::list<NoticiaIfPtr> > groups;
 
-	std::list<EntidadNombrada> agrupacion[this->noticias.size()];
-
-	this->ordenarNoticias();
-
-	std::list<NoticiaIfPtr> ln1 = this->noticias;
-	std::list<NoticiaIfPtr> ln2 = this->noticias;
-
-	std::string salida = "";
-	std::string agrupaciones = "";
-	Noticia n2;
-	EntidadNombrada en;
-	EntidadNombrada en2;
-
-	unsigned int c = 0;
-	for (std::list<NoticiaIfPtr>::iterator it1 = ln1.begin(); it1 != ln1.end();
-			it1++) {
-
-		bool sola = true;
-		NoticiaIfPtr n = *it1;
-		for (std::list<NoticiaIfPtr>::iterator it2 = ln1.begin(); it2 != ln1.end();
-				it2++) {
-			NoticiaIfPtr n2 = *it2;
-
-			if ((distance(it1, it2) != 0)) {
-				if ((n->esAgrupable(*n2)) || (n2->esAgrupable(*n))) {
-					agrupacion[c].push_back(n->getMasFrecuente());
-					agrupacion[c].push_back(n2->getMasFrecuente());
-					it2 = ln1.erase(it2);
-					sola = false;
-				}
-			}
-		}
-
-		for (std::list<EntidadNombrada>::iterator it3 = agrupacion[c].begin();
-				it3 != agrupacion[c].end(); it3++) {
-			en2 = *it3;
-			for (std::list<EntidadNombrada>::iterator it4 =
-					agrupacion[c].end(); it4 != agrupacion[c].begin(); it4--) {
-				EntidadNombrada en3 = *it4;
-				if ((en2.esIgual(en3)) && (distance(it3, it4) != 0)) {
-					it4 = agrupacion[c].erase(it4);
-				}
-			}
-		}
-		if (sola) {
-			agrupacion[c].push_back(n->getMasFrecuente());
-			it1 = ln1.erase(it1);
-		}
-
-		c++;
-	}
-
-	for (unsigned int c = 0; c < ln1.size(); c++) {
-
-		for (EntidadNombrada en : agrupacion[c]) {
-
-			for (NoticiaIfPtr n : this->noticias) {
-
-				if (n->getMasFrecuente().esIgual(en)) {
-					if (agrupaciones == "") {
-						agrupaciones = agrupaciones + "[" + n->getTitulo()
-								+ "]\n";
-					} else {
-						agrupaciones = agrupaciones + "   *[" + n->getTitulo()
-								+ "]\n";
-					}
-				}
-			}
-		}
-		salida = salida + agrupaciones + "\n";
-		agrupaciones = "";
-	}
-
-	return salida;
+	return groups;
 }
-*/
+
 std::string Analizador::rellenarCeros(int n, int size) const {
 	std::stringstream ss;
 	ss << n;
