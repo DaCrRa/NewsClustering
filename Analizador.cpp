@@ -15,6 +15,7 @@
 #include <sstream>
 #include <cstring>
 #include <string.h>
+#include <algorithm>
 
 Analizador::Analizador() {
 	std::list<NoticiaIfPtr> l;
@@ -129,9 +130,38 @@ std::list<std::list<NoticiaIfPtr> > Analizador::agruparNoticiasPorEntidadMasFrec
 }
 
 std::list<std::list<NoticiaIfPtr> > Analizador::agruparNoticiasPorTematica(const std::list<std::list<NoticiaIfPtr> >& preGrouped) {
-	std::list<std::list<NoticiaIfPtr> > groups;
+	std::list<std::list<NoticiaIfPtr> > outputGroups;
+	std::list<std::list<NoticiaIfPtr> > remainingGroups(preGrouped);
 
-	return groups;
+	while (!remainingGroups.empty()) {
+		std::list<NoticiaIfPtr> group(remainingGroups.front());
+		remainingGroups.pop_front();
+		outputGroups.push_back(group);
+		for (NoticiaIfPtr noticia : group) {
+			auto remGroupsIterator = remainingGroups.begin();
+			while (remGroupsIterator != remainingGroups.end()) {
+				std::list<NoticiaIfPtr>& remainingGroup = *remGroupsIterator;
+				auto found = std::find_if(remainingGroup.begin(),
+					remainingGroup.end(),
+					[&](NoticiaIfPtr& n) -> bool {
+						return n->esAgrupablePorTematica(*noticia)
+							|| noticia->esAgrupablePorTematica(*n);
+					}
+				);
+				if (found != remainingGroup.end()) {
+					auto& lastOutputGroup = outputGroups.back();
+					lastOutputGroup.insert(lastOutputGroup.end(),
+						remainingGroup.begin(),
+						remainingGroup.end());
+					remGroupsIterator = remainingGroups.erase(remGroupsIterator);
+				} else {
+					remGroupsIterator++;
+				}
+			}
+		}
+
+	}
+	return outputGroups;
 }
 
 std::string Analizador::rellenarCeros(int n, int size) const {
