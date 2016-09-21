@@ -135,7 +135,8 @@ std::list<std::list<NoticiaIfPtr> > Analizador::agruparNoticiasPorTematica(const
 		std::list<NoticiaIfPtr> group(remainingGroups.front());
 		remainingGroups.pop_front();
 		outputGroups.push_back(group);
-		for (NoticiaIfPtr noticia : group) {
+		auto& lastOutputGroup = outputGroups.back();
+		for (NoticiaIfPtr noticia : lastOutputGroup) {
 			auto remGroupsIterator = remainingGroups.begin();
 			while (remGroupsIterator != remainingGroups.end()) {
 				std::list<NoticiaIfPtr>& remainingGroup = *remGroupsIterator;
@@ -147,7 +148,6 @@ std::list<std::list<NoticiaIfPtr> > Analizador::agruparNoticiasPorTematica(const
 					}
 				);
 				if (found != remainingGroup.end()) {
-					auto& lastOutputGroup = outputGroups.back();
 					lastOutputGroup.insert(lastOutputGroup.end(),
 						remainingGroup.begin(),
 						remainingGroup.end());
