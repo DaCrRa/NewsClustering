@@ -118,11 +118,10 @@ TEST_F(NoticiaTest, givenNoticiaWithOneEntidadNombradaAtTheEnd_whenCallingGetMas
    ASSERT_EQ(1, entidad.getFrecuencia());
 }
 
-TEST_F(NoticiaTest, givenNoticiaWithoutEntidadNombrada_whenCallingGetMasFrecuente_thenItsFrecuenciaIsZero) {
+TEST_F(NoticiaTest, givenNoticiaWithoutEntidadNombrada_whenCallingGetMasFrecuente_thenThrowsNoEntidadNomradaException) {
    Noticia n("Titulo de noticia", "la noticia no nombra ninguna entidad", "");
 
-   EntidadNombrada entidad = n.getMasFrecuente();
-   ASSERT_EQ(0, entidad.getFrecuencia());
+   ASSERT_THROW(n.getMasFrecuente(), NoEntidadNombradaException);
 }
 
 TEST_F(NoticiaTest, givenNoticiaWithEntidadNombradaNoRelevant_whenCallingGetEntidadesRelevantes_thenListIsEmpty) {
@@ -174,11 +173,10 @@ TEST_F(NoticiaTest, givenNoticiaWithBlockedEntidadNombrada_whenCallingGetEntidad
    ASSERT_THAT(entidades, SizeIs(0));
 }
 
-TEST_F(NoticiaTest, givenNoticiaWithBlockedEntidadNombrada_whenCallingGetMasFrecuente_thenFrecuenciaIsZero) {
+TEST_F(NoticiaTest, givenNoticiaWithBlockedEntidadNombrada_whenCallingGetMasFrecuente_thenThrowsNoEntidadNombradaException) {
    Noticia n("Titulo de noticia", "EntidadExcluida no deberia aparecer", STOP_LIST_FILENAME);
 
-   EntidadNombrada mostFrequent = n.getMasFrecuente();
-   ASSERT_EQ(0, mostFrequent.getFrecuencia());
+   ASSERT_THROW(n.getMasFrecuente(), NoEntidadNombradaException);
 }
 
 TEST_F(NoticiaTest, givenNoticiaWithSeveralEntidadNombradaOneBlocked_whenCallingGetEntidades_thenBlockedDoesNotShowUp) {

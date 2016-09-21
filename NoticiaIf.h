@@ -4,8 +4,16 @@
 #include <string>
 #include <list>
 #include <memory>
+#include <exception>
 
 #include "EntidadNombrada.h"
+
+class NoEntidadNombradaException : public std::exception {
+public:
+	const char* what() const throw() {
+		return "No hay entidades nombradas";
+	}
+};
 
 class NoticiaIf;
 typedef std::shared_ptr<NoticiaIf> NoticiaIfPtr;
