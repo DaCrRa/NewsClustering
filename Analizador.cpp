@@ -99,8 +99,6 @@ void Analizador::setNoticias(std::string ruta) {
 
 std::list<std::list<NoticiaIfPtr> > Analizador::agruparNoticiasPorEntidadMasFrecuente() {
 
-	this->ordenarNoticias();
-
         std::list<std::list<NoticiaIfPtr> > groups;
 
 	std::list<NoticiaIfPtr> lista = this->noticias;
