@@ -103,13 +103,21 @@ std::list<EntidadNombrada> Noticia::getEntidadesRelevantes() const {
 }
 
 bool Noticia::esAgrupablePorEntidadMasNombrada(NoticiaIf& n) const {
-	return getMasFrecuente().esIgual(n.getMasFrecuente());
+	try {
+		EntidadNombrada masFrecuente = getMasFrecuente();
+		return masFrecuente.esIgual(n.getMasFrecuente());
+	} catch(NoEntidadNombradaException& e) {
+		return false;
+	}
 }
 
 bool Noticia::entidadMasNombradaEstaEnTituloDe(NoticiaIf& n) const {
-	EntidadNombrada masFrecuente = getMasFrecuente();
-	return masFrecuente.getFrecuencia() > 0 &&
-		n.getTitulo().find(masFrecuente.getEntidadNombrada()) != std::string::npos;
+	try {
+		EntidadNombrada masFrecuente = getMasFrecuente();
+		return n.getTitulo().find(masFrecuente.getEntidadNombrada()) != std::string::npos;
+	} catch(NoEntidadNombradaException& e) {
+		return false;
+	}
 }
 
 bool Noticia::entidadesRelevantesAparecenEn(NoticiaIf& n) const {
