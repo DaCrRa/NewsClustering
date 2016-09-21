@@ -236,7 +236,7 @@ TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupablePorEntidadWithNoticiaWith
    ASSERT_FALSE(noticiaUnderTest.esAgrupablePorEntidadMasNombrada(noticiaMock));
 }
 
-TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupablePorTemaWithNoticiaWithEntidadMasNombradaInTitle_thenReturnsTrue) {
+TEST_F(NoticiaTest, givenNoticia_whenCallingEntidadMasNombradaEstaEnTituloDeNoticiaThatContainsTheEntidad_thenReturnsTrue) {
    Noticia noticiaUnderTest("Titulo de noticia",
                             "la EntidadNombrada1 primero, la EntidadNombrada2 segundo, \
                              otra vez la EntidadNombrada1 , de nuevo EntidadNombrada1 , \
@@ -245,10 +245,10 @@ TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupablePorTemaWithNoticiaWithEnt
    NoticiaIfMock noticiaMock;
    EXPECT_CALL(noticiaMock, getTitulo()).WillRepeatedly(Return("Titulo que contiene EntidadNombrada1"));
 
-   ASSERT_TRUE(noticiaUnderTest.esAgrupablePorTematica(noticiaMock));
+   ASSERT_TRUE(noticiaUnderTest.entidadMasNombradaEstaEnTituloDe(noticiaMock));
 }
 
-TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupablePorTemaWithNoticiaThatContains25percentOfTheEntidadRelevante_thenReturnsFalse) {
+TEST_F(NoticiaTest, givenNoticia_whenCallingEntidadesRelevantesAparecenEnNoticiaThatContains25percentOfTheEntidades_thenReturnsFalse) {
    Noticia noticiaUnderTest("Titulo de noticia",
                             "EntidadNombrada1 , EntidadNombrada2 segundo, \
                              EntidadNombrada3 , y EntidadNombrada4. \
@@ -262,10 +262,10 @@ TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupablePorTemaWithNoticiaThatCon
       EntidadNombrada("EntidadNombrada1", 1)
    })));
 
-   ASSERT_FALSE(noticiaUnderTest.esAgrupablePorTematica(noticiaMock));
+   ASSERT_FALSE(noticiaUnderTest.entidadesRelevantesAparecenEn(noticiaMock));
 }
 
-TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupablePorTemaWithNoticiaThatContains25percentOfTheEntidadRelevanteAndOneIrrelevant_thenReturnsFalse) {
+TEST_F(NoticiaTest, givenNoticia_whenCallingEntidadesRelevantesAparecenEnWithNoticiaThatContains25percentOfTheEntidadesOneIsIrrelevant_thenReturnsFalse) {
    Noticia noticiaUnderTest("Titulo de noticia",
                             "EntidadNombrada1 , EntidadNombrada2 segundo, \
                              EntidadNombrada3 , y EntidadNombrada4. \
@@ -280,10 +280,10 @@ TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupablePorTemaWithNoticiaThatCon
       EntidadNombrada("Entidad5", 1)
    })));
 
-   ASSERT_FALSE(noticiaUnderTest.esAgrupablePorTematica(noticiaMock));
+   ASSERT_FALSE(noticiaUnderTest.entidadesRelevantesAparecenEn(noticiaMock));
 }
 
-TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupablePorTemaWithNoticiaThatContains50percentOfTheEntidadRelevante_thenReturnsTrue) {
+TEST_F(NoticiaTest, givenNoticia_whenCallingEntidadesRelevantesAparecenEnNoticiaThatContains50percentOfTheEntidadRelevante_thenReturnsTrue) {
    Noticia noticiaUnderTest("Titulo de noticia",
                             "EntidadNombrada1 , EntidadNombrada2 segundo, \
                              EntidadNombrada3 , y EntidadNombrada4. \
@@ -298,10 +298,10 @@ TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupablePorTemaWithNoticiaThatCon
       EntidadNombrada("EntidadNombrada3", 1)
    })));
 
-   ASSERT_TRUE(noticiaUnderTest.esAgrupablePorTematica(noticiaMock));
+   ASSERT_TRUE(noticiaUnderTest.entidadesRelevantesAparecenEn(noticiaMock));
 }
 
-TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupablePorTemaWithNoticiaThatDoesNotContainEntidadNombrada_thenReturnsFalse) {
+TEST_F(NoticiaTest, givenNoticia_whenCallingEntidadesRelevantesAparecenEnNoticiaThatDoesNotContainEntidadNombrada_thenReturnsFalse) {
    Noticia noticiaUnderTest("Titulo de noticia",
                             "la EntidadNombrada1 primero, la EntidadNombrada2 segundo, \
                              otra vez la EntidadNombrada1 , de nuevo EntidadNombrada1 , \
@@ -310,10 +310,10 @@ TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupablePorTemaWithNoticiaThatDoe
    NoticiaIfMock noticiaMock;
    EXPECT_CALL(noticiaMock, getEntidades()).WillRepeatedly(Return(std::list<EntidadNombrada>()));
 
-   ASSERT_FALSE(noticiaUnderTest.esAgrupablePorTematica(noticiaMock));
+   ASSERT_FALSE(noticiaUnderTest.entidadesRelevantesAparecenEn(noticiaMock));
 }
 
-TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupablePorTemaWithNoticiaThatDoesNotContainRelevantEntidadNombrada_thenReturnsFalse) {
+TEST_F(NoticiaTest, givenNoticia_whenCallingEntidadesRelevantesAparecenEnNoticiaThatDoesNotContainRelevantEntidadNombrada_thenReturnsFalse) {
    Noticia noticiaUnderTest("Titulo de noticia",
                             "la EntidadNombrada1 primero, segundo, \
                              otra vez la EntidadNombrada1 , de nuevo EntidadNombrada1 , \
@@ -324,5 +324,5 @@ TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupablePorTemaWithNoticiaThatDoe
       EntidadNombrada("EntidadNombrada3", 1)
    })));
 
-   ASSERT_FALSE(noticiaUnderTest.esAgrupablePorTematica(noticiaMock));
+   ASSERT_FALSE(noticiaUnderTest.entidadesRelevantesAparecenEn(noticiaMock));
 }
