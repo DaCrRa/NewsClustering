@@ -12,6 +12,7 @@ using testing::StrEq;
 using testing::SizeIs;
 using testing::UnorderedElementsAre;
 using testing::Return;
+using testing::Throw;
 
 EntidadNombrada findEntidadNombradaByName(std::list<EntidadNombrada> entidades, std::string name) {
     auto it = std::find_if( std::begin(entidades),
@@ -210,6 +211,32 @@ TEST_F(NoticiaTest, givenNoticiaWithBlockedEntidadNombrada_whenCallingGetEntidad
    ASSERT_THAT(entidades, SizeIs(0));
 }
 
+TEST_F(NoticiaTest, givenNoticiaWithNoEntidadNombrada_whenCallingEsAgrupablePorEntidad_thenReturnsFalse) {
+   Noticia noticiaUnderTest("Titulo de noticia", "noticia sin entidades", "");
+
+   NoticiaIfMock noticiaMock;
+
+   ASSERT_FALSE(noticiaUnderTest.esAgrupablePorEntidadMasNombrada(noticiaMock));
+}
+
+TEST_F(NoticiaTest, givenNoticiaWithEntidadNombrada_whenCallinEsAgrupablePorEntidadWithNoticiaWithNoEntidadNombrada_thenReturnsFalse_) {
+   Noticia noticiaUnderTest("Titulo de noticia", "noticia nombra Entidad1", "");
+
+   NoticiaIfMock noticiaMock;
+   EXPECT_CALL(noticiaMock, getMasFrecuente()).WillRepeatedly(Throw(NoEntidadNombradaException()));
+
+   ASSERT_FALSE(noticiaUnderTest.esAgrupablePorEntidadMasNombrada(noticiaMock));
+}
+
+TEST_F(NoticiaTest, givenNoticiaWithNoEntidadNombrada_whenCallinEsAgrupablePorEntidadWithNoticiaWithNoEntidadNombrada_thenReturnsFalse) {
+   Noticia noticiaUnderTest("Titulo de noticia", "noticia sin entidades", "");
+
+   NoticiaIfMock noticiaMock;
+   EXPECT_CALL(noticiaMock, getMasFrecuente()).WillRepeatedly(Throw(NoEntidadNombradaException()));
+
+   ASSERT_FALSE(noticiaUnderTest.esAgrupablePorEntidadMasNombrada(noticiaMock));
+}
+
 TEST_F(NoticiaTest, givenNoticia_whenCallingEsAgrupablePorEntidadWithNoticiaWithTheSameEntidadMasFrecuente_thenReturnsTrue) {
    Noticia noticiaUnderTest("Titulo de noticia",
                             "la EntidadNombrada1 primero, la EntidadNombrada2 segundo, \
@@ -254,6 +281,14 @@ TEST_F(NoticiaTest, givenNoticia_whenCallingEntidadMasNombradaEstaEnTituloDeNoti
 
    NoticiaIfMock noticiaMock;
    EXPECT_CALL(noticiaMock, getTitulo()).WillRepeatedly(Return("Titulo que no contiene la entidad"));
+
+   ASSERT_FALSE(noticiaUnderTest.entidadMasNombradaEstaEnTituloDe(noticiaMock));
+}
+
+TEST_F(NoticiaTest, givenNoticiaWithNoEntidadNombrada_whenCallinEntidadMasNombradaEstaEnTituloDeNoticia_thenReturnsFalse) {
+   Noticia noticiaUnderTest("Titulo de noticia", "noticia sin entidades", "");
+
+   NoticiaIfMock noticiaMock;
 
    ASSERT_FALSE(noticiaUnderTest.entidadMasNombradaEstaEnTituloDe(noticiaMock));
 }
