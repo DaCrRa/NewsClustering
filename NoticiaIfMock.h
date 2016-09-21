@@ -18,5 +18,7 @@ public:
 	MOCK_CONST_METHOD0(getEntidadesRelevantes, std::list<EntidadNombrada>());
 	MOCK_CONST_METHOD1(esAgrupablePorEntidadMasNombrada, bool(NoticiaIf&));
 	MOCK_CONST_METHOD1(esAgrupablePorTematica, bool(NoticiaIf&));
+	MOCK_CONST_METHOD1(entidadMasNombradaEstaEnTituloDe, bool(NoticiaIf&));
+	MOCK_CONST_METHOD1(entidadesRelevantesAparecenEn, bool(NoticiaIf&));
 	MOCK_CONST_METHOD0(toString, std::string());
 };

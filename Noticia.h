@@ -34,6 +34,8 @@ public:
 	std::list<EntidadNombrada> getEntidadesRelevantes()const;
         bool esAgrupablePorEntidadMasNombrada(NoticiaIf& n) const;
         bool esAgrupablePorTematica(NoticiaIf& n) const;
+	bool entidadMasNombradaEstaEnTituloDe(NoticiaIf& n) const;
+	bool entidadesRelevantesAparecenEn(NoticiaIf& n) const;
 	std::string toString()const;
 
 

@@ -99,39 +99,37 @@ bool Noticia::esAgrupablePorEntidadMasNombrada(NoticiaIf& n) const {
 	return masFrecuente.esIgual(n.getMasFrecuente());
 }
 
-bool Noticia::esAgrupablePorTematica(NoticiaIf& n) const {
+bool Noticia::entidadMasNombradaEstaEnTituloDe(NoticiaIf& n) const {
+	return masFrecuente.getFrecuencia() > 0 &&
+		n.getTitulo().find(masFrecuente.getEntidadNombrada()) != std::string::npos;
+}
 
-	bool salida = false;
-
-	if (masFrecuente.getFrecuencia() > 0 && n.getTitulo().find(masFrecuente.getEntidadNombrada())
-			!= std::string::npos) {
-		salida = true;
-	}
-
+bool Noticia::entidadesRelevantesAparecenEn(NoticiaIf& n) const {
 	std::list<EntidadNombrada> primero = this->getEntidadesRelevantes();
-	std::list<EntidadNombrada> segundo = n.getEntidades();
-	std::list<EntidadNombrada> final;
-	EntidadNombrada en1;
-	EntidadNombrada en2;
+        std::list<EntidadNombrada> segundo = n.getEntidades();
+        std::list<EntidadNombrada> final;
+        EntidadNombrada en1;
+        EntidadNombrada en2;
 
-	for (std::list<EntidadNombrada>::iterator it1 = primero.begin();
-			it1 != primero.end(); it1++) {
+        for (std::list<EntidadNombrada>::iterator it1 = primero.begin();
+                        it1 != primero.end(); it1++) {
 
-		en1 = *it1;
-		for (std::list<EntidadNombrada>::iterator it2 = segundo.begin();
-				it2 != segundo.end(); it2++) {
+                en1 = *it1;
+                for (std::list<EntidadNombrada>::iterator it2 = segundo.begin();
+                                it2 != segundo.end(); it2++) {
 
-			en2 = *it2;
-			if (en1.esIgual(en2)) {
-				final.push_back(en2);
-			}
-		}
-	}
+                        en2 = *it2;
+                        if (en1.esIgual(en2)) {
+                                final.push_back(en2);
+                        }
+                }
+        }
 
-	if (final.size() > 0 && final.size() >= (primero.size() / 3.0)) {
-		salida = true;
-	}
-	return salida;
+        return final.size() > 0 && final.size() >= (primero.size() / 3.0);
+}
+
+bool Noticia::esAgrupablePorTematica(NoticiaIf& n) const {
+	return entidadMasNombradaEstaEnTituloDe(n) || entidadesRelevantesAparecenEn(n);
 }
 
 std::string Noticia::toString() const {
