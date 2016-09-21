@@ -11,6 +11,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <algorithm>
 
 Noticia::Noticia() {
 	this->titulo = "";
@@ -19,8 +20,6 @@ Noticia::Noticia() {
 	this->entidades = l;
 	std::list<std::string> p;
 	this->entidadesR = p;
-	EntidadNombrada e;
-	this->masFrecuente = e;
 }
 
 Noticia::Noticia(std::string titulo, std::string cuerpo, std::string ruta) {
@@ -28,7 +27,6 @@ Noticia::Noticia(std::string titulo, std::string cuerpo, std::string ruta) {
 	this->cuerpo = cuerpo;
 	this->setPalabrasReservadas(ruta);
 	this->setEntidades();
-	this->setMasFrecuente();
 }
 
 void Noticia::setTitulo(std::string titulo) {
@@ -53,7 +51,6 @@ void Noticia::setPalabrasReservadas(std::string ruta) {
 
 void Noticia::actualizar() {
 	this->setEntidades();
-	this->setMasFrecuente();
 }
 
 std::string Noticia::getTitulo() const {
@@ -65,7 +62,17 @@ std::string Noticia::getCuerpo() const {
 }
 
 EntidadNombrada Noticia::getMasFrecuente() const {
-	return this->masFrecuente;
+	auto entidadNombradaMax = std::max_element(
+		entidades.begin(),
+		entidades.end(),
+		[&](const EntidadNombrada& e1, const EntidadNombrada& e2) -> bool {
+			return e1.getFrecuencia() < e2.getFrecuencia();
+		}
+	);
+	if (entidadNombradaMax == entidades.end()) {
+		throw NoEntidadNombradaException();
+	}
+	return *entidadNombradaMax;
 }
 
 std::list<EntidadNombrada> Noticia::getEntidades() const {
@@ -96,10 +103,11 @@ std::list<EntidadNombrada> Noticia::getEntidadesRelevantes() const {
 }
 
 bool Noticia::esAgrupablePorEntidadMasNombrada(NoticiaIf& n) const {
-	return masFrecuente.esIgual(n.getMasFrecuente());
+	return getMasFrecuente().esIgual(n.getMasFrecuente());
 }
 
 bool Noticia::entidadMasNombradaEstaEnTituloDe(NoticiaIf& n) const {
+	EntidadNombrada masFrecuente = getMasFrecuente();
 	return masFrecuente.getFrecuencia() > 0 &&
 		n.getTitulo().find(masFrecuente.getEntidadNombrada()) != std::string::npos;
 }
@@ -161,20 +169,6 @@ void Noticia::setEntidades() {
 		iss >> aux;
 		this->agregarEntidad(aux);
 	}
-}
-
-void Noticia::setMasFrecuente() {
-	EntidadNombrada aux;
-	EntidadNombrada aux2;
-	for (std::list<EntidadNombrada>::iterator i = this->entidades.begin();
-			i != this->entidades.end(); ++i) { // Iterate through 'items'
-		aux2 = *i;
-		if (aux.getFrecuencia() < aux2.getFrecuencia()) {
-			aux.setEntidadNombrada(aux2.getEntidadNombrada());
-			aux.setFrecuencia(aux2.getFrecuencia());
-		}
-	}
-	this->masFrecuente = aux;
 }
 
 void Noticia::agregarEntidad(std::string nombre) {

@@ -15,7 +15,6 @@ class Noticia : public NoticiaIf {
 	std::string cuerpo;
 	std::list<EntidadNombrada> entidades;
 	std::list<std::string> entidadesR;
-	EntidadNombrada masFrecuente;
 
 public:
 	Noticia();
@@ -41,7 +40,6 @@ public:
 
 private:
 	void setEntidades();
-	void setMasFrecuente();
 	void agregarEntidad(std::string nombre);
 	bool esletra(char c) const;
 };
