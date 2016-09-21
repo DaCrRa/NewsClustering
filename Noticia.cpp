@@ -129,7 +129,7 @@ bool Noticia::entidadesRelevantesAparecenEn(NoticiaIf& n) const {
 }
 
 bool Noticia::esAgrupablePorTematica(NoticiaIf& n) const {
-	return entidadMasNombradaEstaEnTituloDe(n) || entidadesRelevantesAparecenEn(n);
+	return entidadMasNombradaEstaEnTituloDe(n) && entidadesRelevantesAparecenEn(n);
 }
 
 std::string Noticia::toString() const {
