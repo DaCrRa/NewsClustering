@@ -202,20 +202,6 @@ void Analizador::ordenarNoticias() {
 	}
 }
 
-bool Analizador::existe(std::list<EntidadNombrada> es,
-		EntidadNombrada e) const {
-	bool salida = false;
-	EntidadNombrada aux;
-	for (std::list<EntidadNombrada>::iterator it = es.begin(); it != es.end();
-			it++) {
-		aux = *it;
-		if (aux.getEntidadNombrada().compare(e.getEntidadNombrada()) == 0) {
-			salida = true;
-		}
-	}
-	return salida;
-}
-
 std::string Analizador::toString() const {
 	std::list<NoticiaIfPtr> lista = this->noticias;
 	std::string salida = "";

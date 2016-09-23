@@ -35,7 +35,7 @@ private:
 
 	std::string rellenarCeros(int n, int size)const;
 	void ordenarNoticias();
-	bool existe(std::list<EntidadNombrada> es, EntidadNombrada e)const;
+
 };
 
 #endif /* ANALIZADOR_H_ */
