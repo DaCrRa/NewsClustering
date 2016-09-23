@@ -98,30 +98,26 @@ void Analizador::setNoticias(std::string ruta) {
 }
 
 std::list<std::list<NoticiaIfPtr> > Analizador::agruparNoticiasPorEntidadMasFrecuente() {
+	std::list<std::list<NoticiaIfPtr> > groups;
 
-        std::list<std::list<NoticiaIfPtr> > groups;
+	std::list<NoticiaIfPtr> noticiasNoProcesadas = this->noticias;
 
-	std::list<NoticiaIfPtr> lista = this->noticias;
-	std::string salida = "";
-	std::string entidad = "";
-
-	while (!lista.empty()) {
-		std::list<NoticiaIfPtr> grupo;
-		NoticiaIfPtr noticiaDeReferencia(lista.front());
-		lista.pop_front();
-		grupo.push_back(noticiaDeReferencia);
-		std::list<NoticiaIfPtr>::iterator it = lista.begin();
-		while (it != lista.end()) {
+	while (!noticiasNoProcesadas.empty()) {
+		std::list<NoticiaIfPtr> nuevoGrupo;
+		NoticiaIfPtr noticiaDeReferencia(noticiasNoProcesadas.front());
+		noticiasNoProcesadas.pop_front();
+		nuevoGrupo.push_back(noticiaDeReferencia);
+		std::list<NoticiaIfPtr>::iterator it = noticiasNoProcesadas.begin();
+		while (it != noticiasNoProcesadas.end()) {
 			NoticiaIfPtr noticiaComparada(*it);
-			if (noticiaDeReferencia->esAgrupablePorEntidadMasNombrada(*noticiaComparada) ||
-                            noticiaComparada->esAgrupablePorEntidadMasNombrada(*noticiaDeReferencia) ) {
-				grupo.push_back(noticiaComparada);
-				it = lista.erase(it);
+			if (puedenAgruparsePorEntidadMasNombrada(noticiaDeReferencia, noticiaComparada)) {
+				nuevoGrupo.push_back(noticiaComparada);
+				it = noticiasNoProcesadas.erase(it);
 			} else {
 				++it;
 			}
 		}
-		groups.push_back(grupo);
+		groups.push_back(nuevoGrupo);
 	}
 
 	return groups;
@@ -217,3 +213,6 @@ std::string Analizador::toString() const {
 	return salida;
 }
 
+bool AgrupadorNoticias::puedenAgruparsePorEntidadMasNombrada(NoticiaIfPtr n1, NoticiaIfPtr n2) {
+	return n1->esAgrupablePorEntidadMasNombrada(*n2) ||	n2->esAgrupablePorEntidadMasNombrada(*n1);
+}

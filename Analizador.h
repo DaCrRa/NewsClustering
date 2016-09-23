@@ -35,6 +35,7 @@ private:
 
 	std::string rellenarCeros(int n, int size)const;
 	void ordenarNoticias();
+	bool puedenAgruparsePorEntidadMasNombrada(NoticiaIfPtr n1, NoticiaIfPtr n2);
 
 };
 
