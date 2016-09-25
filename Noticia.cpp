@@ -12,10 +12,15 @@
 #include <sstream>
 #include <fstream>
 #include <algorithm>
+#include <assert.h>
 
 Noticia::Noticia() : Noticia("", "", "") {}
 
 Noticia::Noticia(std::string titulo, std::string cuerpo, std::string ruta) {
+	assert(UMBRAL_DE_RELEVANCIA_DE_ENTIDADES >= 0
+			&& UMBRAL_DE_RELEVANCIA_DE_ENTIDADES <=1);
+	assert(UMBRAL_ENTIDADES_RELEVANTES_EN_NOTICIA_A_AGRUPAR >= 0
+			&& UMBRAL_ENTIDADES_RELEVANTES_EN_NOTICIA_A_AGRUPAR <=1);
 	this->titulo = titulo;
 	this->cuerpo = cuerpo;
 	this->setPalabrasReservadas(ruta);
