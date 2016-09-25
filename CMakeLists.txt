@@ -12,6 +12,7 @@ set(analyzer_source_files
    EntidadNombrada.cpp
    Noticia.cpp
    AgrupadorDeGrupos.cpp
+   PorTematica.cpp
 )
 add_library(Analyzer SHARED ${analyzer_source_files})
 

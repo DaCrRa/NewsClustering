@@ -6,6 +6,8 @@
  */
 
 #include "Analizador.h"
+#include "AgrupadorDeGrupos.h"
+#include "PorTematica.h"
 
 #include "Noticia.h" // Analizador should not be coupled to Noticia implementation
 
@@ -127,27 +129,8 @@ std::list<std::list<NoticiaIfPtr> > Analizador::agruparNoticiasPorEntidadMasFrec
 }
 
 std::list<std::list<NoticiaIfPtr> > Analizador::agruparNoticiasPorTematica(const std::list<std::list<NoticiaIfPtr> >& preGrouped) {
-	std::list<std::list<NoticiaIfPtr> > outputGroups;
-	std::list<std::list<NoticiaIfPtr> > remainingGroups(preGrouped);
-
-	while (!remainingGroups.empty()) {
-		std::list<NoticiaIfPtr> group(remainingGroups.front());
-		remainingGroups.pop_front();
-		outputGroups.push_back(group);
-		auto& lastOutputGroup = outputGroups.back();
-		for (NoticiaIfPtr noticia : lastOutputGroup) {
-			auto groupableGroupIt = encontrarGrupoAgrupableCon(noticia, remainingGroups);
-			while (groupableGroupIt != remainingGroups.end()) {
-				lastOutputGroup.insert(lastOutputGroup.end(),
-						groupableGroupIt->begin(),
-						groupableGroupIt->end());
-				remainingGroups.erase(groupableGroupIt);
-				groupableGroupIt = encontrarGrupoAgrupableCon(noticia, remainingGroups);
-			}
-		}
-
-	}
-	return outputGroups;
+	AgrupadorDeGrupos agrupador(CriterioDeAgrupacionPtr(new PorTematica()));
+	return agrupador.agrupar(preGrouped);
 }
 
 std::string Analizador::rellenarCeros(int n, int size) const {
@@ -209,10 +192,6 @@ bool Analizador::puedenAgruparsePorEntidadMasNombrada(NoticiaIfPtr n1, NoticiaIf
 	return n1->esAgrupablePorEntidadMasNombrada(*n2) || n2->esAgrupablePorEntidadMasNombrada(*n1);
 }
 
-bool Analizador::puedenAgruparsePorTema(NoticiaIfPtr n1, NoticiaIfPtr n2) {
-	return n1->esAgrupablePorTematica(*n2) || n2->esAgrupablePorTematica(*n1);
-}
-
 std::list<NoticiaIfPtr>::iterator Analizador::encontrarNoticiaAgrupableCon(NoticiaIfPtr n1,
 		std::list<NoticiaIfPtr>& noticias,
 		std::function<bool(NoticiaIfPtr&)>& criterioAgrupacion) {
@@ -223,17 +202,4 @@ std::list<NoticiaIfPtr>::iterator Analizador::encontrarNoticiaAgrupableCon(Notic
 			criterioAgrupacion
 	);
 	return it;
-}
-
-std::list<std::list<NoticiaIfPtr> >::iterator Analizador::encontrarGrupoAgrupableCon(NoticiaIfPtr n1, std::list<std::list<NoticiaIfPtr> >& grupos) {
-	std::function<bool(NoticiaIfPtr&)> agrupacionPorTema([&](NoticiaIfPtr& n2) -> bool {
-		return puedenAgruparsePorTema(n1, n2);
-	});
-	return std::find_if(
-			grupos.begin(),
-			grupos.end(),
-			[&](std::list<NoticiaIfPtr>& grupo) -> bool {
-				return encontrarNoticiaAgrupableCon(n1, grupo, agrupacionPorTema) != grupo.end();
-			}
-	);
 }
