@@ -28,7 +28,9 @@ std::list<std::list<NoticiaIfPtr> > AgrupadorDeGrupos::agrupar(const std::list<s
 				groupableGroupIt = encontrarGrupo(agrupableCon(item), remainingGroups);
 			}
 		}
-
+		if (lastOutputGroup.empty()) {
+			outputGroups.pop_back();
+		}
 	}
 	return outputGroups;
 }
