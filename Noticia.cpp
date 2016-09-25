@@ -90,7 +90,7 @@ std::list<EntidadNombrada> Noticia::getEntidadesRelevantes() const {
 	std::list<EntidadNombrada> misEntidades = this->entidades;
 
 	EntidadNombrada en;
-	aux = aux.substr(0, (aux.size() / 3));
+	aux = aux.substr(0, (aux.size() * UMBRAL_DE_RELEVANCIA_DE_ENTIDADES));
 	for (std::list<EntidadNombrada>::iterator it = misEntidades.begin();
 			it != misEntidades.end(); it++) {
 		en = *it;
@@ -141,7 +141,7 @@ bool Noticia::entidadesRelevantesAparecenEn(NoticiaIf& n) const {
                 }
         }
 
-        return final.size() > 0 && final.size() >= (primero.size() / 3.0);
+        return final.size() > 0 && final.size() >= (primero.size() * UMBRAL_ENTIDADES_RELEVANTES_EN_NOTICIA_A_AGRUPAR);
 }
 
 bool Noticia::esAgrupablePorTematica(NoticiaIf& n) const {
