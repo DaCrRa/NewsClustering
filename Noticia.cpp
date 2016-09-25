@@ -13,14 +13,7 @@
 #include <fstream>
 #include <algorithm>
 
-Noticia::Noticia() {
-	this->titulo = "";
-	this->cuerpo = "";
-	std::list<EntidadNombrada> l;
-	this->entidades = l;
-	std::list<std::string> p;
-	this->entidadesR = p;
-}
+Noticia::Noticia() : Noticia("", "", "") {}
 
 Noticia::Noticia(std::string titulo, std::string cuerpo, std::string ruta) {
 	this->titulo = titulo;
