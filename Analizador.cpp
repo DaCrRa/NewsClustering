@@ -107,15 +107,11 @@ std::list<std::list<NoticiaIfPtr> > Analizador::agruparNoticiasPorEntidadMasFrec
 		NoticiaIfPtr noticiaDeReferencia(noticiasNoProcesadas.front());
 		noticiasNoProcesadas.pop_front();
 		nuevoGrupo.push_back(noticiaDeReferencia);
-		std::list<NoticiaIfPtr>::iterator it = noticiasNoProcesadas.begin();
+		std::list<NoticiaIfPtr>::iterator it = encontrarNoticiaAgrupableCon(noticiaDeReferencia, noticiasNoProcesadas);
 		while (it != noticiasNoProcesadas.end()) {
-			NoticiaIfPtr noticiaComparada(*it);
-			if (puedenAgruparsePorEntidadMasNombrada(noticiaDeReferencia, noticiaComparada)) {
-				nuevoGrupo.push_back(noticiaComparada);
-				it = noticiasNoProcesadas.erase(it);
-			} else {
-				++it;
-			}
+			nuevoGrupo.push_back(*it);
+			it = noticiasNoProcesadas.erase(it);
+			it = encontrarNoticiaAgrupableCon(noticiaDeReferencia, noticiasNoProcesadas);
 		}
 		groups.push_back(nuevoGrupo);
 	}
@@ -213,6 +209,17 @@ std::string Analizador::toString() const {
 	return salida;
 }
 
-bool AgrupadorNoticias::puedenAgruparsePorEntidadMasNombrada(NoticiaIfPtr n1, NoticiaIfPtr n2) {
-	return n1->esAgrupablePorEntidadMasNombrada(*n2) ||	n2->esAgrupablePorEntidadMasNombrada(*n1);
+bool Analizador::puedenAgruparsePorEntidadMasNombrada(NoticiaIfPtr n1, NoticiaIfPtr n2) {
+	return n1->esAgrupablePorEntidadMasNombrada(*n2) || n2->esAgrupablePorEntidadMasNombrada(*n1);
+}
+
+std::list<NoticiaIfPtr>::iterator Analizador::encontrarNoticiaAgrupableCon(NoticiaIfPtr n1, std::list<NoticiaIfPtr>& noticias) {
+	auto it = std::find_if(
+			noticias.begin(),
+			noticias.end(),
+			[&](NoticiaIfPtr& n2) -> bool {
+				return puedenAgruparsePorEntidadMasNombrada(n1, n2);
+			}
+	);
+	return it;
 }
