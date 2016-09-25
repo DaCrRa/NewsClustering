@@ -7,7 +7,9 @@
 
 #include "Analizador.h"
 #include "AgrupadorDeGrupos.h"
+#include "AgrupadorDeItems.h"
 #include "PorTematica.h"
+#include "PorEntidadMasNombrada.h"
 
 #include "Noticia.h" // Analizador should not be coupled to Noticia implementation
 
@@ -100,32 +102,9 @@ void Analizador::setNoticias(std::string ruta) {
 }
 
 std::list<std::list<NoticiaIfPtr> > Analizador::agruparNoticiasPorEntidadMasFrecuente() {
-	std::list<std::list<NoticiaIfPtr> > groups;
+	AgrupadorDeItems agrupador(CriterioDeAgrupacionPtr(new PorEntidadMasNombrada()));
 
-	std::list<NoticiaIfPtr> noticiasNoProcesadas = this->noticias;
-
-	while (!noticiasNoProcesadas.empty()) {
-		std::list<NoticiaIfPtr> nuevoGrupo;
-		NoticiaIfPtr noticiaDeReferencia(noticiasNoProcesadas.front());
-		noticiasNoProcesadas.pop_front();
-		nuevoGrupo.push_back(noticiaDeReferencia);
-		std::function<bool(NoticiaIfPtr&)> agrupacionPorEntidadMasNombrada([&](NoticiaIfPtr& n2) -> bool {
-			return puedenAgruparsePorEntidadMasNombrada(noticiaDeReferencia, n2);
-		});
-		std::list<NoticiaIfPtr>::iterator it = encontrarNoticiaAgrupableCon(noticiaDeReferencia,
-				noticiasNoProcesadas,
-				agrupacionPorEntidadMasNombrada);
-		while (it != noticiasNoProcesadas.end()) {
-			nuevoGrupo.push_back(*it);
-			it = noticiasNoProcesadas.erase(it);
-			it = encontrarNoticiaAgrupableCon(noticiaDeReferencia,
-					noticiasNoProcesadas,
-					agrupacionPorEntidadMasNombrada);
-		}
-		groups.push_back(nuevoGrupo);
-	}
-
-	return groups;
+	return agrupador.agrupar(noticias);
 }
 
 std::list<std::list<NoticiaIfPtr> > Analizador::agruparNoticiasPorTematica(const std::list<std::list<NoticiaIfPtr> >& preGrouped) {
@@ -188,18 +167,3 @@ std::string Analizador::toString() const {
 	return salida;
 }
 
-bool Analizador::puedenAgruparsePorEntidadMasNombrada(NoticiaIfPtr n1, NoticiaIfPtr n2) {
-	return n1->esAgrupablePorEntidadMasNombrada(*n2) || n2->esAgrupablePorEntidadMasNombrada(*n1);
-}
-
-std::list<NoticiaIfPtr>::iterator Analizador::encontrarNoticiaAgrupableCon(NoticiaIfPtr n1,
-		std::list<NoticiaIfPtr>& noticias,
-		std::function<bool(NoticiaIfPtr&)>& criterioAgrupacion) {
-
-	auto it = std::find_if(
-			noticias.begin(),
-			noticias.end(),
-			criterioAgrupacion
-	);
-	return it;
-}

@@ -14,6 +14,7 @@ set(analyzer_source_files
    AgrupadorDeGrupos.cpp
    AgrupadorDeItems.cpp
    PorTematica.cpp
+   PorEntidadMasNombrada.cpp
 )
 add_library(Analyzer SHARED ${analyzer_source_files})
 
