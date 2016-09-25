@@ -206,21 +206,3 @@ void Noticia::agregarEntidad(std::string nombre) {
 	}
 }
 
-bool Noticia::esletra(char c) const {
-	bool salida = false;
-	int ascii = static_cast<int>(c);
-	if ((ascii >= 65) && (ascii <= 90)) {
-		salida = true;
-	}
-	if ((ascii >= 97) && (ascii <= 122)) {
-		salida = true;
-	}
-	if (ascii < 0) {
-		salida = true;
-	}
-	if ((ascii >= 48) && (ascii <= 57)) {
-		salida = true;
-	}
-	return salida;
-}
-

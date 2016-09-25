@@ -18,7 +18,6 @@ private:
 
 	void setEntidades();
 	void agregarEntidad(std::string nombre);
-	bool esletra(char c) const;
 
 	const double UMBRAL_DE_RELEVANCIA_DE_ENTIDADES = 0.3;
 	const double UMBRAL_ENTIDADES_RELEVANTES_EN_NOTICIA_A_AGRUPAR = 0.3;
