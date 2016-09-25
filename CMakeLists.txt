@@ -29,5 +29,7 @@ set(test_source_files
    AnalizadorTest.cpp
    AgrupadorDeItemsTest.cpp
    AgrupadorDeGruposTest.cpp
+   PorEntidadMasNombradaTest.cpp
+   PorTematicaTest.cpp
 )
 build_googletest_executable(NewsClusteringTest "${test_source_files}" Analyzer)
