@@ -36,9 +36,11 @@ private:
 	std::string rellenarCeros(int n, int size)const;
 	void ordenarNoticias();
 	bool puedenAgruparsePorEntidadMasNombrada(NoticiaIfPtr n1, NoticiaIfPtr n2);
+	bool puedenAgruparsePorTema(NoticiaIfPtr n1, NoticiaIfPtr n2);
 	std::list<NoticiaIfPtr>::iterator encontrarNoticiaAgrupableCon(NoticiaIfPtr n,
 			std::list<NoticiaIfPtr>& noticias,
 			std::function<bool(NoticiaIfPtr&)>& criterioAgrupacion);
+	std::list<std::list<NoticiaIfPtr> >::iterator encontrarGrupoAgrupableCon(NoticiaIfPtr n1, std::list<std::list<NoticiaIfPtr> >& grupos);
 
 };
 
