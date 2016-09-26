@@ -15,7 +15,7 @@
 
 class NoticiaParser {
 public:
-	NoticiaParser(const std::istream& inputStream, const std::string& stopListFile);
+	NoticiaParser(const std::istream& inputStream, const std::string& stopListFile) {};
 	Noticia parse();
 };
 

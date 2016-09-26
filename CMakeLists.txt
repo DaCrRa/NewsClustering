@@ -10,7 +10,7 @@ set(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin")
 include(jsoncpp.cmake)
 
 set(analyzer_source_files
-   ${JSONCPP_SRC_FILE}
+#   ${JSONCPP_SRC_FILE}
    Analizador.cpp
    EntidadNombrada.cpp
    Noticia.cpp
@@ -20,6 +20,9 @@ set(analyzer_source_files
    PorEntidadMasNombrada.cpp
 )
 add_library(Analyzer SHARED ${analyzer_source_files})
+
+add_library(NoticiaParser SHARED NoticiaParser.cpp)
+target_link_libraries(NoticiaParser Analyzer)
 
 add_executable(NewsClustering "Main.cpp")
 target_link_libraries(NewsClustering Analyzer)
@@ -36,4 +39,4 @@ set(test_source_files
    PorTematicaTest.cpp
    NoticiaParserTest.cpp
 )
-build_googletest_executable(NewsClusteringTest "${test_source_files}" Analyzer)
+build_googletest_executable(NewsClusteringTest "${test_source_files}" "Analyzer;NoticiaParser")
