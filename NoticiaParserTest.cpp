@@ -38,12 +38,45 @@ TEST_F(NoticiaParserTest, givenParser_whenCallingParse_thenReturnsNoticiaInstanc
 			            "Esto es el primer parrafo del cuerpo de la noticia.\n"\
 			            "Esto es la segunda frase del cuerpo de la noticia");
 
-	NoticiaParser parser(std::stringstream(noticia), "stopList.txt");
+	std::stringstream input(noticia);
+	NoticiaParser parser(input, "stopList.txt");
 
 	Noticia parsedNoticia = parser.parse();
 
 	ASSERT_THAT(parsedNoticia.getTitulo(), StrEq("Esto es el titulo de la noticia"));
 	ASSERT_THAT(parsedNoticia.getCuerpo(), StrEq("Esto es el primer parrafo del cuerpo de la noticia.\n"\
+			                                     "Esto es la segunda frase del cuerpo de la noticia"));
+	ASSERT_THAT(parsedNoticia.getPalabrasReservadas(), ElementsAre("EntidadExcluida"));
+}
+
+TEST_F(NoticiaParserTest, givenParser_whenCallingParse_thenReturnsNoticiaInstance_2) {
+	std::string noticia("Esto es el titulo de la segunda noticia\n"\
+			            "Esto es el primer parrafo del cuerpo de la segunda noticia.\n"\
+			            "Esto es la segunda frase del cuerpo de la noticia");
+
+	std::stringstream input(noticia);
+	NoticiaParser parser(input, "stopList.txt");
+
+	Noticia parsedNoticia = parser.parse();
+
+	ASSERT_THAT(parsedNoticia.getTitulo(), StrEq("Esto es el titulo de la segunda noticia"));
+	ASSERT_THAT(parsedNoticia.getCuerpo(), StrEq("Esto es el primer parrafo del cuerpo de la segunda noticia.\n"\
+			                                     "Esto es la segunda frase del cuerpo de la noticia"));
+	ASSERT_THAT(parsedNoticia.getPalabrasReservadas(), ElementsAre("EntidadExcluida"));
+}
+
+TEST_F(NoticiaParserTest, givenParser_whenCallingParse_thenReturnsNoticiaInstance_3) {
+	std::string noticia("Esto es el titulo de la noticia numero tres\n"\
+			            "Esto es el primer parrafo del cuerpo de la noticia tres.\n"\
+			            "Esto es la segunda frase del cuerpo de la noticia");
+
+	std::stringstream input(noticia);
+	NoticiaParser parser(input, "stopList.txt");
+
+	Noticia parsedNoticia = parser.parse();
+
+	ASSERT_THAT(parsedNoticia.getTitulo(), StrEq("Esto es el titulo de la noticia numero tres"));
+	ASSERT_THAT(parsedNoticia.getCuerpo(), StrEq("Esto es el primer parrafo del cuerpo de la noticia tres.\n"\
 			                                     "Esto es la segunda frase del cuerpo de la noticia"));
 	ASSERT_THAT(parsedNoticia.getPalabrasReservadas(), ElementsAre("EntidadExcluida"));
 }
