@@ -12,12 +12,15 @@
 
 #include <istream>
 #include <string>
+#include <memory>
 
 class NoticiaParser {
 private:
+	std::istream& input;
 	std::string stopListFilename;
 public:
-	NoticiaParser(const std::istream& inputStream, const std::string& stopListFile) :
+	NoticiaParser(std::istream& inputStream, const std::string& stopListFile) :
+		input(inputStream),
 		stopListFilename(stopListFile) {};
 	Noticia parse();
 };

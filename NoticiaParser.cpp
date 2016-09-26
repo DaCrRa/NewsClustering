@@ -7,8 +7,11 @@
 
 #include "NoticiaParser.h"
 
+#include <sstream>
+
 Noticia NoticiaParser::parse() {
-	return Noticia("Esto es el titulo de la noticia",
-		"Esto es el primer parrafo del cuerpo de la noticia.\n"\
-		"Esto es la segunda frase del cuerpo de la noticia", stopListFilename);
+	std::string titulo;
+	std::getline(input, titulo);
+	std::string cuerpo(std::istreambuf_iterator<char>(input), {});
+	return Noticia(titulo, cuerpo, stopListFilename);
 }
