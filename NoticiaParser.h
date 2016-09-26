@@ -14,8 +14,11 @@
 #include <string>
 
 class NoticiaParser {
+private:
+	std::string stopListFilename;
 public:
-	NoticiaParser(const std::istream& inputStream, const std::string& stopListFile) {};
+	NoticiaParser(const std::istream& inputStream, const std::string& stopListFile) :
+		stopListFilename(stopListFile) {};
 	Noticia parse();
 };
 

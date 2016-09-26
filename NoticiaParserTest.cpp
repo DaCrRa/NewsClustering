@@ -34,16 +34,16 @@ protected:
 const std::string NoticiaParserTest::STOP_LIST_FILENAME = "stopList.txt";
 
 TEST_F(NoticiaParserTest, givenParser_whenCallingParse_thenReturnsNoticiaInstance) {
-	std::string noticia("Esto es el titulo de la noticia\n \
-			             Esto es el primer parrafo del cuerpo de la noticia.\n \
-			             Esto es la segunda frase del cuerpo de la noticia");
+	std::string noticia("Esto es el titulo de la noticia\n"\
+			            "Esto es el primer parrafo del cuerpo de la noticia.\n"\
+			            "Esto es la segunda frase del cuerpo de la noticia");
 
 	NoticiaParser parser(std::stringstream(noticia), "stopList.txt");
 
 	Noticia parsedNoticia = parser.parse();
 
 	ASSERT_THAT(parsedNoticia.getTitulo(), StrEq("Esto es el titulo de la noticia"));
-	ASSERT_THAT(parsedNoticia.getCuerpo(), StrEq("Esto es el primer parrafo del cuerpo de la noticia.\n \
-			             Esto es la segunda frase del cuerpo de la noticia"));
+	ASSERT_THAT(parsedNoticia.getCuerpo(), StrEq("Esto es el primer parrafo del cuerpo de la noticia.\n"\
+			                                     "Esto es la segunda frase del cuerpo de la noticia"));
 	ASSERT_THAT(parsedNoticia.getPalabrasReservadas(), ElementsAre("EntidadExcluida"));
 }
