@@ -7,7 +7,10 @@ set(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin")
 #add_subdirectory(src)
 #add_subdirectory(test)
 
+include(jsoncpp.cmake)
+
 set(analyzer_source_files
+   ${JSONCPP_SRC_FILE}
    Analizador.cpp
    EntidadNombrada.cpp
    Noticia.cpp
