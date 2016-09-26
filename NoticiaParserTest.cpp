@@ -8,6 +8,7 @@
 #include <gmock/gmock.h>
 
 #include "Noticia.h"
+#include "NoticiaParser.h"
 
 #include <string>
 #include <sstream>
@@ -15,6 +16,7 @@
 #include <stdio.h>
 
 using testing::StrEq;
+using testing::ElementsAre;
 
 class NoticiaParserTest : public ::testing::Test {
 public:
@@ -36,7 +38,7 @@ TEST_F(NoticiaParserTest, givenParser_whenCallingParse_thenReturnsNoticiaInstanc
 			             Esto es el primer parrafo del cuerpo de la noticia.\n \
 			             Esto es la segunda frase del cuerpo de la noticia");
 
-	NoticiaParser parser(std::sstream(noticia), "stopList.txt");
+	NoticiaParser parser(std::stringstream(noticia), "stopList.txt");
 
 	Noticia parsedNoticia = parser.parse();
 
