@@ -11,7 +11,6 @@ include(jsoncpp.cmake)
 
 set(analyzer_source_files
 #   ${JSONCPP_SRC_FILE}
-   Analizador.cpp
    EntidadNombrada.cpp
    AgrupadorDeGrupos.cpp
    AgrupadorDeItems.cpp
@@ -36,7 +35,6 @@ include(googletest.cmake)
 set(test_source_files
    EntidadNombradaTest.cpp
    NoticiaTest.cpp
-   AnalizadorTest.cpp
    AgrupadorDeItemsTest.cpp
    AgrupadorDeGruposTest.cpp
    PorEntidadMasNombradaTest.cpp
