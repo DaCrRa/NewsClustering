@@ -11,19 +11,19 @@ class AgrupadorDeGrupos {
 private:
 	CriterioDeAgrupacionPtr criterio;
 
-	std::list<std::list<NoticiaIfPtr> >::iterator encontrarGrupo(
-			const std::function<bool(NoticiaIfPtr&)>& criterio,
-			std::list<std::list<NoticiaIfPtr> >& grupos);
-	std::list<NoticiaIfPtr>::iterator encontrarItem(
-				const std::function<bool(NoticiaIfPtr&)>& criterio,
-				std::list<NoticiaIfPtr>& items);
-	std::function<bool(NoticiaIfPtr&)> agrupableCon(NoticiaIfPtr& item);
+	std::list<std::list<ItemAgrupablePtr> >::iterator encontrarGrupo(
+			const std::function<bool(ItemAgrupablePtr&)>& criterio,
+			std::list<std::list<ItemAgrupablePtr> >& grupos);
+	std::list<ItemAgrupablePtr>::iterator encontrarItem(
+				const std::function<bool(ItemAgrupablePtr&)>& criterio,
+				std::list<ItemAgrupablePtr>& items);
+	std::function<bool(ItemAgrupablePtr&)> agrupableCon(ItemAgrupablePtr& item);
 
 public:
 	AgrupadorDeGrupos(CriterioDeAgrupacionPtr c) : criterio(c) {
 		assert(criterio);
 	}
-	std::list<std::list<NoticiaIfPtr> > agrupar(const std::list<std::list<NoticiaIfPtr> >& grupos);
+	std::list<std::list<ItemAgrupablePtr> > agrupar(const std::list<std::list<ItemAgrupablePtr> >& grupos);
 };
 
 #endif /* AGRUPADOR_GRUPOS_H_ */

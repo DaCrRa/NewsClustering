@@ -1,6 +1,6 @@
 
-#ifndef NOTICIAIF_H_
-#define NOTICIAIF_H_
+#ifndef ITEMAGRUPABLE_H_
+#define ITEMAGRUPABLE_H_
 #include <string>
 #include <list>
 #include <memory>
@@ -15,10 +15,10 @@ public:
 	}
 };
 
-class NoticiaIf;
-typedef std::shared_ptr<NoticiaIf> NoticiaIfPtr;
+class ItemAgrupable;
+typedef std::shared_ptr<ItemAgrupable> ItemAgrupablePtr;
 
-class NoticiaIf {
+class ItemAgrupable {
 
 public:
 	virtual void setTitulo(std::string titulo) = 0;
@@ -32,13 +32,13 @@ public:
 	virtual std::list<EntidadNombrada> getEntidades() const = 0;
 	virtual std::list<std::string> getPalabrasReservadas() const = 0;
 	virtual std::list<EntidadNombrada> getEntidadesRelevantes() const = 0;
-        virtual bool esAgrupablePorEntidadMasNombrada(NoticiaIf& n) const = 0;
-        virtual bool esAgrupablePorTematica(NoticiaIf& n) const = 0;
-        virtual bool entidadMasNombradaEstaEnTituloDe(NoticiaIf& n) const = 0;
-        virtual bool entidadesRelevantesAparecenEn(NoticiaIf& n) const = 0;
+	virtual bool esAgrupablePorEntidadMasNombrada(ItemAgrupable& n) const = 0;
+	virtual bool esAgrupablePorTematica(ItemAgrupable& n) const = 0;
+	virtual bool entidadMasNombradaEstaEnTituloDe(ItemAgrupable& n) const = 0;
+	virtual bool entidadesRelevantesAparecenEn(ItemAgrupable& n) const = 0;
 	virtual std::string toString() const = 0;
 
-	virtual ~NoticiaIf() {}
+	virtual ~ItemAgrupable() {}
 };
 
-#endif /* NOTICIAIF_H_ */
+#endif /* ITEMAGRUPABLE_H_ */

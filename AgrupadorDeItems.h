@@ -15,7 +15,7 @@ private:
 	AgrupadorDeGrupos agrupador;
 public:
 	AgrupadorDeItems(CriterioDeAgrupacionPtr c) : agrupador(c) {}
-	std::list<std::list<NoticiaIfPtr> > agrupar(const std::list<NoticiaIfPtr>& items);
+	std::list<std::list<ItemAgrupablePtr> > agrupar(const std::list<ItemAgrupablePtr>& items);
 };
 
 #endif /* SOURCE_DIRECTORY__AGRUPADORDEITEMS_H_ */

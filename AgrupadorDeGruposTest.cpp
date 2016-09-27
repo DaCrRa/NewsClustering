@@ -2,7 +2,7 @@
 #include <gmock/gmock.h>
 
 #include "AgrupadorDeGrupos.h"
-#include "NoticiaIfMock.h"
+#include "ItemAgrupableMock.h"
 #include "CriterioDeAgrupacionMock.h"
 
 using testing::IsEmpty;
@@ -16,7 +16,7 @@ using testing::_;
 TEST(AgrupadorGruposTest, givenAgrupador_whenCallingAgruparWithNoGroupings_thenReturnsEmptyGroup) {
    AgrupadorDeGrupos a(CriterioDeAgrupacionPtr(new CriterioDeAgrupacionMock()));
 
-   std::list<std::list<NoticiaIfPtr> > groups = a.agrupar({});
+   std::list<std::list<ItemAgrupablePtr> > groups = a.agrupar({});
 
    ASSERT_THAT(groups, IsEmpty());
 }
@@ -24,210 +24,210 @@ TEST(AgrupadorGruposTest, givenAgrupador_whenCallingAgruparWithNoGroupings_thenR
 TEST(AgrupadorGruposTest, givenAgrupador_whenCallingAgruparWithOneEmptyGrouping_thenReturnsEmptyGroup) {
    AgrupadorDeGrupos a(CriterioDeAgrupacionPtr(new CriterioDeAgrupacionMock()));
 
-   std::list<std::list<NoticiaIfPtr> > groups = a.agrupar({std::list<NoticiaIfPtr>({})});
+   std::list<std::list<ItemAgrupablePtr> > groups = a.agrupar({std::list<ItemAgrupablePtr>({})});
 
    ASSERT_THAT(groups, IsEmpty());
 }
 
-TEST(AgrupadorGruposTest, givenAgrupador_whenCallingAgruparWithOneGroupingWithOneNoticia_thenReturnsOneGroup) {
-   std::shared_ptr<NoticiaIfMock> noticia1(new NoticiaIfMock());
+TEST(AgrupadorGruposTest, givenAgrupador_whenCallingAgruparWithOneGroupingWithOneItem_thenReturnsOneGroup) {
+   std::shared_ptr<ItemAgrupableMock> noticia1(new ItemAgrupableMock());
 
    AgrupadorDeGrupos a(CriterioDeAgrupacionPtr(new CriterioDeAgrupacionMock()));
 
-   std::list<std::list<NoticiaIfPtr> > groups = a.agrupar({std::list<NoticiaIfPtr>({NoticiaIfPtr(noticia1)})});
+   std::list<std::list<ItemAgrupablePtr> > groups = a.agrupar({std::list<ItemAgrupablePtr>({ItemAgrupablePtr(noticia1)})});
 
-   ASSERT_THAT(groups, UnorderedElementsAre(std::list<NoticiaIfPtr>({NoticiaIfPtr(noticia1)})));
+   ASSERT_THAT(groups, UnorderedElementsAre(std::list<ItemAgrupablePtr>({ItemAgrupablePtr(noticia1)})));
 }
 
-TEST(AgrupadorGruposTest, givenAgrupador_whenCallingAgruparWithThreeGroupsOfNoticiasNotGroupable_thenReturnsThreeGroups) {
-   std::shared_ptr<NoticiaIfMock> noticia1(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia2(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia3(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia4(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia5(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia6(new NoticiaIfMock());
+TEST(AgrupadorGruposTest, givenAgrupador_whenCallingAgruparWithThreeGroupsOfItemsNotGroupable_thenReturnsThreeGroups) {
+   std::shared_ptr<ItemAgrupableMock> noticia1(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia2(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia3(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia4(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia5(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia6(new ItemAgrupableMock());
    std::shared_ptr<CriterioDeAgrupacionMock> criterio(new CriterioDeAgrupacionMock());
    EXPECT_CALL(*criterio, sonAgrupables(_, _)).WillRepeatedly(Return(false));
 
    AgrupadorDeGrupos a(criterio);
 
-   std::list<std::list<NoticiaIfPtr> > groups = a.agrupar({
-	      std::list<NoticiaIfPtr>( {NoticiaIfPtr(noticia1), NoticiaIfPtr(noticia2)} ),
-	      std::list<NoticiaIfPtr>( {NoticiaIfPtr(noticia3), NoticiaIfPtr(noticia4)} ),
-	      std::list<NoticiaIfPtr>( {NoticiaIfPtr(noticia5), NoticiaIfPtr(noticia6)} )
+   std::list<std::list<ItemAgrupablePtr> > groups = a.agrupar({
+	      std::list<ItemAgrupablePtr>( {ItemAgrupablePtr(noticia1), ItemAgrupablePtr(noticia2)} ),
+	      std::list<ItemAgrupablePtr>( {ItemAgrupablePtr(noticia3), ItemAgrupablePtr(noticia4)} ),
+	      std::list<ItemAgrupablePtr>( {ItemAgrupablePtr(noticia5), ItemAgrupablePtr(noticia6)} )
 	   });
 
    ASSERT_THAT(groups, UnorderedElementsAre(
-      UnorderedElementsAre(NoticiaIfPtr(noticia1), NoticiaIfPtr(noticia2)),
-      UnorderedElementsAre(NoticiaIfPtr(noticia3), NoticiaIfPtr(noticia4)),
-      UnorderedElementsAre(NoticiaIfPtr(noticia5), NoticiaIfPtr(noticia6))
+      UnorderedElementsAre(ItemAgrupablePtr(noticia1), ItemAgrupablePtr(noticia2)),
+      UnorderedElementsAre(ItemAgrupablePtr(noticia3), ItemAgrupablePtr(noticia4)),
+      UnorderedElementsAre(ItemAgrupablePtr(noticia5), ItemAgrupablePtr(noticia6))
    ));
 }
 
-TEST(AgrupadorGruposTest, givenAgrupador_whenCallingAgruparThreeGroupsOfNoticiasAllGroupable_thenReturnsOneGroup) {
-   std::shared_ptr<NoticiaIfMock> noticia1(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia2(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia3(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia4(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia5(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia6(new NoticiaIfMock());
+TEST(AgrupadorGruposTest, givenAgrupador_whenCallingAgruparThreeGroupsOfItemsAllGroupable_thenReturnsOneGroup) {
+   std::shared_ptr<ItemAgrupableMock> noticia1(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia2(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia3(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia4(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia5(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia6(new ItemAgrupableMock());
    std::shared_ptr<CriterioDeAgrupacionMock> criterio(new CriterioDeAgrupacionMock());
    EXPECT_CALL(*criterio, sonAgrupables(_, _)).WillRepeatedly(Return(true));
 
    AgrupadorDeGrupos a(criterio);
 
-   std::list<std::list<NoticiaIfPtr> > groups = a.agrupar({
-	      std::list<NoticiaIfPtr>( {NoticiaIfPtr(noticia1), NoticiaIfPtr(noticia2)} ),
-	      std::list<NoticiaIfPtr>( {NoticiaIfPtr(noticia3), NoticiaIfPtr(noticia4)} ),
-	      std::list<NoticiaIfPtr>( {NoticiaIfPtr(noticia5), NoticiaIfPtr(noticia6)} )
+   std::list<std::list<ItemAgrupablePtr> > groups = a.agrupar({
+	      std::list<ItemAgrupablePtr>( {ItemAgrupablePtr(noticia1), ItemAgrupablePtr(noticia2)} ),
+	      std::list<ItemAgrupablePtr>( {ItemAgrupablePtr(noticia3), ItemAgrupablePtr(noticia4)} ),
+	      std::list<ItemAgrupablePtr>( {ItemAgrupablePtr(noticia5), ItemAgrupablePtr(noticia6)} )
 	   });
 
    ASSERT_THAT(groups, UnorderedElementsAre( UnorderedElementsAre (
-      NoticiaIfPtr(noticia1),
-      NoticiaIfPtr(noticia2),
-      NoticiaIfPtr(noticia3),
-      NoticiaIfPtr(noticia4),
-      NoticiaIfPtr(noticia5),
-      NoticiaIfPtr(noticia6)
+      ItemAgrupablePtr(noticia1),
+      ItemAgrupablePtr(noticia2),
+      ItemAgrupablePtr(noticia3),
+      ItemAgrupablePtr(noticia4),
+      ItemAgrupablePtr(noticia5),
+      ItemAgrupablePtr(noticia6)
    )));
 }
 
-TEST(AgrupadorGruposTest, givenAgrupador_whenCallingAgruparWithThreeGroupsOfNoficiasOneAndTwoGroupable_thenReturnsTwoGroups) {
-   std::shared_ptr<NoticiaIfMock> noticia1(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia2(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia3(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia4(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia5(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia6(new NoticiaIfMock());
+TEST(AgrupadorGruposTest, givenAgrupador_whenCallingAgruparWithThreeGroupsOfItemsOneAndTwoGroupable_thenReturnsTwoGroups) {
+   std::shared_ptr<ItemAgrupableMock> noticia1(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia2(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia3(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia4(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia5(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia6(new ItemAgrupableMock());
    std::shared_ptr<CriterioDeAgrupacionMock> criterio(new CriterioDeAgrupacionMock());
    EXPECT_CALL(*criterio, sonAgrupables(_, _)).WillRepeatedly(Return(false));
-   NoticiaIfPtr n2(noticia2);
-   NoticiaIfPtr n3(noticia3);
+   ItemAgrupablePtr n2(noticia2);
+   ItemAgrupablePtr n3(noticia3);
    EXPECT_CALL(*criterio, sonAgrupables(n2, n3)).WillRepeatedly(Return(true));
    EXPECT_CALL(*criterio, sonAgrupables(n3, n2)).WillRepeatedly(Return(true));
 
    AgrupadorDeGrupos a(criterio);
 
-   std::list<std::list<NoticiaIfPtr> > groups = a.agrupar({
-	      std::list<NoticiaIfPtr>( {NoticiaIfPtr(noticia1), NoticiaIfPtr(noticia2)} ),
-	      std::list<NoticiaIfPtr>( {NoticiaIfPtr(noticia3), NoticiaIfPtr(noticia4)} ),
-	      std::list<NoticiaIfPtr>( {NoticiaIfPtr(noticia5), NoticiaIfPtr(noticia6)} )
+   std::list<std::list<ItemAgrupablePtr> > groups = a.agrupar({
+	      std::list<ItemAgrupablePtr>( {ItemAgrupablePtr(noticia1), ItemAgrupablePtr(noticia2)} ),
+	      std::list<ItemAgrupablePtr>( {ItemAgrupablePtr(noticia3), ItemAgrupablePtr(noticia4)} ),
+	      std::list<ItemAgrupablePtr>( {ItemAgrupablePtr(noticia5), ItemAgrupablePtr(noticia6)} )
 	   });
 
    ASSERT_THAT(groups, UnorderedElementsAre(
       UnorderedElementsAre (
-         NoticiaIfPtr(noticia1),
-         NoticiaIfPtr(noticia2),
-         NoticiaIfPtr(noticia3),
-         NoticiaIfPtr(noticia4)),
+         ItemAgrupablePtr(noticia1),
+         ItemAgrupablePtr(noticia2),
+         ItemAgrupablePtr(noticia3),
+         ItemAgrupablePtr(noticia4)),
       UnorderedElementsAre (
-         NoticiaIfPtr(noticia5),
-         NoticiaIfPtr(noticia6))
+         ItemAgrupablePtr(noticia5),
+         ItemAgrupablePtr(noticia6))
    ));
 }
 
-TEST(AgrupadorGruposTest, givenAgrupador_whenCallingAgruparWithThreeGroupsOfNoticiasOneAndThreeGroupable_thenReturnsTwoGroups) {
-   std::shared_ptr<NoticiaIfMock> noticia1(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia2(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia3(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia4(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia5(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia6(new NoticiaIfMock());
+TEST(AgrupadorGruposTest, givenAgrupador_whenCallingAgruparWithThreeGroupsOfItemsOneAndThreeGroupable_thenReturnsTwoGroups) {
+   std::shared_ptr<ItemAgrupableMock> noticia1(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia2(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia3(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia4(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia5(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia6(new ItemAgrupableMock());
    std::shared_ptr<CriterioDeAgrupacionMock> criterio(new CriterioDeAgrupacionMock());
    EXPECT_CALL(*criterio, sonAgrupables(_, _)).WillRepeatedly(Return(false));
-   NoticiaIfPtr n2(noticia2);
-   NoticiaIfPtr n5(noticia5);
+   ItemAgrupablePtr n2(noticia2);
+   ItemAgrupablePtr n5(noticia5);
    EXPECT_CALL(*criterio, sonAgrupables(n2, n5)).WillRepeatedly(Return(true));
    EXPECT_CALL(*criterio, sonAgrupables(n5, n2)).WillRepeatedly(Return(true));
 
    AgrupadorDeGrupos a(criterio);
 
-   std::list<std::list<NoticiaIfPtr> > groups = a.agrupar({
-	      std::list<NoticiaIfPtr>( {NoticiaIfPtr(noticia1), NoticiaIfPtr(noticia2)} ),
-	      std::list<NoticiaIfPtr>( {NoticiaIfPtr(noticia3), NoticiaIfPtr(noticia4)} ),
-	      std::list<NoticiaIfPtr>( {NoticiaIfPtr(noticia5), NoticiaIfPtr(noticia6)} )
+   std::list<std::list<ItemAgrupablePtr> > groups = a.agrupar({
+	      std::list<ItemAgrupablePtr>( {ItemAgrupablePtr(noticia1), ItemAgrupablePtr(noticia2)} ),
+	      std::list<ItemAgrupablePtr>( {ItemAgrupablePtr(noticia3), ItemAgrupablePtr(noticia4)} ),
+	      std::list<ItemAgrupablePtr>( {ItemAgrupablePtr(noticia5), ItemAgrupablePtr(noticia6)} )
 	   });
 
    ASSERT_THAT(groups, UnorderedElementsAre(
       UnorderedElementsAre (
-         NoticiaIfPtr(noticia1),
-         NoticiaIfPtr(noticia2),
-         NoticiaIfPtr(noticia5),
-         NoticiaIfPtr(noticia6)),
+         ItemAgrupablePtr(noticia1),
+         ItemAgrupablePtr(noticia2),
+         ItemAgrupablePtr(noticia5),
+         ItemAgrupablePtr(noticia6)),
       UnorderedElementsAre (
-         NoticiaIfPtr(noticia4),
-         NoticiaIfPtr(noticia3))
+         ItemAgrupablePtr(noticia4),
+         ItemAgrupablePtr(noticia3))
    ));
 }
 
-TEST(AgrupadorGruposTest, givenAgrupador_whenCallingAgruparThreeGroupsOfNoticiasTwoAndThreeGroupable_thenReturnsTwoGroups) {
-   std::shared_ptr<NoticiaIfMock> noticia1(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia2(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia3(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia4(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia5(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia6(new NoticiaIfMock());
+TEST(AgrupadorGruposTest, givenAgrupador_whenCallingAgruparThreeGroupsOfItemsTwoAndThreeGroupable_thenReturnsTwoGroups) {
+   std::shared_ptr<ItemAgrupableMock> noticia1(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia2(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia3(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia4(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia5(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia6(new ItemAgrupableMock());
    std::shared_ptr<CriterioDeAgrupacionMock> criterio(new CriterioDeAgrupacionMock());
    EXPECT_CALL(*criterio, sonAgrupables(_, _)).WillRepeatedly(Return(false));
-   NoticiaIfPtr n5(noticia5);
-   NoticiaIfPtr n3(noticia3);
+   ItemAgrupablePtr n5(noticia5);
+   ItemAgrupablePtr n3(noticia3);
    EXPECT_CALL(*criterio, sonAgrupables(n5, n3)).WillRepeatedly(Return(true));
    EXPECT_CALL(*criterio, sonAgrupables(n3, n5)).WillRepeatedly(Return(true));
 
    AgrupadorDeGrupos a(criterio);
 
-   std::list<std::list<NoticiaIfPtr> > groups = a.agrupar({
-	      std::list<NoticiaIfPtr>( {NoticiaIfPtr(noticia1), NoticiaIfPtr(noticia2)} ),
-	      std::list<NoticiaIfPtr>( {NoticiaIfPtr(noticia3), NoticiaIfPtr(noticia4)} ),
-	      std::list<NoticiaIfPtr>( {NoticiaIfPtr(noticia5), NoticiaIfPtr(noticia6)} )
+   std::list<std::list<ItemAgrupablePtr> > groups = a.agrupar({
+	      std::list<ItemAgrupablePtr>( {ItemAgrupablePtr(noticia1), ItemAgrupablePtr(noticia2)} ),
+	      std::list<ItemAgrupablePtr>( {ItemAgrupablePtr(noticia3), ItemAgrupablePtr(noticia4)} ),
+	      std::list<ItemAgrupablePtr>( {ItemAgrupablePtr(noticia5), ItemAgrupablePtr(noticia6)} )
 	   });
 
    ASSERT_THAT(groups, UnorderedElementsAre(
       UnorderedElementsAre (
-         NoticiaIfPtr(noticia3),
-         NoticiaIfPtr(noticia4),
-         NoticiaIfPtr(noticia5),
-         NoticiaIfPtr(noticia6)),
+         ItemAgrupablePtr(noticia3),
+         ItemAgrupablePtr(noticia4),
+         ItemAgrupablePtr(noticia5),
+         ItemAgrupablePtr(noticia6)),
       UnorderedElementsAre (
-         NoticiaIfPtr(noticia1),
-         NoticiaIfPtr(noticia2))
+         ItemAgrupablePtr(noticia1),
+         ItemAgrupablePtr(noticia2))
    ));
 }
 
 TEST(AgrupadorGruposTest, givenAgrupador_whenCallingAgruparWithThreeGroupsOneGroupsWithTwoAndTwoWithThree_thenReturnsOneGroup) {
-   std::shared_ptr<NoticiaIfMock> noticia1(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia2(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia3(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia4(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia5(new NoticiaIfMock());
-   std::shared_ptr<NoticiaIfMock> noticia6(new NoticiaIfMock());
+   std::shared_ptr<ItemAgrupableMock> noticia1(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia2(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia3(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia4(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia5(new ItemAgrupableMock());
+   std::shared_ptr<ItemAgrupableMock> noticia6(new ItemAgrupableMock());
    std::shared_ptr<CriterioDeAgrupacionMock> criterio(new CriterioDeAgrupacionMock());
    EXPECT_CALL(*criterio, sonAgrupables(_, _)).WillRepeatedly(Return(false));
-   NoticiaIfPtr n1(noticia1);
-   NoticiaIfPtr n4(noticia4);
+   ItemAgrupablePtr n1(noticia1);
+   ItemAgrupablePtr n4(noticia4);
    EXPECT_CALL(*criterio, sonAgrupables(n1, n4)).WillRepeatedly(Return(true));
    EXPECT_CALL(*criterio, sonAgrupables(n4, n1)).WillRepeatedly(Return(true));
-   NoticiaIfPtr n5(noticia5);
-   NoticiaIfPtr n3(noticia3);
+   ItemAgrupablePtr n5(noticia5);
+   ItemAgrupablePtr n3(noticia3);
    EXPECT_CALL(*criterio, sonAgrupables(n5, n3)).WillRepeatedly(Return(true));
    EXPECT_CALL(*criterio, sonAgrupables(n3, n5)).WillRepeatedly(Return(true));
 
 
    AgrupadorDeGrupos a(criterio);
 
-   std::list<std::list<NoticiaIfPtr> > groups = a.agrupar({
-	      std::list<NoticiaIfPtr>( {NoticiaIfPtr(noticia1), NoticiaIfPtr(noticia2)} ),
-	      std::list<NoticiaIfPtr>( {NoticiaIfPtr(noticia3), NoticiaIfPtr(noticia4)} ),
-	      std::list<NoticiaIfPtr>( {NoticiaIfPtr(noticia5), NoticiaIfPtr(noticia6)} )
+   std::list<std::list<ItemAgrupablePtr> > groups = a.agrupar({
+	      std::list<ItemAgrupablePtr>( {ItemAgrupablePtr(noticia1), ItemAgrupablePtr(noticia2)} ),
+	      std::list<ItemAgrupablePtr>( {ItemAgrupablePtr(noticia3), ItemAgrupablePtr(noticia4)} ),
+	      std::list<ItemAgrupablePtr>( {ItemAgrupablePtr(noticia5), ItemAgrupablePtr(noticia6)} )
 	   });
 
    ASSERT_THAT(groups, UnorderedElementsAre( UnorderedElementsAre (
-      NoticiaIfPtr(noticia1),
-      NoticiaIfPtr(noticia2),
-      NoticiaIfPtr(noticia3),
-      NoticiaIfPtr(noticia4),
-      NoticiaIfPtr(noticia5),
-      NoticiaIfPtr(noticia6)
+      ItemAgrupablePtr(noticia1),
+      ItemAgrupablePtr(noticia2),
+      ItemAgrupablePtr(noticia3),
+      ItemAgrupablePtr(noticia4),
+      ItemAgrupablePtr(noticia5),
+      ItemAgrupablePtr(noticia6)
    )));
 }
 

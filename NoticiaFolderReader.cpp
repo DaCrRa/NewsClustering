@@ -11,10 +11,10 @@
 #include <experimental/filesystem>
 #include <fstream>
 
-std::list<NoticiaIfPtr> NoticiaFolderReader::getNoticias() {
+std::list<ItemAgrupablePtr> NoticiaFolderReader::getNoticias() {
 	std::experimental::filesystem::path stopListPath = folder / std::experimental::filesystem::path(STOPLIST_FILENAME);
 
-	std::list<NoticiaIfPtr> noticias;
+	std::list<ItemAgrupablePtr> noticias;
 
 	std::experimental::filesystem::path newsSubFolder = folder / std::experimental::filesystem::path(NEWS_SUBFOLDER);
 
@@ -22,7 +22,7 @@ std::list<NoticiaIfPtr> NoticiaFolderReader::getNoticias() {
 		try {
 			std::ifstream filestream(newFile.path());
 			NoticiaParser p(filestream, stopListPath);
-			noticias.push_back(NoticiaIfPtr(new Noticia(std::move(p.parse()))));
+			noticias.push_back(ItemAgrupablePtr(new Noticia(std::move(p.parse()))));
 		} catch (NoticiaInvalidaException& e) {
 			// Just try the next one
 		}

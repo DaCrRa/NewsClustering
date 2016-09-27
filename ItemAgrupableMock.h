@@ -1,8 +1,8 @@
 #include <gmock/gmock.h>
 
-#include "NoticiaIf.h"
+#include "ItemAgrupable.h"
 
-class NoticiaIfMock : public NoticiaIf {
+class ItemAgrupableMock : public ItemAgrupable {
 
 public:
 	MOCK_METHOD1(setTitulo, void(std::string));
@@ -16,9 +16,9 @@ public:
 	MOCK_CONST_METHOD0(getEntidades, std::list<EntidadNombrada>());
 	MOCK_CONST_METHOD0(getPalabrasReservadas, std::list<std::string>());
 	MOCK_CONST_METHOD0(getEntidadesRelevantes, std::list<EntidadNombrada>());
-	MOCK_CONST_METHOD1(esAgrupablePorEntidadMasNombrada, bool(NoticiaIf&));
-	MOCK_CONST_METHOD1(esAgrupablePorTematica, bool(NoticiaIf&));
-	MOCK_CONST_METHOD1(entidadMasNombradaEstaEnTituloDe, bool(NoticiaIf&));
-	MOCK_CONST_METHOD1(entidadesRelevantesAparecenEn, bool(NoticiaIf&));
+	MOCK_CONST_METHOD1(esAgrupablePorEntidadMasNombrada, bool(ItemAgrupable&));
+	MOCK_CONST_METHOD1(esAgrupablePorTematica, bool(ItemAgrupable&));
+	MOCK_CONST_METHOD1(entidadMasNombradaEstaEnTituloDe, bool(ItemAgrupable&));
+	MOCK_CONST_METHOD1(entidadesRelevantesAparecenEn, bool(ItemAgrupable&));
 	MOCK_CONST_METHOD0(toString, std::string());
 };

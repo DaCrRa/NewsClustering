@@ -7,7 +7,7 @@
 
 #include "PorEntidadMasNombrada.h"
 
-bool PorEntidadMasNombrada::sonAgrupables(NoticiaIfPtr& item1, NoticiaIfPtr& item2) {
+bool PorEntidadMasNombrada::sonAgrupables(ItemAgrupablePtr& item1, ItemAgrupablePtr& item2) {
 	return item1->esAgrupablePorEntidadMasNombrada(*item2) ||
 			item2->esAgrupablePorEntidadMasNombrada(*item1);
 }

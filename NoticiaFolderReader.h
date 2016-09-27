@@ -11,7 +11,7 @@
 #include <list>
 #include <experimental/filesystem>
 
-#include "NoticiaIf.h"
+#include "ItemAgrupable.h"
 
 class NoticiaFolderReader {
 private:
@@ -21,7 +21,7 @@ private:
 public:
 	NoticiaFolderReader(const std::string& folderName) :
 		folder(folderName) {}
-	std::list<NoticiaIfPtr> getNoticias();
+	std::list<ItemAgrupablePtr> getNoticias();
 };
 const std::string NoticiaFolderReader::STOPLIST_FILENAME = "ES_stopList.txt";
 const std::string NoticiaFolderReader::NEWS_SUBFOLDER = "news";

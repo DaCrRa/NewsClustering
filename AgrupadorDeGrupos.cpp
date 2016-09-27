@@ -9,16 +9,16 @@
 
 #include <algorithm>
 
-std::list<std::list<NoticiaIfPtr> > AgrupadorDeGrupos::agrupar(const std::list<std::list<NoticiaIfPtr> >& grupos) {
-	std::list<std::list<NoticiaIfPtr> > outputGroups;
-	std::list<std::list<NoticiaIfPtr> > remainingGroups(grupos);
+std::list<std::list<ItemAgrupablePtr> > AgrupadorDeGrupos::agrupar(const std::list<std::list<ItemAgrupablePtr> >& grupos) {
+	std::list<std::list<ItemAgrupablePtr> > outputGroups;
+	std::list<std::list<ItemAgrupablePtr> > remainingGroups(grupos);
 
 	while (!remainingGroups.empty()) {
-		std::list<NoticiaIfPtr> group(remainingGroups.front());
+		std::list<ItemAgrupablePtr> group(remainingGroups.front());
 		remainingGroups.pop_front();
 		outputGroups.push_back(group);
 		auto& lastOutputGroup = outputGroups.back();
-		for (NoticiaIfPtr item : lastOutputGroup) {
+		for (ItemAgrupablePtr item : lastOutputGroup) {
 			auto groupableGroupIt = encontrarGrupo(agrupableCon(item), remainingGroups);
 			while (groupableGroupIt != remainingGroups.end()) {
 				lastOutputGroup.insert(lastOutputGroup.end(),
@@ -35,22 +35,22 @@ std::list<std::list<NoticiaIfPtr> > AgrupadorDeGrupos::agrupar(const std::list<s
 	return outputGroups;
 }
 
-std::list<std::list<NoticiaIfPtr> >::iterator AgrupadorDeGrupos::encontrarGrupo(
-			const std::function<bool(NoticiaIfPtr&)>& criterio,
-			std::list<std::list<NoticiaIfPtr> >& grupos) {
+std::list<std::list<ItemAgrupablePtr> >::iterator AgrupadorDeGrupos::encontrarGrupo(
+			const std::function<bool(ItemAgrupablePtr&)>& criterio,
+			std::list<std::list<ItemAgrupablePtr> >& grupos) {
 
 	return std::find_if(
 			grupos.begin(),
 			grupos.end(),
-			[&](std::list<NoticiaIfPtr>& grupo) -> bool {
+			[&](std::list<ItemAgrupablePtr>& grupo) -> bool {
 				return encontrarItem(criterio, grupo) != grupo.end();
 			}
 	);
 }
 
-std::list<NoticiaIfPtr>::iterator AgrupadorDeGrupos::encontrarItem(
-				const std::function<bool(NoticiaIfPtr&)>& criterio,
-				std::list<NoticiaIfPtr>& items) {
+std::list<ItemAgrupablePtr>::iterator AgrupadorDeGrupos::encontrarItem(
+				const std::function<bool(ItemAgrupablePtr&)>& criterio,
+				std::list<ItemAgrupablePtr>& items) {
 
 	return std::find_if(
 			items.begin(),
@@ -58,8 +58,8 @@ std::list<NoticiaIfPtr>::iterator AgrupadorDeGrupos::encontrarItem(
 			criterio);
 }
 
-std::function<bool(NoticiaIfPtr&)> AgrupadorDeGrupos::agrupableCon(NoticiaIfPtr& item) {
-	return [&](NoticiaIfPtr& item2) -> bool {
+std::function<bool(ItemAgrupablePtr&)> AgrupadorDeGrupos::agrupableCon(ItemAgrupablePtr& item) {
+	return [&](ItemAgrupablePtr& item2) -> bool {
 		return criterio->sonAgrupables(item, item2);
 	};
 }

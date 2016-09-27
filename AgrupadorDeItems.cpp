@@ -7,10 +7,10 @@
 
 #include "AgrupadorDeItems.h"
 
-std::list<std::list<NoticiaIfPtr> > AgrupadorDeItems::agrupar(const std::list<NoticiaIfPtr>& items) {
-	std::list<std::list<NoticiaIfPtr> > itemsEnGruposDeUno;
-	for (NoticiaIfPtr item : items) {
-		itemsEnGruposDeUno.push_back(std::list<NoticiaIfPtr>({item}));
+std::list<std::list<ItemAgrupablePtr> > AgrupadorDeItems::agrupar(const std::list<ItemAgrupablePtr>& items) {
+	std::list<std::list<ItemAgrupablePtr> > itemsEnGruposDeUno;
+	for (ItemAgrupablePtr item : items) {
+		itemsEnGruposDeUno.push_back(std::list<ItemAgrupablePtr>({item}));
 	}
 	return agrupador.agrupar(itemsEnGruposDeUno);
 }

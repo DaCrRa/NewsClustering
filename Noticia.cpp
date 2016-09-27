@@ -100,7 +100,7 @@ std::list<EntidadNombrada> Noticia::getEntidadesRelevantes() const {
 	return lista;
 }
 
-bool Noticia::esAgrupablePorEntidadMasNombrada(NoticiaIf& n) const {
+bool Noticia::esAgrupablePorEntidadMasNombrada(ItemAgrupable& n) const {
 	try {
 		EntidadNombrada masFrecuente = getMasFrecuente();
 		return masFrecuente.esIgual(n.getMasFrecuente());
@@ -109,7 +109,7 @@ bool Noticia::esAgrupablePorEntidadMasNombrada(NoticiaIf& n) const {
 	}
 }
 
-bool Noticia::entidadMasNombradaEstaEnTituloDe(NoticiaIf& n) const {
+bool Noticia::entidadMasNombradaEstaEnTituloDe(ItemAgrupable& n) const {
 	try {
 		EntidadNombrada masFrecuente = getMasFrecuente();
 		return n.getTitulo().find(masFrecuente.getEntidadNombrada()) != std::string::npos;
@@ -118,7 +118,7 @@ bool Noticia::entidadMasNombradaEstaEnTituloDe(NoticiaIf& n) const {
 	}
 }
 
-bool Noticia::entidadesRelevantesAparecenEn(NoticiaIf& n) const {
+bool Noticia::entidadesRelevantesAparecenEn(ItemAgrupable& n) const {
 	std::list<EntidadNombrada> primero = this->getEntidadesRelevantes();
         std::list<EntidadNombrada> segundo = n.getEntidades();
         std::list<EntidadNombrada> final;
@@ -142,7 +142,7 @@ bool Noticia::entidadesRelevantesAparecenEn(NoticiaIf& n) const {
         return final.size() > 0 && final.size() >= (primero.size() * UMBRAL_ENTIDADES_RELEVANTES_EN_NOTICIA_A_AGRUPAR);
 }
 
-bool Noticia::esAgrupablePorTematica(NoticiaIf& n) const {
+bool Noticia::esAgrupablePorTematica(ItemAgrupable& n) const {
 	return entidadMasNombradaEstaEnTituloDe(n) && entidadesRelevantesAparecenEn(n);
 }
 

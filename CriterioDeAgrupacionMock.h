@@ -5,5 +5,5 @@
 class CriterioDeAgrupacionMock : public CriterioDeAgrupacion {
 
 public:
-	MOCK_METHOD2(sonAgrupables, bool(NoticiaIfPtr&, NoticiaIfPtr&));
+	MOCK_METHOD2(sonAgrupables, bool(ItemAgrupablePtr&, ItemAgrupablePtr&));
 };

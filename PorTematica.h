@@ -11,7 +11,7 @@
 #include "CriterioDeAgrupacion.h"
 
 class PorTematica: public CriterioDeAgrupacion {
-	bool sonAgrupables(NoticiaIfPtr& item1, NoticiaIfPtr& item2);
+	bool sonAgrupables(ItemAgrupablePtr& item1, ItemAgrupablePtr& item2);
 };
 
 

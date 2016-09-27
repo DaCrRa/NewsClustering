@@ -7,9 +7,9 @@
 
 #ifndef NOTICIA_H_
 #define NOTICIA_H_
-#include "NoticiaIf.h"
+#include "ItemAgrupable.h"
 
-class Noticia : public NoticiaIf {
+class Noticia : public ItemAgrupable {
 private:
 	std::string titulo;
 	std::string cuerpo;
@@ -37,10 +37,10 @@ public:
 	std::list<EntidadNombrada> getEntidades()const;
 	std::list<std::string> getPalabrasReservadas()const;
 	std::list<EntidadNombrada> getEntidadesRelevantes()const;
-	bool esAgrupablePorEntidadMasNombrada(NoticiaIf& n) const;
-	bool esAgrupablePorTematica(NoticiaIf& n) const;
-	bool entidadMasNombradaEstaEnTituloDe(NoticiaIf& n) const;
-	bool entidadesRelevantesAparecenEn(NoticiaIf& n) const;
+	bool esAgrupablePorEntidadMasNombrada(ItemAgrupable& n) const;
+	bool esAgrupablePorTematica(ItemAgrupable& n) const;
+	bool entidadMasNombradaEstaEnTituloDe(ItemAgrupable& n) const;
+	bool entidadesRelevantesAparecenEn(ItemAgrupable& n) const;
 	std::string toString()const;
 };
 

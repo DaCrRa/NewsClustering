@@ -8,16 +8,15 @@
 #ifndef SOURCE_DIRECTORY__CRITERIODEAGRUPACION_H_
 #define SOURCE_DIRECTORY__CRITERIODEAGRUPACION_H_
 
-#include "NoticiaIf.h"
-
 #include <memory>
+#include "ItemAgrupable.h"
 
 class CriterioDeAgrupacion;
 typedef std::shared_ptr<CriterioDeAgrupacion> CriterioDeAgrupacionPtr;
 
 class CriterioDeAgrupacion {
 public:
-	virtual bool sonAgrupables(NoticiaIfPtr& item1, NoticiaIfPtr& item2) = 0;
+	virtual bool sonAgrupables(ItemAgrupablePtr& item1, ItemAgrupablePtr& item2) = 0;
 	virtual ~CriterioDeAgrupacion() {};
 };
 
