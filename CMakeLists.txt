@@ -13,7 +13,6 @@ set(analyzer_source_files
 #   ${JSONCPP_SRC_FILE}
    Analizador.cpp
    EntidadNombrada.cpp
-   Noticia.cpp
    AgrupadorDeGrupos.cpp
    AgrupadorDeItems.cpp
    PorTematica.cpp
@@ -21,11 +20,16 @@ set(analyzer_source_files
 )
 add_library(Analyzer SHARED ${analyzer_source_files})
 
-add_library(NoticiaParser SHARED NoticiaParser.cpp)
-target_link_libraries(NoticiaParser Analyzer)
+set(noticiaparser_source_files
+   Noticia.cpp
+   NoticiaParser.cpp
+   NoticiaFolderReader.cpp
+)
+add_library(NoticiaParser SHARED ${noticiaparser_source_files})
+target_link_libraries(NoticiaParser Analyzer stdc++fs)
 
 add_executable(NewsClustering "Main.cpp")
-target_link_libraries(NewsClustering Analyzer)
+target_link_libraries(NewsClustering Analyzer NoticiaParser)
 
 include(googletest.cmake)
 

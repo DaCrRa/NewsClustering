@@ -10,10 +10,17 @@
 #include "cstdio"
 #include "Noticia.h"
 #include "Analizador.h"
+#include "NoticiaFolderReader.h"
+
 #include <iterator>
 
 int main() {
 
+	NoticiaFolderReader reader("/home/dancre/NewsClustering/data");
+	NoticiaIfPtr testNoticia = reader.getNoticias().front();
+	std::cout << testNoticia->toString() << std::endl;
+
+	return 0;
 	Analizador a1("data");
 
 	std::list<std::list<NoticiaIfPtr> > groups = a1.agruparNoticiasPorEntidadMasFrecuente();
