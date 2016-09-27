@@ -124,3 +124,24 @@ TEST_F(NoticiaParserTest, givenParser_whenCallingParseNoticiaWhiteLines_thenRetu
 	ASSERT_THAT(parsedNoticia.getCuerpo(), StrEq("el cuerpo"));
 	ASSERT_THAT(parsedNoticia.getPalabrasReservadas(), ElementsAre("EntidadExcluida"));
 }
+
+TEST_F(NoticiaParserTest, givenParser_whenCallingParseNoticiaWithJustWhiteLines_thenThrowsNoticiaInvalidaException) {
+	std::string noticia("     \t\t"\
+			"\n"\
+			"      \n"\
+			"");
+
+	std::stringstream input(noticia);
+	NoticiaParser parser(input, "stopList.txt");
+
+	ASSERT_THROW(parser.parse(), NoticiaInvalidaException);
+}
+
+TEST_F(NoticiaParserTest, givenParser_whenCallingParseNoticiaWithEmptyString_thenThrowsNoticiaInvalidaException) {
+	std::string noticia("");
+
+	std::stringstream input(noticia);
+	NoticiaParser parser(input, "stopList.txt");
+
+	ASSERT_THROW(parser.parse(), NoticiaInvalidaException);
+}

@@ -14,6 +14,13 @@
 #include <string>
 #include <memory>
 
+class NoticiaInvalidaException : public std::exception {
+public:
+	const char* what() const throw() {
+		return "No puede instanciarse una noticia a partir de la entrada especificada";
+	}
+};
+
 class NoticiaParser {
 private:
 	std::istream& input;
