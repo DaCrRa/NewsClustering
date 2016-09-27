@@ -5,29 +5,43 @@
  *      Author: Alvaro
  */
 
-#include "iostream"
-#include "EntidadNombrada.h"
-#include "cstdio"
-#include "Noticia.h"
-#include "Analizador.h"
-#include "NoticiaFolderReader.h"
-
+#include <iostream>
 #include <iterator>
 
-int main() {
+#include "NoticiaFolderReader.h"
+#include "AgrupadorDeGrupos.h"
+#include "AgrupadorDeItems.h"
+#include "PorTematica.h"
+#include "PorEntidadMasNombrada.h"
 
-	NoticiaFolderReader reader("/home/dancre/NewsClustering/data");
-	NoticiaIfPtr testNoticia = reader.getNoticias().front();
-	std::cout << testNoticia->toString() << std::endl;
+int main(int argc, const char* argv[]) {
+	if (argc == 1) {
+		std::cerr << "Dime el path a las noticias!" << std::endl;
+		return 1;
+	}
 
-	return 0;
-	Analizador a1("data");
+	NoticiaFolderReader reader(argv[1]);
+	std::list<NoticiaIfPtr> noticias;
+	try {
+		noticias = reader.getNoticias();
+	} catch (std::experimental::filesystem::filesystem_error& e) {
+		std::cerr << "No puedo abrir el directorio con las noticias!" << std::endl;
+		std::cerr << e.what() << std::endl;
+		return 3;
+	}
 
-	std::list<std::list<NoticiaIfPtr> > groups = a1.agruparNoticiasPorEntidadMasFrecuente();
+	if (noticias.empty()) {
+		std::cerr << "No hay noticias!" << std::endl;
+		return 2;
+	}
+
+	AgrupadorDeItems agrupador(CriterioDeAgrupacionPtr(new PorEntidadMasNombrada()));
+
+	std::list<std::list<NoticiaIfPtr> > agrupadosPorEntidad = agrupador.agrupar(noticias);
 
 	std::cout << "POR ENTIDAD MAS NOMBRADA:" << std::endl;
 	std::cout << std::endl;
-	for (std::list<NoticiaIfPtr> grupo : groups) {
+	for (std::list<NoticiaIfPtr> grupo : agrupadosPorEntidad) {
 		std::cout << grupo.front()->getMasFrecuente().getEntidadNombrada() << std::endl;
 		for (NoticiaIfPtr noticia : grupo) {
 			std::cout << "*[" << noticia->getTitulo() << "]" << std::endl;
@@ -36,17 +50,18 @@ int main() {
 		std::cout << std::endl;
 	}
 
-	groups = a1.agruparNoticiasPorTematica(groups);
+	AgrupadorDeGrupos agrupador2(CriterioDeAgrupacionPtr(new PorTematica()));
+	std::list<std::list<NoticiaIfPtr> > agrupadosPorTematica = agrupador2.agrupar(agrupadosPorEntidad);
 
-        std::cout << "POR TEMA:" << std::endl;
-        std::cout << std::endl;
-        for (std::list<NoticiaIfPtr> grupo : groups) {
-                for (NoticiaIfPtr noticia : grupo) {
-                        std::cout << "*[" << noticia->getTitulo() << "]" << std::endl;
-                }
-                std::cout << "======" << std::endl;
-                std::cout << std::endl;
-        }
+	std::cout << "POR TEMA:" << std::endl;
+	std::cout << std::endl;
+	for (std::list<NoticiaIfPtr> grupo : agrupadosPorTematica) {
+		for (NoticiaIfPtr noticia : grupo) {
+			std::cout << "*[" << noticia->getTitulo() << "]" << std::endl;
+		}
+		std::cout << "======" << std::endl;
+		std::cout << std::endl;
+	}
 
 	return 0;
 }
