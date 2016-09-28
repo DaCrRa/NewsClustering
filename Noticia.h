@@ -7,34 +7,26 @@
 
 #ifndef NOTICIA_H_
 #define NOTICIA_H_
-#include "ItemAgrupable.h"
+#include "AbstractItemAgrupable.h"
 
-class Noticia : public ItemAgrupable {
+class Noticia : public AbstractItemAgrupable {
 private:
 	std::string titulo;
 	std::string cuerpo;
-	std::list<EntidadNombrada> entidades;
-	std::list<std::string> entidadesR;
-
-	void setEntidades();
-	void agregarEntidad(std::string nombre);
 
 	const double UMBRAL_DE_RELEVANCIA_DE_ENTIDADES = 0.3;
 	const double UMBRAL_ENTIDADES_RELEVANTES_EN_NOTICIA_A_AGRUPAR = 0.3;
 
 public:
 	Noticia();
-	Noticia(std::string titulo, std::string cuerpo, std::string ruta);
+	Noticia(const std::string& titulo, const std::string& cuerpo, const std::string& ruta);
 
 	void setTitulo(std::string titulo);
 	void setCuerpo(std::string cuerpo);
-	void setPalabrasReservadas(std::string ruta);
 
 	std::string getTitulo()const;
 	std::string getCuerpo()const;
 	std::string getTextoDestacado() const;
-	EntidadNombrada getMasFrecuente()const;
-	std::list<EntidadNombrada> getEntidades()const;
 	std::list<std::string> getPalabrasReservadas()const;
 	std::list<EntidadNombrada> getEntidadesRelevantes()const;
 	bool esAgrupablePorEntidadMasNombrada(ItemAgrupable& n) const;

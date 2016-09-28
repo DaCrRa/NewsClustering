@@ -11,6 +11,7 @@ include(jsoncpp.cmake)
 
 set(analyzer_source_files
 #   ${JSONCPP_SRC_FILE}
+   AbstractItemAgrupable.cpp
    EntidadNombrada.cpp
    AgrupadorDeGrupos.cpp
    AgrupadorDeItems.cpp

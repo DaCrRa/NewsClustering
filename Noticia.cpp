@@ -9,22 +9,19 @@
 #include "list"
 #include "EntidadNombrada.h"
 #include <iostream>
-#include <sstream>
-#include <fstream>
-#include <algorithm>
 #include <assert.h>
 
 Noticia::Noticia() : Noticia("", "", "") {}
 
-Noticia::Noticia(std::string titulo, std::string cuerpo, std::string ruta) {
+Noticia::Noticia(const std::string& titulo, const std::string& cuerpo, const std::string& ruta) :
+	AbstractItemAgrupable(cuerpo, ruta) {
+
 	assert(UMBRAL_DE_RELEVANCIA_DE_ENTIDADES >= 0
 			&& UMBRAL_DE_RELEVANCIA_DE_ENTIDADES <=1);
 	assert(UMBRAL_ENTIDADES_RELEVANTES_EN_NOTICIA_A_AGRUPAR >= 0
 			&& UMBRAL_ENTIDADES_RELEVANTES_EN_NOTICIA_A_AGRUPAR <=1);
 	this->titulo = titulo;
 	this->cuerpo = cuerpo;
-	this->setPalabrasReservadas(ruta);
-	this->setEntidades();
 }
 
 void Noticia::setTitulo(std::string titulo) {
@@ -33,18 +30,6 @@ void Noticia::setTitulo(std::string titulo) {
 
 void Noticia::setCuerpo(std::string cuerpo) {
 	this->cuerpo = cuerpo;
-}
-
-void Noticia::setPalabrasReservadas(std::string ruta) {
-	std::ifstream f;
-	f.open(ruta.c_str(), std::ofstream::in);
-	while (f.good()) {
-		std::string aux;
-		f >> aux;
-		if (aux.compare("") != 0) {
-			this->entidadesR.push_back(aux);
-		}
-	}
 }
 
 std::string Noticia::getTitulo() const {
@@ -57,24 +42,6 @@ std::string Noticia::getTextoDestacado() const {
 
 std::string Noticia::getCuerpo() const {
 	return this->cuerpo;
-}
-
-EntidadNombrada Noticia::getMasFrecuente() const {
-	auto entidadNombradaMax = std::max_element(
-		entidades.begin(),
-		entidades.end(),
-		[&](const EntidadNombrada& e1, const EntidadNombrada& e2) -> bool {
-			return e1.getFrecuencia() < e2.getFrecuencia();
-		}
-	);
-	if (entidadNombradaMax == entidades.end()) {
-		throw NoEntidadNombradaException();
-	}
-	return *entidadNombradaMax;
-}
-
-std::list<EntidadNombrada> Noticia::getEntidades() const {
-	return this->entidades;
 }
 
 std::list<std::string> Noticia::getPalabrasReservadas() const {
@@ -164,45 +131,5 @@ std::string Noticia::toString() const {
 			+ this->getMasFrecuente().toString();
 
 	return salida;
-}
-
-void Noticia::setEntidades() {
-	std::string aux;
-
-	std::istringstream iss(cuerpo);
-
-	while (iss.good()) {
-		iss >> aux;
-		this->agregarEntidad(aux);
-	}
-}
-
-void Noticia::agregarEntidad(std::string nombre) {
-	bool empezar = true;
-	for (std::list<std::string>::iterator i = this->entidadesR.begin();
-			i != this->entidadesR.end(); i++) {
-
-		if (i->compare(nombre) == 0) {
-			empezar = false;
-			break;
-		}
-	}
-	if (empezar) {
-		bool add = true;
-		for (std::list<EntidadNombrada>::iterator it = this->entidades.begin();
-				it != this->entidades.end(); it++) {
-			if (it->getEntidadNombrada().compare(nombre) == 0) {
-				it->setFrecuencia(it->getFrecuencia() + 1);
-				add = false;
-			}
-		}
-		if (add) {
-			int aux = static_cast<int>(nombre[0]);
-			if ((aux >= 65) && (aux <= 90)) {
-				EntidadNombrada aux(nombre, 1);
-				this->entidades.push_back(aux);
-			}
-		}
-	}
 }
 
