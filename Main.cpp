@@ -44,7 +44,7 @@ int main(int argc, const char* argv[]) {
 	for (std::list<ItemAgrupablePtr> grupo : agrupadosPorEntidad) {
 		std::cout << grupo.front()->getMasFrecuente().getEntidadNombrada() << std::endl;
 		for (ItemAgrupablePtr item : grupo) {
-			std::cout << "*[" << item->getTitulo() << "]" << std::endl;
+			std::cout << "*[" << item->getTextoDestacado() << "]" << std::endl;
 		}
 		std::cout << "======" << std::endl;
 		std::cout << std::endl;
@@ -57,7 +57,7 @@ int main(int argc, const char* argv[]) {
 	std::cout << std::endl;
 	for (std::list<ItemAgrupablePtr> grupo : agrupadosPorTematica) {
 		for (ItemAgrupablePtr item : grupo) {
-			std::cout << "*[" << item->getTitulo() << "]" << std::endl;
+			std::cout << "*[" << item->getTextoDestacado() << "]" << std::endl;
 		}
 		std::cout << "======" << std::endl;
 		std::cout << std::endl;

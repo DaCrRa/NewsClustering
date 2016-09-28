@@ -29,17 +29,17 @@ public:
 	void setTitulo(std::string titulo);
 	void setCuerpo(std::string cuerpo);
 	void setPalabrasReservadas(std::string ruta);
-	void actualizar();
 
 	std::string getTitulo()const;
 	std::string getCuerpo()const;
+	std::string getTextoDestacado() const;
 	EntidadNombrada getMasFrecuente()const;
 	std::list<EntidadNombrada> getEntidades()const;
 	std::list<std::string> getPalabrasReservadas()const;
 	std::list<EntidadNombrada> getEntidadesRelevantes()const;
 	bool esAgrupablePorEntidadMasNombrada(ItemAgrupable& n) const;
 	bool esAgrupablePorTematica(ItemAgrupable& n) const;
-	bool entidadMasNombradaEstaEnTituloDe(ItemAgrupable& n) const;
+	bool entidadMasNombradaEstaEnDestacadoDe(ItemAgrupable& n) const;
 	bool entidadesRelevantesAparecenEn(ItemAgrupable& n) const;
 	std::string toString()const;
 };

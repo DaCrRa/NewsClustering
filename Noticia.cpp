@@ -47,12 +47,12 @@ void Noticia::setPalabrasReservadas(std::string ruta) {
 	}
 }
 
-void Noticia::actualizar() {
-	this->setEntidades();
-}
-
 std::string Noticia::getTitulo() const {
 	return this->titulo;
+}
+
+std::string Noticia::getTextoDestacado() const {
+	return getTitulo();
 }
 
 std::string Noticia::getCuerpo() const {
@@ -109,10 +109,10 @@ bool Noticia::esAgrupablePorEntidadMasNombrada(ItemAgrupable& n) const {
 	}
 }
 
-bool Noticia::entidadMasNombradaEstaEnTituloDe(ItemAgrupable& n) const {
+bool Noticia::entidadMasNombradaEstaEnDestacadoDe(ItemAgrupable& n) const {
 	try {
 		EntidadNombrada masFrecuente = getMasFrecuente();
-		return n.getTitulo().find(masFrecuente.getEntidadNombrada()) != std::string::npos;
+		return n.getTextoDestacado().find(masFrecuente.getEntidadNombrada()) != std::string::npos;
 	} catch(NoEntidadNombradaException& e) {
 		return false;
 	}
@@ -143,7 +143,7 @@ bool Noticia::entidadesRelevantesAparecenEn(ItemAgrupable& n) const {
 }
 
 bool Noticia::esAgrupablePorTematica(ItemAgrupable& n) const {
-	return entidadMasNombradaEstaEnTituloDe(n) && entidadesRelevantesAparecenEn(n);
+	return entidadMasNombradaEstaEnDestacadoDe(n) && entidadesRelevantesAparecenEn(n);
 }
 
 std::string Noticia::toString() const {

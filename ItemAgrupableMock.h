@@ -3,22 +3,11 @@
 #include "ItemAgrupable.h"
 
 class ItemAgrupableMock : public ItemAgrupable {
-
 public:
-	MOCK_METHOD1(setTitulo, void(std::string));
-	MOCK_METHOD1(setCuerpo, void(std::string));
-	MOCK_METHOD1(setPalabrasReservadas, void(std::string));
-	MOCK_METHOD0(actualizar, void());
-
-	MOCK_CONST_METHOD0(getTitulo, std::string());
-	MOCK_CONST_METHOD0(getCuerpo, std::string());
+	MOCK_CONST_METHOD0(getTextoDestacado, std::string());
 	MOCK_CONST_METHOD0(getMasFrecuente, EntidadNombrada());
 	MOCK_CONST_METHOD0(getEntidades, std::list<EntidadNombrada>());
-	MOCK_CONST_METHOD0(getPalabrasReservadas, std::list<std::string>());
 	MOCK_CONST_METHOD0(getEntidadesRelevantes, std::list<EntidadNombrada>());
 	MOCK_CONST_METHOD1(esAgrupablePorEntidadMasNombrada, bool(ItemAgrupable&));
 	MOCK_CONST_METHOD1(esAgrupablePorTematica, bool(ItemAgrupable&));
-	MOCK_CONST_METHOD1(entidadMasNombradaEstaEnTituloDe, bool(ItemAgrupable&));
-	MOCK_CONST_METHOD1(entidadesRelevantesAparecenEn, bool(ItemAgrupable&));
-	MOCK_CONST_METHOD0(toString, std::string());
 };
