@@ -7,16 +7,8 @@
 
 #include "Tweet.h"
 
-EntidadNombrada Tweet::getMasFrecuente() {
-	return EntidadNombrada();
-}
-
-std::list<EntidadNombrada> Tweet::getEntidades() const {
-	return std::list<EntidadNombrada>();
-}
-
-bool Tweet::esAgrupablePorEntidadMasNombrada(ItemAgrupable& n) const {
-	return false;
+std::string Tweet::getTextoDestacado() const {
+	return "";
 }
 
 bool Tweet::esAgrupablePorTematica(ItemAgrupable& n) const {

@@ -8,17 +8,17 @@
 #ifndef TWEET_H_
 #define TWEET_H_
 
-#include "ItemAgrupable.h"
+#include "AbstractItemAgrupable.h"
 
-class Tweet {
+class Tweet : public AbstractItemAgrupable {
 public:
 	Tweet(int id,
 			const std::string& usuario,
 			const std::string& tweet,
-			const std::string& palabrasReservadasFile) {}
-	EntidadNombrada getMasFrecuente();
-	std::list<EntidadNombrada> getEntidades() const;
-	bool esAgrupablePorEntidadMasNombrada(ItemAgrupable& n) const;
+			const std::string& palabrasReservadasFile) :
+			AbstractItemAgrupable(tweet, palabrasReservadasFile) {}
+
+	std::string getTextoDestacado() const;
 	bool esAgrupablePorTematica(ItemAgrupable& n) const;
 };
 
