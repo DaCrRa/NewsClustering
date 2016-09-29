@@ -14,12 +14,7 @@ using testing::UnorderedElementsAre;
 using testing::Return;
 using testing::Throw;
 
-EntidadNombrada findEntidadNombradaByName(std::list<EntidadNombrada> entidades, std::string name) {
-    auto it = std::find_if( std::begin(entidades),
-                            std::end(entidades),
-                            [&](const EntidadNombrada& e){ return e.getEntidadNombrada().compare(name) == 0; } );
-    return *it;
-}
+EntidadNombrada findEntidadNombradaByName(std::list<EntidadNombrada> entidades, std::string name);
 
 class TweetTest : public ::testing::Test {
 public:
@@ -137,7 +132,7 @@ TEST_F(TweetTest, givenTweetWithBlockedEntidadNombrada_whenCallingGetMasFrecuent
 }
 
 TEST_F(TweetTest, givenTweetWithSeveralEntidadNombradaOneBlocked_whenCallingGetEntidades_thenBlockedDoesNotShowUp) {
-   Tweet t(0, "@pepe_perez", "Titulo de noticia", "EntidadExcluida palabra EntidadExcluida palabra \
+   Tweet t(0, "@pepe_perez", "EntidadExcluida palabra EntidadExcluida palabra \
                                    EntidadExcluida palabra Entidad1 Entidad1 Entidad2", STOP_LIST_FILENAME);
 
    std::list<EntidadNombrada> entidades = t.getEntidades();
@@ -161,11 +156,11 @@ TEST_F(TweetTest, givenTweetWithSeveralEntidadNombradaOneBlocked_whenCallingGetM
 }
 
 TEST_F(TweetTest, givenTweetWithNoEntidadNombrada_whenCallingEsAgrupablePorEntidad_thenReturnsFalse) {
-   Noticia noticiaUnderTest("Titulo de noticia", "noticia sin entidades", "");
+   Tweet t(0, "@pepe_perez",  "noticia sin entidades", "");
 
-   ItemAgrupableMock noticiaMock;
+   ItemAgrupableMock item;
 
-   ASSERT_FALSE(noticiaUnderTest.esAgrupablePorEntidadMasNombrada(noticiaMock));
+   ASSERT_FALSE(t.esAgrupablePorEntidadMasNombrada(item));
 }
 
 TEST_F(TweetTest, givenTweetWithEntidadNombrada_whenCallinEsAgrupablePorEntidadWithItemWithNoEntidadNombrada_thenReturnsFalse_) {
@@ -217,7 +212,7 @@ TEST_F(TweetTest, givenTweet_WhenCallingEsAgrupablePorTemaWithItemWithNoEntidadN
    EXPECT_CALL(item, getTextoDestacado()).WillRepeatedly(Return("titulo que no contiene la entidad"));
    EXPECT_CALL(item, getEntidades()).WillRepeatedly(Return(std::list<EntidadNombrada>()));
 
-   ASSERT_FALSE(t.esAgrupablePorTematica(noticiaMock));
+   ASSERT_FALSE(t.esAgrupablePorTematica(item));
 }
 
 TEST_F(TweetTest, givenTweetContainingEntidadMasNombradaOfAnItem_WhenCallingEsAgrupablePorTemaWithItem_thenReturnTrue) {

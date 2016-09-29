@@ -20,6 +20,12 @@ set(analyzer_source_files
 )
 add_library(Analyzer SHARED ${analyzer_source_files})
 
+set(tweetparser_source_files
+   Tweet.cpp
+)
+add_library(TweetParser SHARED ${tweetparser_source_files})
+target_link_libraries(TweetParser Analyzer stdc++fs)
+
 set(noticiaparser_source_files
    Noticia.cpp
    NoticiaParser.cpp
@@ -36,10 +42,15 @@ include(googletest.cmake)
 set(test_source_files
    EntidadNombradaTest.cpp
    NoticiaTest.cpp
+   TweetTest.cpp
    AgrupadorDeItemsTest.cpp
    AgrupadorDeGruposTest.cpp
    PorEntidadMasNombradaTest.cpp
    PorTematicaTest.cpp
    NoticiaParserTest.cpp
+   FindEntidadMasNombradaByNameFunc.cpp
 )
-build_googletest_executable(NewsClusteringTest "${test_source_files}" "Analyzer;NoticiaParser")
+build_googletest_executable(NewsClusteringTest
+   "${test_source_files}"
+   "Analyzer;NoticiaParser;TweetParser"
+)
