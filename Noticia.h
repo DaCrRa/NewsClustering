@@ -15,7 +15,7 @@ private:
 	std::string cuerpo;
 
 	const double UMBRAL_DE_RELEVANCIA_DE_ENTIDADES = 0.3;
-	const double UMBRAL_ENTIDADES_RELEVANTES_EN_NOTICIA_A_AGRUPAR = 0.3;
+	const double UMBRAL_ENTIDADES_RELEVANTES_EN_ITEM_A_AGRUPAR = 0.3;
 
 public:
 	Noticia();

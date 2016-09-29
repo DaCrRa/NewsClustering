@@ -18,8 +18,8 @@ Noticia::Noticia(const std::string& titulo, const std::string& cuerpo, const std
 
 	assert(UMBRAL_DE_RELEVANCIA_DE_ENTIDADES >= 0
 			&& UMBRAL_DE_RELEVANCIA_DE_ENTIDADES <=1);
-	assert(UMBRAL_ENTIDADES_RELEVANTES_EN_NOTICIA_A_AGRUPAR >= 0
-			&& UMBRAL_ENTIDADES_RELEVANTES_EN_NOTICIA_A_AGRUPAR <=1);
+	assert(UMBRAL_ENTIDADES_RELEVANTES_EN_ITEM_A_AGRUPAR >= 0
+			&& UMBRAL_ENTIDADES_RELEVANTES_EN_ITEM_A_AGRUPAR <=1);
 	this->titulo = titulo;
 	this->cuerpo = cuerpo;
 }
@@ -97,7 +97,7 @@ bool Noticia::entidadesRelevantesAparecenEn(ItemAgrupable& n) const {
                 }
         }
 
-        return final.size() > 0 && final.size() >= (primero.size() * UMBRAL_ENTIDADES_RELEVANTES_EN_NOTICIA_A_AGRUPAR);
+        return final.size() > 0 && final.size() >= (primero.size() * UMBRAL_ENTIDADES_RELEVANTES_EN_ITEM_A_AGRUPAR);
 }
 
 bool Noticia::esAgrupablePorTematica(ItemAgrupable& n) const {
