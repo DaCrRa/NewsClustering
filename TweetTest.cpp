@@ -236,6 +236,24 @@ TEST_F(TweetTest, givenTweetContainingEntidadNoMasNombradaOfItem_WhenCallingEsAg
    ASSERT_FALSE(t.esAgrupablePorTematica(item));
 }
 
+TEST_F(TweetTest, givenTweetContainingNoEntidadNombrada_WhenCallingEsAgrupablePorTemaWithItem_thenReturnFalse) {
+   Tweet t(0, "@pepe_perez", "tweet sin entidades nombradas", "");
+
+   ItemAgrupableMock item;
+   EXPECT_CALL(item, getMasFrecuente()).WillRepeatedly(Return(EntidadNombrada("OtraEntidad", 1)));
+
+   ASSERT_FALSE(t.esAgrupablePorTematica(item));
+}
+
+TEST_F(TweetTest, givenTweetContainingNoEntidadNombrada_WhenCallingEsAgrupablePorTemaWithItemWithNoEntidadNombrada_thenReturnFalse) {
+   Tweet t(0, "@pepe_perez", "tweet sin entidades nombradas", "");
+
+   ItemAgrupableMock item;
+   EXPECT_CALL(item, getMasFrecuente()).WillRepeatedly(Throw(NoEntidadNombradaException()));
+
+   ASSERT_FALSE(t.esAgrupablePorTematica(item));
+}
+
 TEST_F(TweetTest, givenTweet_WhenCallingEsAgrupablePorTemaWithItemSharingEntity_thenReturnTrue) {
    Tweet t(0, "@pepe_perez", "la EntidadNombrada1 primero, segundo, \
                              otra vez la EntidadNombrada1 , de nuevo EntidadNombrada1 , \

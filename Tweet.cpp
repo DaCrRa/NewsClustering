@@ -14,6 +14,7 @@ std::string Tweet::getTextoDestacado() const {
 }
 
 bool Tweet::esAgrupablePorTematica(ItemAgrupable& n) const {
+	try {
 	EntidadNombrada masFrecuente = n.getMasFrecuente();
 	return std::find_if(entidades.begin(),
 			entidades.end(),
@@ -21,4 +22,7 @@ bool Tweet::esAgrupablePorTematica(ItemAgrupable& n) const {
 				return e.getEntidadNombrada().compare(masFrecuente.getEntidadNombrada()) == 0;
 			}
 	) != entidades.end();
+	} catch(NoEntidadNombradaException& e) {
+		return false;
+	}
 }
