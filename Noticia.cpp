@@ -67,15 +67,6 @@ std::list<EntidadNombrada> Noticia::getEntidadesRelevantes() const {
 	return lista;
 }
 
-bool Noticia::esAgrupablePorEntidadMasNombrada(ItemAgrupable& n) const {
-	try {
-		EntidadNombrada masFrecuente = getMasFrecuente();
-		return masFrecuente.esIgual(n.getMasFrecuente());
-	} catch(NoEntidadNombradaException& e) {
-		return false;
-	}
-}
-
 bool Noticia::entidadMasNombradaEstaEnDestacadoDe(ItemAgrupable& n) const {
 	try {
 		EntidadNombrada masFrecuente = getMasFrecuente();

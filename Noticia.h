@@ -29,7 +29,6 @@ public:
 	std::string getTextoDestacado() const;
 	std::list<std::string> getPalabrasReservadas()const;
 	std::list<EntidadNombrada> getEntidadesRelevantes()const;
-	bool esAgrupablePorEntidadMasNombrada(ItemAgrupable& n) const;
 	bool esAgrupablePorTematica(ItemAgrupable& n) const;
 	bool entidadMasNombradaEstaEnDestacadoDe(ItemAgrupable& n) const;
 	bool entidadesRelevantesAparecenEn(ItemAgrupable& n) const;

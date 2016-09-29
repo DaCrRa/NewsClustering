@@ -20,6 +20,15 @@ std::list<EntidadNombrada> AbstractItemAgrupable::getEntidades() const {
 	return this->entidades;
 }
 
+bool AbstractItemAgrupable::esAgrupablePorEntidadMasNombrada(ItemAgrupable& n) const {
+	try {
+		EntidadNombrada masFrecuente = getMasFrecuente();
+		return masFrecuente.esIgual(n.getMasFrecuente());
+	} catch(NoEntidadNombradaException& e) {
+		return false;
+	}
+}
+
 EntidadNombrada AbstractItemAgrupable::getMasFrecuente() const {
 	auto entidadNombradaMax = std::max_element(
 		entidades.begin(),

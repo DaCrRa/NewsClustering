@@ -21,7 +21,7 @@ public:
 	virtual std::string getTextoDestacado() const = 0;
 	EntidadNombrada getMasFrecuente() const;
 	std::list<EntidadNombrada> getEntidades() const;
-	virtual bool esAgrupablePorEntidadMasNombrada(ItemAgrupable& n) const = 0;
+	bool esAgrupablePorEntidadMasNombrada(ItemAgrupable& n) const;
 	virtual bool esAgrupablePorTematica(ItemAgrupable& n) const = 0;
 
 	virtual ~AbstractItemAgrupable() {}
