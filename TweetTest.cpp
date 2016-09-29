@@ -163,7 +163,7 @@ TEST_F(TweetTest, givenTweetWithNoEntidadNombrada_whenCallingEsAgrupablePorEntid
    ASSERT_FALSE(t.esAgrupablePorEntidadMasNombrada(item));
 }
 
-TEST_F(TweetTest, givenTweetWithEntidadNombrada_whenCallinEsAgrupablePorEntidadWithItemWithNoEntidadNombrada_thenReturnsFalse_) {
+TEST_F(TweetTest, givenTweetWithEntidadNombrada_whenCallinEsAgrupablePorEntidadWithItemWithNoEntidadNombrada_thenReturnsFalse) {
    Tweet t(0, "@pepe_perez",  "noticia nombra Entidad1", "");
 
    ItemAgrupableMock item;
@@ -209,8 +209,7 @@ TEST_F(TweetTest, givenTweet_WhenCallingEsAgrupablePorTemaWithItemWithNoEntidadN
                              luego lados veces: EntidadNombrada3", "");
 
    ItemAgrupableMock item;
-   EXPECT_CALL(item, getTextoDestacado()).WillRepeatedly(Return("titulo que no contiene la entidad"));
-   EXPECT_CALL(item, getEntidades()).WillRepeatedly(Return(std::list<EntidadNombrada>()));
+   EXPECT_CALL(item, getMasFrecuente()).WillRepeatedly(Throw(NoEntidadNombradaException()));
 
    ASSERT_FALSE(t.esAgrupablePorTematica(item));
 }
@@ -221,9 +220,7 @@ TEST_F(TweetTest, givenTweetContainingEntidadMasNombradaOfAnItem_WhenCallingEsAg
                              luego lados veces: EntidadNombrada3", "");
 
    ItemAgrupableMock item;
-   EXPECT_CALL(item, getEntidades()).WillRepeatedly(Return(std::list<EntidadNombrada>({
-      EntidadNombrada("EntidadNombrada3", 1)
-   })));
+   EXPECT_CALL(item, getMasFrecuente()).WillRepeatedly(Return(EntidadNombrada("EntidadNombrada3", 1)));
 
    ASSERT_TRUE(t.esAgrupablePorTematica(item));
 }
@@ -234,9 +231,7 @@ TEST_F(TweetTest, givenTweetContainingEntidadNoMasNombradaOfItem_WhenCallingEsAg
                              luego lados veces: EntidadNombrada3", "");
 
    ItemAgrupableMock item;
-   EXPECT_CALL(item, getEntidades()).WillRepeatedly(Return(std::list<EntidadNombrada>({
-      EntidadNombrada("OtraEntidad", 1)
-   })));
+   EXPECT_CALL(item, getMasFrecuente()).WillRepeatedly(Return(EntidadNombrada("OtraEntidad", 1)));
 
    ASSERT_FALSE(t.esAgrupablePorTematica(item));
 }
