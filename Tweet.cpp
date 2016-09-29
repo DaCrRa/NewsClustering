@@ -7,10 +7,18 @@
 
 #include "Tweet.h"
 
+#include <algorithm>
+
 std::string Tweet::getTextoDestacado() const {
 	return "";
 }
 
 bool Tweet::esAgrupablePorTematica(ItemAgrupable& n) const {
-	return false;
+	EntidadNombrada masFrecuente = n.getMasFrecuente();
+	return std::find_if(entidades.begin(),
+			entidades.end(),
+			[&](const EntidadNombrada& e) -> bool {
+				return e.getEntidadNombrada().compare(masFrecuente.getEntidadNombrada()) == 0;
+			}
+	) != entidades.end();
 }
