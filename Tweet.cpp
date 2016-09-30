@@ -10,7 +10,7 @@
 #include <algorithm>
 
 std::string Tweet::getTextoDestacado() const {
-	return "";
+	return tweet;
 }
 
 bool Tweet::esAgrupablePorTematica(ItemAgrupable& n) const {
