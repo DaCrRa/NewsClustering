@@ -27,4 +27,9 @@ public:
 
 };
 
+inline bool operator==(const EntidadNombrada& lhs, const EntidadNombrada& rhs) {
+	return lhs.getEntidadNombrada() == rhs.getEntidadNombrada() &&
+		lhs.getFrecuencia() == rhs.getFrecuencia();
+}
+
 #endif /* ENTIDADNOMBRADA_H_ */

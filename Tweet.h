@@ -23,6 +23,9 @@ public:
 			AbstractItemAgrupable(t, palabrasReservadasFile),
 			tweet(t) {}
 
+	int getId();
+	std::string getUsuario();
+	std::string getTweet();
 	std::string getTextoDestacado() const;
 	bool esAgrupablePorTematica(ItemAgrupable& n) const;
 	bool admiteAgrupacionPorCoincidenciaDeCualquierEntidad() const;
