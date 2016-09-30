@@ -9,6 +9,18 @@
 
 #include <algorithm>
 
+int Tweet::getId() const {
+	return 0;
+}
+
+std::string Tweet::getUsuario() const {
+	return "";
+}
+
+std::string Tweet::getTweet() const {
+	return "";
+}
+
 std::string Tweet::getTextoDestacado() const {
 	return tweet;
 }

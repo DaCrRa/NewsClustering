@@ -7,3 +7,6 @@
 
 #include "TweetParser.h"
 
+std::list<std::shared_ptr<Tweet> > TweetParser::parse() {
+		return std::list<std::shared_ptr<Tweet> >();
+}
