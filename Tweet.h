@@ -11,6 +11,9 @@
 #include "AbstractItemAgrupable.h"
 
 class Tweet : public AbstractItemAgrupable {
+private:
+	bool contieneEntidadMasFrecuenteDe(ItemAgrupable& n) const;
+	bool comparteAlgunaEntidadCon(ItemAgrupable& n) const;
 public:
 	Tweet(int id,
 			const std::string& usuario,

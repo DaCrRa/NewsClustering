@@ -15,24 +15,37 @@ std::string Tweet::getTextoDestacado() const {
 
 bool Tweet::esAgrupablePorTematica(ItemAgrupable& n) const {
 	try {
-		EntidadNombrada masFrecuente = n.getMasFrecuente();
-		std::list<EntidadNombrada> nEntidades = n.getEntidades();
-		return (std::find_if(entidades.begin(),
-				entidades.end(),
-				[&](const EntidadNombrada& e) -> bool {
-					return e.getEntidadNombrada().compare(masFrecuente.getEntidadNombrada()) == 0;
-				}
-		) != entidades.end() ) || ( n.admiteAgrupacionPorCoincidenciaDeCualquierEntidad() && std::find_if(entidades.begin(),
-				entidades.end(),
-				[&](const EntidadNombrada& e1) -> bool {
-					return std::find_if(nEntidades.begin(), nEntidades.end(), [&](const EntidadNombrada& e2) -> bool {
-						return e1.getEntidadNombrada().compare(e2.getEntidadNombrada()) == 0;
-					}) != nEntidades.end();
-				}
-		) != entidades.end() );
+		return !entidades.empty() && ( contieneEntidadMasFrecuenteDe(n) ||
+				( n.admiteAgrupacionPorCoincidenciaDeCualquierEntidad() && comparteAlgunaEntidadCon(n) ));
 	} catch(NoEntidadNombradaException& e) {
 		return false;
 	}
+}
+
+bool Tweet::contieneEntidadMasFrecuenteDe(ItemAgrupable& n) const {
+	return std::find_if(
+			entidades.begin(),
+			entidades.end(),
+			[&](const EntidadNombrada& e) -> bool {
+				return e.getEntidadNombrada().compare(n.getMasFrecuente().getEntidadNombrada()) == 0;
+			}
+	) != entidades.end();
+}
+
+bool Tweet::comparteAlgunaEntidadCon(ItemAgrupable& n) const {
+	return std::find_if(
+			entidades.begin(),
+			entidades.end(),
+			[&](const EntidadNombrada& e1) -> bool {
+				std::list<EntidadNombrada> nEntidades = n.getEntidades();
+				return std::find_if(
+						nEntidades.begin(),
+						nEntidades.end(),
+						[&](const EntidadNombrada& e2) -> bool {
+							return e1.getEntidadNombrada().compare(e2.getEntidadNombrada()) == 0;
+						}) != nEntidades.end();
+					}
+	) != entidades.end();
 }
 
 bool Tweet::admiteAgrupacionPorCoincidenciaDeCualquierEntidad() const {

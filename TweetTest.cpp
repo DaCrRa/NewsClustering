@@ -225,17 +225,6 @@ TEST_F(TweetTest, givenTweetContainingEntidadMasNombradaOfAnItem_WhenCallingEsAg
    ASSERT_TRUE(t.esAgrupablePorTematica(item));
 }
 
-TEST_F(TweetTest, givenTweetContainingEntidadNoMasNombradaOfItem_WhenCallingEsAgrupablePorTemaWithItem_thenReturnFalse) {
-   Tweet t(0, "@pepe_perez", "la EntidadNombrada1 primero, segundo, \
-                             otra vez la EntidadNombrada1 , de nuevo EntidadNombrada1 , \
-                             luego lados veces: EntidadNombrada3", "");
-
-   ItemAgrupableMock item;
-   EXPECT_CALL(item, getMasFrecuente()).WillRepeatedly(Return(EntidadNombrada("OtraEntidad", 1)));
-
-   ASSERT_FALSE(t.esAgrupablePorTematica(item));
-}
-
 TEST_F(TweetTest, givenTweetContainingNoEntidadNombrada_WhenCallingEsAgrupablePorTemaWithItem_thenReturnFalse) {
    Tweet t(0, "@pepe_perez", "tweet sin entidades nombradas", "");
 
@@ -260,6 +249,7 @@ TEST_F(TweetTest, givenTweet_WhenCallingEsAgrupablePorTemaWithItemSharingEntityT
                              luego lados veces: EntidadNombrada3", "");
 
    ItemAgrupableMock item;
+   EXPECT_CALL(item, getMasFrecuente()).WillRepeatedly(Return(EntidadNombrada("OtraEntidad", 1)));
    EXPECT_CALL(item, getEntidades()).WillRepeatedly(Return(std::list<EntidadNombrada>({EntidadNombrada("EntidadNombrada3", 1)})));
    EXPECT_CALL(item, admiteAgrupacionPorCoincidenciaDeCualquierEntidad()).WillRepeatedly(Return(true));
 
@@ -272,6 +262,7 @@ TEST_F(TweetTest, givenTweet_WhenCallingEsAgrupablePorTemaWithItemSharingEntityT
                              luego lados veces: EntidadNombrada3", "");
 
    ItemAgrupableMock item;
+   EXPECT_CALL(item, getMasFrecuente()).WillRepeatedly(Return(EntidadNombrada("OtraEntidad", 1)));
    EXPECT_CALL(item, getEntidades()).WillRepeatedly(Return(std::list<EntidadNombrada>({EntidadNombrada("EntidadNombrada3", 1)})));
    EXPECT_CALL(item, admiteAgrupacionPorCoincidenciaDeCualquierEntidad()).WillRepeatedly(Return(false));
 
