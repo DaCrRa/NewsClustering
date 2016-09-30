@@ -49,6 +49,8 @@ set(test_source_files
    PorTematicaTest.cpp
    NoticiaParserTest.cpp
    FindEntidadMasNombradaByNameFunc.cpp
+   NoticiaTweetGrouping.cpp
+   TweetGroupingTest.cpp
 )
 build_googletest_executable(NewsClusteringTest
    "${test_source_files}"

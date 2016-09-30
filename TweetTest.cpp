@@ -260,5 +260,7 @@ TEST_F(TweetTest, givenTweet_WhenCallingEsAgrupablePorTemaWithItemSharingEntity_
                              luego lados veces: EntidadNombrada3", "");
 
    ItemAgrupableMock item;
-   FAIL() << "need to add some funtions to Item interface";
+   EXPECT_CALL(item, getEntidades()).WillRepeatedly(Return(std::list<EntidadNombrada>({EntidadNombrada("EntidadNombrada3", 1)})));
+
+   ASSERT_TRUE(t.esAgrupablePorTematica(item));
 }
