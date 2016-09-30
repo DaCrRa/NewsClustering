@@ -31,6 +31,12 @@ protected:
 };
 const std::string TweetTest::STOP_LIST_FILENAME = "stopList.txt";
 
+TEST_F(TweetTest, givenTweet_whenCallingGetTextoDestacado_thenReturnsTweet) {
+   Tweet t(0, "@pepe_perez", "tweet sin entidades", "");
+
+   ASSERT_THAT(t.getTextoDestacado(), StrEq("tweet sin entidades"));
+}
+
 TEST_F(TweetTest, givenTweetWithoutEntidadNombrada_whenCallingGetEntidades_thenListIsEmpty) {
    Tweet t(0, "@pepe_perez", "tweet sin entidades", "");
 
