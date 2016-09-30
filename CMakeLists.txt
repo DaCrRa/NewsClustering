@@ -51,6 +51,7 @@ set(test_source_files
    FindEntidadMasNombradaByNameFunc.cpp
    NoticiaTweetGrouping.cpp
    TweetGroupingTest.cpp
+   TweetParserTest.cpp
 )
 build_googletest_executable(NewsClusteringTest
    "${test_source_files}"
