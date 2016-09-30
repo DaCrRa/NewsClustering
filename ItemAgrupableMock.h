@@ -9,4 +9,5 @@ public:
 	MOCK_CONST_METHOD0(getEntidades, std::list<EntidadNombrada>());
 	MOCK_CONST_METHOD1(esAgrupablePorEntidadMasNombrada, bool(ItemAgrupable&));
 	MOCK_CONST_METHOD1(esAgrupablePorTematica, bool(ItemAgrupable&));
+	MOCK_CONST_METHOD0(admiteAgrupacionPorCoincidenciaDeCualquierEntidad, bool());
 };

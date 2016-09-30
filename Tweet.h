@@ -20,6 +20,7 @@ public:
 
 	std::string getTextoDestacado() const;
 	bool esAgrupablePorTematica(ItemAgrupable& n) const;
+	bool admiteAgrupacionPorCoincidenciaDeCualquierEntidad() const;
 };
 
 #endif /* TWEET_H_ */

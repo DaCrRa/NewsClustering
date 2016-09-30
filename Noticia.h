@@ -30,6 +30,7 @@ public:
 	std::list<std::string> getPalabrasReservadas()const;
 	std::list<EntidadNombrada> getEntidadesRelevantes()const;
 	bool esAgrupablePorTematica(ItemAgrupable& n) const;
+	bool admiteAgrupacionPorCoincidenciaDeCualquierEntidad() const;
 	bool entidadMasNombradaEstaEnDestacadoDe(ItemAgrupable& n) const;
 	bool entidadesRelevantesAparecenEn(ItemAgrupable& n) const;
 	std::string toString()const;

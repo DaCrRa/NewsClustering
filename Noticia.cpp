@@ -28,6 +28,10 @@ void Noticia::setTitulo(std::string titulo) {
 	this->titulo = titulo;
 }
 
+bool Noticia::admiteAgrupacionPorCoincidenciaDeCualquierEntidad() const {
+	return false;
+}
+
 void Noticia::setCuerpo(std::string cuerpo) {
 	this->cuerpo = cuerpo;
 }

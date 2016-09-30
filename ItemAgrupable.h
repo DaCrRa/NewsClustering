@@ -25,6 +25,7 @@ public:
 	virtual std::list<EntidadNombrada> getEntidades() const = 0;
 	virtual bool esAgrupablePorEntidadMasNombrada(ItemAgrupable& n) const = 0;
 	virtual bool esAgrupablePorTematica(ItemAgrupable& n) const = 0;
+	virtual bool admiteAgrupacionPorCoincidenciaDeCualquierEntidad() const = 0;
 
 	virtual ~ItemAgrupable() {}
 };
