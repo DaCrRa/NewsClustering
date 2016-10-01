@@ -30,6 +30,7 @@ target_link_libraries(TweetParser Analyzer stdc++fs)
 set(noticiaparser_source_files
    Noticia.cpp
    NoticiaPlainTextParser.cpp
+   NoticiaJsonParser.cpp
    NoticiaFolderReader.cpp
 )
 add_library(NoticiaParser SHARED ${noticiaparser_source_files})
