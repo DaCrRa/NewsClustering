@@ -31,4 +31,11 @@ public:
 	bool admiteAgrupacionPorCoincidenciaDeCualquierEntidad() const;
 };
 
+inline bool operator==(const Tweet& lhs, const Tweet& rhs) {
+	return lhs.getId() == rhs.getId() &&
+		lhs.getUsuario() == rhs.getUsuario() &&
+		lhs.getTweet() == rhs.getTweet() &&
+		lhs.getEntidades() == rhs.getEntidades();
+}
+
 #endif /* TWEET_H_ */
