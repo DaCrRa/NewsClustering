@@ -25,7 +25,7 @@ std::list<std::shared_ptr<Tweet> > TweetParser::parse() {
 					extractMandatoryFieldFrom(jsontuit, "tuit").asString(),
 					stopListFile
 			)));
-		} catch (MissingTweetFieldException& e) {
+		} catch (...) {
 			// Skip this tweet, continue with the next one
 		}
 	}
