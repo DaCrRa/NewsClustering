@@ -17,9 +17,11 @@
 class TweetParser {
 private:
 	std::istream& input;
+	std::string stopListFile;
 public:
 	TweetParser(std::istream& inputStream, const std::string& stopListFile) :
-		input(inputStream) {}
+		input(inputStream),
+		stopListFile(stopListFile) {}
 	std::list<std::shared_ptr<Tweet> > parse();
 };
 

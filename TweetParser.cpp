@@ -21,7 +21,7 @@ std::list<std::shared_ptr<Tweet> > TweetParser::parse() {
 				jsontuit["id"].asInt(),
 				jsontuit["usuario"].asString(),
 				jsontuit["tuit"].asString(),
-				""
+				stopListFile
 		)));
 	}
 	return parsedTweets;
