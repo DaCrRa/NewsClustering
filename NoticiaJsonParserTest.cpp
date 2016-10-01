@@ -94,49 +94,18 @@ TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParseNoticiaSinCuerpo_thenR
 	ASSERT_THAT(parsedNoticia.getPalabrasReservadas(), ElementsAre("EntidadExcluida"));
 }
 
-//TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParseNoticiaSinCuerpoWhiteLines_thenReturnsNoticiaInstance) {
-//	std::string noticia("\n"\
-//			"Esto es el titulo de la noticia sin cuerpo\n"\
-//			"      ");
-//
-//	std::stringstream input(noticia);
-//	NoticiaParser parser(input, "stopList.txt");
-//
-//	Noticia parsedNoticia = parser.parse();
-//
-//	ASSERT_THAT(parsedNoticia.getTitulo(), StrEq("Esto es el titulo de la noticia sin cuerpo"));
-//	ASSERT_THAT(parsedNoticia.getCuerpo(), StrEq(""));
-//	ASSERT_THAT(parsedNoticia.getPalabrasReservadas(), ElementsAre("EntidadExcluida"));
-//}
-//
-//TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParseNoticiaWhiteLines_thenReturnsNoticiaInstance) {
-//	std::string noticia("\n"\
-//			"Esto es el titulo de la noticia con cuerpo\n"\
-//			"      \n"\
-//			"el cuerpo");
-//
-//	std::stringstream input(noticia);
-//	NoticiaParser parser(input, "stopList.txt");
-//
-//	Noticia parsedNoticia = parser.parse();
-//
-//	ASSERT_THAT(parsedNoticia.getTitulo(), StrEq("Esto es el titulo de la noticia con cuerpo"));
-//	ASSERT_THAT(parsedNoticia.getCuerpo(), StrEq("el cuerpo"));
-//	ASSERT_THAT(parsedNoticia.getPalabrasReservadas(), ElementsAre("EntidadExcluida"));
-//}
-//
-//TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParseNoticiaWithJustWhiteLines_thenThrowsNoticiaInvalidaException) {
-//	std::string noticia("     \t\t"\
-//			"\n"\
-//			"      \n"\
-//			"");
-//
-//	std::stringstream input(noticia);
-//	NoticiaParser parser(input, "stopList.txt");
-//
-//	ASSERT_THROW(parser.parse(), NoticiaInvalidaException);
-//}
-//
+TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParseNoticiaWithoutTitulo_thenThrowsNoticiaInvalidaException) {
+	std::string noticia(
+			"{" \
+				"\"parrafos\": [\"Noticia sin titulo\"]"\
+			"}");
+
+	std::stringstream input(noticia);
+	NoticiaJsonParser parser(input, "stopList.txt");
+
+	ASSERT_THROW(parser.parse(), NoticiaInvalidaException);
+}
+
 //TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParseNoticiaWithEmptyString_thenThrowsNoticiaInvalidaException) {
 //	std::string noticia("");
 //
