@@ -9,15 +9,12 @@
 #define NOTICIAJSONPARSER_H_
 
 #include "Noticia.h"
+#include "NoticiaParser.h"
 
-class NoticiaJsonParser {
-private:
-	std::istream& inputStream;
-	const std::string stopList;
+class NoticiaJsonParser : public NoticiaParser {
 public:
 	NoticiaJsonParser(std::istream& input, const std::string& stopListFile) :
-		inputStream(input),
-		stopList(stopListFile) {};
+		NoticiaParser(input, stopListFile) {};
 	Noticia parse();
 };
 
