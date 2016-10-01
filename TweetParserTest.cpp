@@ -13,6 +13,7 @@ using testing::StrEq;
 using testing::ElementsAre;
 using testing::UnorderedElementsAre;
 using testing::SizeIs;
+using testing::Pointee;
 using testing::Eq;
 
 class TweetParserTest : public ::testing::Test {
@@ -30,7 +31,7 @@ protected:
 };
 const std::string TweetParserTest::STOP_LIST_FILENAME = "stopList.txt";
 
-TEST_F(TweetParserTest, givenParser_whenCallingParse_thenReturnsNoticiaInstance) {
+TEST_F(TweetParserTest, givenParser_whenCallingParseWithJsonWithOneTweet_thenListWithOneTweetInstance) {
 	std::string tweetsJson(
 		"[" \
 			"{" \
@@ -53,4 +54,30 @@ TEST_F(TweetParserTest, givenParser_whenCallingParse_thenReturnsNoticiaInstance)
 	ASSERT_THAT(parsedTweets.front()->getTextoDestacado(), StrEq("Liberan a los dos sospechosos detenidos por el asesinato de un ni�o de 11 a�os en Liverpool Liverpool"));
 	ASSERT_THAT(parsedTweets.front()->getEntidades(), UnorderedElementsAre(EntidadNombrada("Liberan", 1), EntidadNombrada("Liverpool", 2)));
 	ASSERT_THAT(parsedTweets.front()->getMasFrecuente(), Eq(EntidadNombrada("Liverpool", 2)));
+}
+
+TEST_F(TweetParserTest, givenParser_whenCallingParseWithJsonWithTwoTweets_thenListWithTwoTweetInstances) {
+	std::string tweetsJson(
+		"[" \
+			"{" \
+				"\"id\": 0," \
+				"\"usuario\" : \"@pepe_perez\"," \
+				"\"tuit\": \"Liberan a los dos sospechosos detenidos por el asesinato de un ni�o de 11 a�os en Liverpool Liverpool\"" \
+			"},"\
+			"{" \
+				"\"id\": 1," \
+				"\"usuario\" : \"@tomas_roncero\"," \
+				"\"tuit\": \"Pepe debe renovar si o si\"" \
+			"}"
+		"]");
+
+	std::stringstream input(tweetsJson);
+	TweetParser parser(input, "stopList.txt");
+
+	std::list<std::shared_ptr<Tweet> > parsedTweets = parser.parse();
+
+	ASSERT_THAT(parsedTweets, UnorderedElementsAre(
+		Pointee(Tweet(0, "@pepe_perez", "Liberan a los dos sospechosos detenidos por el asesinato de un ni�o de 11 a�os en Liverpool Liverpool", "stopList.txt")),
+		Pointee(Tweet(1, "@tomas_roncero", "Pepe debe renovar si o si", "stopList.txt"))
+	));
 }
