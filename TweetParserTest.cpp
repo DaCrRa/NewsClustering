@@ -206,7 +206,23 @@ TEST_F(TweetParserTest, givenParser_whenCallingParseJsonTweetMissingTweetField_t
 	std::string tweetsJson(
 			"[" \
 				"{" \
-					"\"id_missing_field\": 0," \
+					"\"id\": 0," \
+					"\"usuario\" : \"@pepe_perez\"," \
+					"\"tuit_missing\": \"Liberan a los dos sospechosos detenidos por el asesinato de un ni�o de 11 a�os en Liverpool Liverpool\"" \
+				"}"\
+			"]");
+
+	std::stringstream input(tweetsJson);
+	TweetParser parser(input, "stopList.txt");
+
+	ASSERT_THAT(parser.parse(), IsEmpty());
+}
+
+TEST_F(TweetParserTest, givenParser_whenCallingParseJsonTweetWithNonIntIdField_thenReturnsEmptyList) {
+	std::string tweetsJson(
+			"[" \
+				"{" \
+					"\"id\": \"esto no es un integer\"," \
 					"\"usuario\" : \"@pepe_perez\"," \
 					"\"tuit_missing\": \"Liberan a los dos sospechosos detenidos por el asesinato de un ni�o de 11 a�os en Liverpool Liverpool\"" \
 				"}"\
