@@ -17,9 +17,9 @@
 
 class NoticiaPlainTextParser : public NoticiaParser {
 public:
-	NoticiaPlainTextParser(std::istream& inputStream, const std::string& stopListFile) :
-		NoticiaParser(inputStream, stopListFile) {};
-	Noticia parse();
+	NoticiaPlainTextParser(const std::string& stopListFile) :
+		NoticiaParser(stopListFile) {};
+	Noticia parse(std::istream& inputStream);
 };
 
 #endif /* SOURCE_DIRECTORY__NOTICIAPARSER_H_ */

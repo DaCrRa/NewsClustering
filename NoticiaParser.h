@@ -19,7 +19,6 @@ public:
 
 class NoticiaParser {
 protected:
-	std::istream& input;
 	std::string stopListFilename;
 
 	// trim from beginning
@@ -41,10 +40,9 @@ protected:
 	    return ltrim(rtrim(s));
 	}
 public:
-	NoticiaParser(std::istream& inputStream, const std::string& stopListFile) :
-		input(inputStream),
+	NoticiaParser(const std::string& stopListFile) :
 		stopListFilename(stopListFile) {};
-	virtual Noticia parse() = 0;
+	virtual Noticia parse(std::istream& input) = 0;
 	virtual ~NoticiaParser() {};
 };
 

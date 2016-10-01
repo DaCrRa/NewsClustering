@@ -7,10 +7,10 @@
 
 #include "NoticiaJsonParser.h"
 
-#include <json/json.h>
+#include "JsonParser.h"
 
-Noticia NoticiaJsonParser::parse() {
-	Json::Value noticiaJson = parser.parse();
+Noticia NoticiaJsonParser::parse(std::istream& input) {
+	Json::Value noticiaJson = JsonParser(input).parse();
 
 	std::string titulo(noticiaJson["titulo"].asString());
 	if (titulo.empty()) {

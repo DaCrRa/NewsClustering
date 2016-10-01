@@ -20,8 +20,8 @@ std::list<ItemAgrupablePtr> NoticiaFolderReader::getNoticias() {
 	for(auto& newFile : std::experimental::filesystem::directory_iterator(newsSubFolder)) {
 		try {
 			std::ifstream filestream(newFile.path());
-			NoticiaPlainTextParser p(filestream, stopListPath);
-			noticias.push_back(ItemAgrupablePtr(new Noticia(std::move(p.parse()))));
+			NoticiaPlainTextParser p(stopListPath);
+			noticias.push_back(ItemAgrupablePtr(new Noticia(std::move(p.parse(filestream)))));
 		} catch (NoticiaInvalidaException& e) {
 			// Just try the next one
 		}

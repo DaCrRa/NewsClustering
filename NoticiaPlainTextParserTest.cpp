@@ -39,9 +39,9 @@ TEST_F(NoticiaPlainTextParserTest, givenParser_whenCallingParse_thenReturnsNotic
 			            "Esto es la segunda frase del cuerpo de la noticia");
 
 	std::stringstream input(noticia);
-	NoticiaPlainTextParser parser(input, "stopList.txt");
+	NoticiaPlainTextParser parser("stopList.txt");
 
-	Noticia parsedNoticia = parser.parse();
+	Noticia parsedNoticia = parser.parse(input);
 
 	ASSERT_THAT(parsedNoticia.getTitulo(), StrEq("Esto es el titulo de la noticia"));
 	ASSERT_THAT(parsedNoticia.getCuerpo(), StrEq("Esto es el primer parrafo del cuerpo de la noticia.\n"\
@@ -55,9 +55,9 @@ TEST_F(NoticiaPlainTextParserTest, givenParser_whenCallingParse_thenReturnsNotic
 			            "Esto es la segunda frase del cuerpo de la noticia");
 
 	std::stringstream input(noticia);
-	NoticiaPlainTextParser parser(input, "stopList.txt");
+	NoticiaPlainTextParser parser("stopList.txt");
 
-	Noticia parsedNoticia = parser.parse();
+	Noticia parsedNoticia = parser.parse(input);
 
 	ASSERT_THAT(parsedNoticia.getTitulo(), StrEq("Esto es el titulo de la segunda noticia"));
 	ASSERT_THAT(parsedNoticia.getCuerpo(), StrEq("Esto es el primer parrafo del cuerpo de la segunda noticia.\n"\
@@ -71,9 +71,9 @@ TEST_F(NoticiaPlainTextParserTest, givenParser_whenCallingParse_thenReturnsNotic
 			            "Esto es la segunda frase del cuerpo de la noticia");
 
 	std::stringstream input(noticia);
-	NoticiaPlainTextParser parser(input, "stopList.txt");
+	NoticiaPlainTextParser parser("stopList.txt");
 
-	Noticia parsedNoticia = parser.parse();
+	Noticia parsedNoticia = parser.parse(input);
 
 	ASSERT_THAT(parsedNoticia.getTitulo(), StrEq("Esto es el titulo de la noticia numero tres"));
 	ASSERT_THAT(parsedNoticia.getCuerpo(), StrEq("Esto es el primer parrafo del cuerpo de la noticia tres.\n"\
@@ -85,9 +85,9 @@ TEST_F(NoticiaPlainTextParserTest, givenParser_whenCallingParseNoticiaSinCuerpo_
 	std::string noticia("Esto es el titulo de la noticia sin cuerpo");
 
 	std::stringstream input(noticia);
-	NoticiaPlainTextParser parser(input, "stopList.txt");
+	NoticiaPlainTextParser parser("stopList.txt");
 
-	Noticia parsedNoticia = parser.parse();
+	Noticia parsedNoticia = parser.parse(input);
 
 	ASSERT_THAT(parsedNoticia.getTitulo(), StrEq("Esto es el titulo de la noticia sin cuerpo"));
 	ASSERT_THAT(parsedNoticia.getCuerpo(), StrEq(""));
@@ -100,9 +100,9 @@ TEST_F(NoticiaPlainTextParserTest, givenParser_whenCallingParseNoticiaSinCuerpoW
 			"      ");
 
 	std::stringstream input(noticia);
-	NoticiaPlainTextParser parser(input, "stopList.txt");
+	NoticiaPlainTextParser parser("stopList.txt");
 
-	Noticia parsedNoticia = parser.parse();
+	Noticia parsedNoticia = parser.parse(input);
 
 	ASSERT_THAT(parsedNoticia.getTitulo(), StrEq("Esto es el titulo de la noticia sin cuerpo"));
 	ASSERT_THAT(parsedNoticia.getCuerpo(), StrEq(""));
@@ -116,9 +116,9 @@ TEST_F(NoticiaPlainTextParserTest, givenParser_whenCallingParseNoticiaWhiteLines
 			"el cuerpo");
 
 	std::stringstream input(noticia);
-	NoticiaPlainTextParser parser(input, "stopList.txt");
+	NoticiaPlainTextParser parser("stopList.txt");
 
-	Noticia parsedNoticia = parser.parse();
+	Noticia parsedNoticia = parser.parse(input);
 
 	ASSERT_THAT(parsedNoticia.getTitulo(), StrEq("Esto es el titulo de la noticia con cuerpo"));
 	ASSERT_THAT(parsedNoticia.getCuerpo(), StrEq("el cuerpo"));
@@ -132,16 +132,16 @@ TEST_F(NoticiaPlainTextParserTest, givenParser_whenCallingParseNoticiaWithJustWh
 			"");
 
 	std::stringstream input(noticia);
-	NoticiaPlainTextParser parser(input, "stopList.txt");
+	NoticiaPlainTextParser parser("stopList.txt");
 
-	ASSERT_THROW(parser.parse(), NoticiaInvalidaException);
+	ASSERT_THROW(parser.parse(input), NoticiaInvalidaException);
 }
 
 TEST_F(NoticiaPlainTextParserTest, givenParser_whenCallingParseNoticiaWithEmptyString_thenThrowsNoticiaInvalidaException) {
 	std::string noticia("");
 
 	std::stringstream input(noticia);
-	NoticiaPlainTextParser parser(input, "stopList.txt");
+	NoticiaPlainTextParser parser("stopList.txt");
 
-	ASSERT_THROW(parser.parse(), NoticiaInvalidaException);
+	ASSERT_THROW(parser.parse(input), NoticiaInvalidaException);
 }

@@ -13,13 +13,10 @@
 #include "JsonParser.h"
 
 class NoticiaJsonParser : public NoticiaParser {
-private:
-	JsonParser parser;
 public:
-	NoticiaJsonParser(std::istream& input, const std::string& stopListFile) :
-		NoticiaParser(input, stopListFile),
-		parser(input) {};
-	Noticia parse();
+	NoticiaJsonParser(const std::string& stopListFile) :
+		NoticiaParser(stopListFile) {};
+	Noticia parse(std::istream& input);
 };
 
 #endif /* NOTICIAJSONPARSER_H_ */

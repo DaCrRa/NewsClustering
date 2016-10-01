@@ -48,9 +48,9 @@ TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParse_thenReturnsNoticiaIns
 			"}");
 
 	std::stringstream input(noticia);
-	NoticiaJsonParser parser(input, "stopList.txt");
+	NoticiaJsonParser parser("stopList.txt");
 
-	Noticia parsedNoticia = parser.parse();
+	Noticia parsedNoticia = parser.parse(input);
 
 	ASSERT_THAT(parsedNoticia.getTitulo(), StrEq("Esto es el titulo de la noticia"));
 	ASSERT_THAT(parsedNoticia.getCuerpo(), StrEq("Esto es el primer parrafo del cuerpo de la noticia.\n"\
@@ -69,9 +69,9 @@ TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParse_thenReturnsNoticiaIns
 				"}");
 
 	std::stringstream input(noticia);
-	NoticiaJsonParser parser(input, "stopList2.txt");
+	NoticiaJsonParser parser("stopList2.txt");
 
-	Noticia parsedNoticia = parser.parse();
+	Noticia parsedNoticia = parser.parse(input);
 
 	ASSERT_THAT(parsedNoticia.getTitulo(), StrEq("Esto es el titulo de la segunda noticia"));
 	ASSERT_THAT(parsedNoticia.getCuerpo(), StrEq("Esto es el primer parrafo del cuerpo de la segunda noticia.\n"\
@@ -85,9 +85,9 @@ TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParseNoticiaSinCuerpo_thenR
 					"\"titulo\": \"Esto es el titulo de la noticia sin cuerpo\""\
 				"}");
 	std::stringstream input(noticia);
-	NoticiaJsonParser parser(input, "stopList.txt");
+	NoticiaJsonParser parser("stopList.txt");
 
-	Noticia parsedNoticia = parser.parse();
+	Noticia parsedNoticia = parser.parse(input);
 
 	ASSERT_THAT(parsedNoticia.getTitulo(), StrEq("Esto es el titulo de la noticia sin cuerpo"));
 	ASSERT_THAT(parsedNoticia.getCuerpo(), StrEq(""));
@@ -101,16 +101,16 @@ TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParseNoticiaWithoutTitulo_t
 			"}");
 
 	std::stringstream input(noticia);
-	NoticiaJsonParser parser(input, "stopList.txt");
+	NoticiaJsonParser parser("stopList.txt");
 
-	ASSERT_THROW(parser.parse(), NoticiaInvalidaException);
+	ASSERT_THROW(parser.parse(input), NoticiaInvalidaException);
 }
 
 TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParseNoticiaBadJson_thenThrowsCannotParse) {
 	std::string noticia("{ mal formed json]");
 
 	std::stringstream input(noticia);
-	NoticiaJsonParser parser(input, "stopList.txt");
+	NoticiaJsonParser parser("stopList.txt");
 
-	ASSERT_THROW(parser.parse(), CannotParseException);
+	ASSERT_THROW(parser.parse(input), CannotParseException);
 }
