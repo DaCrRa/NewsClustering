@@ -53,6 +53,7 @@ set(test_source_files
    NoticiaTweetGrouping.cpp
    TweetGroupingTest.cpp
    TweetParserTest.cpp
+   NoticiaJsonParserTest.cpp
 )
 build_googletest_executable(NewsClusteringTest
    "${test_source_files}"
