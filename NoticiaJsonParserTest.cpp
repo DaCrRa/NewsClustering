@@ -25,10 +25,14 @@ protected:
    static void SetUpTestCase() {
       std::ofstream stopList(STOP_LIST_FILENAME);
       stopList << "EntidadExcluida" << std::endl;
+
+      std::ofstream stopList2("stopList2.txt");
+      stopList2 << "EntidadExcluida2" << std::endl;
    }
 
    static void TearDownTestCase() {
       remove(STOP_LIST_FILENAME.c_str());
+      remove("stopList2.txt");
    }
 };
 const std::string NoticiaJsonParserTest::STOP_LIST_FILENAME = "stopList.txt";
@@ -36,7 +40,7 @@ const std::string NoticiaJsonParserTest::STOP_LIST_FILENAME = "stopList.txt";
 TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParse_thenReturnsNoticiaInstance) {
 	std::string noticia(
 			"{" \
-				"\"titulo\": \"Esto es el titulo de la noticia\""\
+				"\"titulo\": \"Esto es el titulo de la noticia\","\
 			    "\"parrafos\":[ "\
 					"\"Esto es el primer parrafo del cuerpo de la noticia.\"," \
 			    	"\"Esto es la segunda frase del cuerpo de la noticia\"" \
@@ -53,22 +57,27 @@ TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParse_thenReturnsNoticiaIns
 			                                     "Esto es la segunda frase del cuerpo de la noticia"));
 	ASSERT_THAT(parsedNoticia.getPalabrasReservadas(), ElementsAre("EntidadExcluida"));
 }
-//
-//TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParse_thenReturnsNoticiaInstance_2) {
-//	std::string noticia("Esto es el titulo de la segunda noticia\n"\
-//			            "Esto es el primer parrafo del cuerpo de la segunda noticia.\n"\
-//			            "Esto es la segunda frase del cuerpo de la noticia");
-//
-//	std::stringstream input(noticia);
-//	NoticiaParser parser(input, "stopList.txt");
-//
-//	Noticia parsedNoticia = parser.parse();
-//
-//	ASSERT_THAT(parsedNoticia.getTitulo(), StrEq("Esto es el titulo de la segunda noticia"));
-//	ASSERT_THAT(parsedNoticia.getCuerpo(), StrEq("Esto es el primer parrafo del cuerpo de la segunda noticia.\n"\
-//			                                     "Esto es la segunda frase del cuerpo de la noticia"));
-//	ASSERT_THAT(parsedNoticia.getPalabrasReservadas(), ElementsAre("EntidadExcluida"));
-//}
+
+TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParse_thenReturnsNoticiaInstance_2) {
+	std::string noticia(
+				"{" \
+					"\"titulo\": \"Esto es el titulo de la segunda noticia\","\
+				    "\"parrafos\":[ "\
+						"\"Esto es el primer parrafo del cuerpo de la segunda noticia.\"," \
+				    	"\"Esto es la segunda frase del cuerpo de la noticia\"" \
+					"]" \
+				"}");
+
+	std::stringstream input(noticia);
+	NoticiaJsonParser parser(input, "stopList2.txt");
+
+	Noticia parsedNoticia = parser.parse();
+
+	ASSERT_THAT(parsedNoticia.getTitulo(), StrEq("Esto es el titulo de la segunda noticia"));
+	ASSERT_THAT(parsedNoticia.getCuerpo(), StrEq("Esto es el primer parrafo del cuerpo de la segunda noticia.\n"\
+			                                     "Esto es la segunda frase del cuerpo de la noticia"));
+	ASSERT_THAT(parsedNoticia.getPalabrasReservadas(), ElementsAre("EntidadExcluida2"));
+}
 //
 //TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParse_thenReturnsNoticiaInstance_3) {
 //	std::string noticia("Esto es el titulo de la noticia numero tres\n"\
