@@ -56,6 +56,31 @@ TEST_F(TweetParserTest, givenParser_whenCallingParseWithJsonWithOneTweet_thenLis
 	ASSERT_THAT(parsedTweets.front()->getMasFrecuente(), Eq(EntidadNombrada("Liverpool", 2)));
 }
 
+TEST_F(TweetParserTest, givenParser_whenCallingParseWithJsonWithOneTweet_thenListWithOneTweetInstance_2) {
+	std::string tweetsJson(
+		"[" \
+			"{" \
+				"\"id\": 1," \
+				"\"usuario\" : \"@tomas_roncero\"," \
+				"\"tuit\": \"Pepe debe renovar si o si\"" \
+			"}"
+		"]");
+
+	std::stringstream input(tweetsJson);
+	TweetParser parser(input, "stopList.txt");
+
+	std::list<std::shared_ptr<Tweet> > parsedTweets = parser.parse();
+
+	ASSERT_THAT(parsedTweets, SizeIs(1));
+
+	ASSERT_THAT(parsedTweets.front()->getId(), Eq(1));
+	ASSERT_THAT(parsedTweets.front()->getUsuario(), StrEq("@tomas_roncero"));
+	ASSERT_THAT(parsedTweets.front()->getTweet(), StrEq("Pepe debe renovar si o si"));
+	ASSERT_THAT(parsedTweets.front()->getTextoDestacado(), StrEq("Pepe debe renovar si o si"));
+	ASSERT_THAT(parsedTweets.front()->getEntidades(), UnorderedElementsAre(EntidadNombrada("Pepe", 1)));
+	ASSERT_THAT(parsedTweets.front()->getMasFrecuente(), Eq(EntidadNombrada("Pepe", 1)));
+}
+
 TEST_F(TweetParserTest, givenParser_whenCallingParseWithJsonWithTwoTweets_thenListWithTwoTweetInstances) {
 	std::string tweetsJson(
 		"[" \
