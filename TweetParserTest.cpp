@@ -14,6 +14,7 @@ using testing::ElementsAre;
 using testing::UnorderedElementsAre;
 using testing::SizeIs;
 using testing::Pointee;
+using testing::IsEmpty;
 using testing::Eq;
 
 class TweetParserTest : public ::testing::Test {
@@ -31,7 +32,7 @@ protected:
 };
 const std::string TweetParserTest::STOP_LIST_FILENAME = "stopList.txt";
 
-TEST_F(TweetParserTest, givenParser_whenCallingParseWithJsonWithOneTweet_thenListWithOneTweetInstance) {
+TEST_F(TweetParserTest, givenParser_whenCallingParseWithJsonWithOneTweet_thenReturnsListWithOneTweetInstance) {
 	std::string tweetsJson(
 		"[" \
 			"{" \
@@ -56,7 +57,7 @@ TEST_F(TweetParserTest, givenParser_whenCallingParseWithJsonWithOneTweet_thenLis
 	ASSERT_THAT(parsedTweets.front()->getMasFrecuente(), Eq(EntidadNombrada("Liverpool", 2)));
 }
 
-TEST_F(TweetParserTest, givenParser_whenCallingParseWithJsonWithOneTweet_thenListWithOneTweetInstance_2) {
+TEST_F(TweetParserTest, givenParser_whenCallingParseWithJsonWithOneTweet_thenReturnsListWithOneTweetInstance_2) {
 	std::string tweetsJson(
 		"[" \
 			"{" \
@@ -81,7 +82,7 @@ TEST_F(TweetParserTest, givenParser_whenCallingParseWithJsonWithOneTweet_thenLis
 	ASSERT_THAT(parsedTweets.front()->getMasFrecuente(), Eq(EntidadNombrada("Pepe", 1)));
 }
 
-TEST_F(TweetParserTest, givenParser_whenCallingParseWithJsonWithTwoTweets_thenListWithTwoTweetInstances) {
+TEST_F(TweetParserTest, givenParser_whenCallingParseWithJsonWithTwoTweets_thenReturnsListWithTwoTweetInstances) {
 	std::string tweetsJson(
 		"[" \
 			"{" \
@@ -105,4 +106,29 @@ TEST_F(TweetParserTest, givenParser_whenCallingParseWithJsonWithTwoTweets_thenLi
 		Pointee(Tweet(0, "@pepe_perez", "Liberan a los dos sospechosos detenidos por el asesinato de un ni�o de 11 a�os en Liverpool Liverpool", "stopList.txt")),
 		Pointee(Tweet(1, "@tomas_roncero", "Pepe debe renovar si o si", "stopList.txt"))
 	));
+}
+
+TEST_F(TweetParserTest, givenParser_whenCallingParseWithJsonWithOneTweetWithPalabraReservada_thenReturnsListWithOneTweetInstance) {
+	std::string tweetsJson(
+		"[" \
+			"{" \
+				"\"id\": 0," \
+				"\"usuario\" : \"@pepe_perez\"," \
+				"\"tuit\": \"tuit con EntidadExcluida\"" \
+			"}"\
+		"]");
+
+	std::stringstream input(tweetsJson);
+	TweetParser parser(input, "stopList.txt");
+
+	std::list<std::shared_ptr<Tweet> > parsedTweets = parser.parse();
+
+	ASSERT_THAT(parsedTweets, SizeIs(1));
+
+	ASSERT_THAT(parsedTweets.front()->getId(), Eq(0));
+	ASSERT_THAT(parsedTweets.front()->getUsuario(), StrEq("@pepe_perez"));
+	ASSERT_THAT(parsedTweets.front()->getTweet(), StrEq("tuit con EntidadExcluida"));
+	ASSERT_THAT(parsedTweets.front()->getTextoDestacado(), StrEq("tuit con EntidadExcluida"));
+	ASSERT_THAT(parsedTweets.front()->getEntidades(), IsEmpty());
+	ASSERT_THROW(parsedTweets.front()->getMasFrecuente(), NoEntidadNombradaException);
 }
