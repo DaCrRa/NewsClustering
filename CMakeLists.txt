@@ -29,7 +29,7 @@ target_link_libraries(TweetParser Analyzer stdc++fs)
 
 set(noticiaparser_source_files
    Noticia.cpp
-   NoticiaParser.cpp
+   NoticiaPlainTextParser.cpp
    NoticiaFolderReader.cpp
 )
 add_library(NoticiaParser SHARED ${noticiaparser_source_files})
@@ -48,7 +48,7 @@ set(test_source_files
    AgrupadorDeGruposTest.cpp
    PorEntidadMasNombradaTest.cpp
    PorTematicaTest.cpp
-   NoticiaParserTest.cpp
+   NoticiaPlainTextParserTest.cpp
    FindEntidadMasNombradaByNameFunc.cpp
    NoticiaTweetGrouping.cpp
    TweetGroupingTest.cpp

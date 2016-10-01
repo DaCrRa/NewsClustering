@@ -21,12 +21,12 @@ public:
 	}
 };
 
-class NoticiaParser {
+class NoticiaPlainTextParser {
 private:
 	std::istream& input;
 	std::string stopListFilename;
 public:
-	NoticiaParser(std::istream& inputStream, const std::string& stopListFile) :
+	NoticiaPlainTextParser(std::istream& inputStream, const std::string& stopListFile) :
 		input(inputStream),
 		stopListFilename(stopListFile) {};
 	Noticia parse();

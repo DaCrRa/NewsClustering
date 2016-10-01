@@ -5,7 +5,7 @@
  *      Author: dancre
  */
 
-#include "NoticiaParser.h"
+#include "NoticiaPlainTextParser.h"
 
 #include <sstream>
 #include <algorithm>
@@ -29,7 +29,7 @@ static inline std::string& trim(std::string &s) {
     return ltrim(rtrim(s));
 }
 
-Noticia NoticiaParser::parse() {
+Noticia NoticiaPlainTextParser::parse() {
 	std::string titulo;
 	while (titulo.empty() && input.good()) {
 		std::getline(input, titulo);

@@ -5,11 +5,11 @@
  *      Author: dancre
  */
 
+#include "NoticiaPlainTextParser.h"
+
 #include <gmock/gmock.h>
 
 #include "Noticia.h"
-#include "NoticiaParser.h"
-
 #include <string>
 #include <sstream>
 #include <fstream>
@@ -18,7 +18,7 @@
 using testing::StrEq;
 using testing::ElementsAre;
 
-class NoticiaParserTest : public ::testing::Test {
+class NoticiaPlainTextParserTest : public ::testing::Test {
 public:
    static const std::string STOP_LIST_FILENAME;
 protected:
@@ -31,15 +31,15 @@ protected:
       remove(STOP_LIST_FILENAME.c_str());
    }
 };
-const std::string NoticiaParserTest::STOP_LIST_FILENAME = "stopList.txt";
+const std::string NoticiaPlainTextParserTest::STOP_LIST_FILENAME = "stopList.txt";
 
-TEST_F(NoticiaParserTest, givenParser_whenCallingParse_thenReturnsNoticiaInstance) {
+TEST_F(NoticiaPlainTextParserTest, givenParser_whenCallingParse_thenReturnsNoticiaInstance) {
 	std::string noticia("Esto es el titulo de la noticia\n"\
 			            "Esto es el primer parrafo del cuerpo de la noticia.\n"\
 			            "Esto es la segunda frase del cuerpo de la noticia");
 
 	std::stringstream input(noticia);
-	NoticiaParser parser(input, "stopList.txt");
+	NoticiaPlainTextParser parser(input, "stopList.txt");
 
 	Noticia parsedNoticia = parser.parse();
 
@@ -49,13 +49,13 @@ TEST_F(NoticiaParserTest, givenParser_whenCallingParse_thenReturnsNoticiaInstanc
 	ASSERT_THAT(parsedNoticia.getPalabrasReservadas(), ElementsAre("EntidadExcluida"));
 }
 
-TEST_F(NoticiaParserTest, givenParser_whenCallingParse_thenReturnsNoticiaInstance_2) {
+TEST_F(NoticiaPlainTextParserTest, givenParser_whenCallingParse_thenReturnsNoticiaInstance_2) {
 	std::string noticia("Esto es el titulo de la segunda noticia\n"\
 			            "Esto es el primer parrafo del cuerpo de la segunda noticia.\n"\
 			            "Esto es la segunda frase del cuerpo de la noticia");
 
 	std::stringstream input(noticia);
-	NoticiaParser parser(input, "stopList.txt");
+	NoticiaPlainTextParser parser(input, "stopList.txt");
 
 	Noticia parsedNoticia = parser.parse();
 
@@ -65,13 +65,13 @@ TEST_F(NoticiaParserTest, givenParser_whenCallingParse_thenReturnsNoticiaInstanc
 	ASSERT_THAT(parsedNoticia.getPalabrasReservadas(), ElementsAre("EntidadExcluida"));
 }
 
-TEST_F(NoticiaParserTest, givenParser_whenCallingParse_thenReturnsNoticiaInstance_3) {
+TEST_F(NoticiaPlainTextParserTest, givenParser_whenCallingParse_thenReturnsNoticiaInstance_3) {
 	std::string noticia("Esto es el titulo de la noticia numero tres\n"\
 			            "Esto es el primer parrafo del cuerpo de la noticia tres.\n"\
 			            "Esto es la segunda frase del cuerpo de la noticia");
 
 	std::stringstream input(noticia);
-	NoticiaParser parser(input, "stopList.txt");
+	NoticiaPlainTextParser parser(input, "stopList.txt");
 
 	Noticia parsedNoticia = parser.parse();
 
@@ -81,11 +81,11 @@ TEST_F(NoticiaParserTest, givenParser_whenCallingParse_thenReturnsNoticiaInstanc
 	ASSERT_THAT(parsedNoticia.getPalabrasReservadas(), ElementsAre("EntidadExcluida"));
 }
 
-TEST_F(NoticiaParserTest, givenParser_whenCallingParseNoticiaSinCuerpo_thenReturnsNoticiaInstance) {
+TEST_F(NoticiaPlainTextParserTest, givenParser_whenCallingParseNoticiaSinCuerpo_thenReturnsNoticiaInstance) {
 	std::string noticia("Esto es el titulo de la noticia sin cuerpo");
 
 	std::stringstream input(noticia);
-	NoticiaParser parser(input, "stopList.txt");
+	NoticiaPlainTextParser parser(input, "stopList.txt");
 
 	Noticia parsedNoticia = parser.parse();
 
@@ -94,13 +94,13 @@ TEST_F(NoticiaParserTest, givenParser_whenCallingParseNoticiaSinCuerpo_thenRetur
 	ASSERT_THAT(parsedNoticia.getPalabrasReservadas(), ElementsAre("EntidadExcluida"));
 }
 
-TEST_F(NoticiaParserTest, givenParser_whenCallingParseNoticiaSinCuerpoWhiteLines_thenReturnsNoticiaInstance) {
+TEST_F(NoticiaPlainTextParserTest, givenParser_whenCallingParseNoticiaSinCuerpoWhiteLines_thenReturnsNoticiaInstance) {
 	std::string noticia("\n"\
 			"Esto es el titulo de la noticia sin cuerpo\n"\
 			"      ");
 
 	std::stringstream input(noticia);
-	NoticiaParser parser(input, "stopList.txt");
+	NoticiaPlainTextParser parser(input, "stopList.txt");
 
 	Noticia parsedNoticia = parser.parse();
 
@@ -109,14 +109,14 @@ TEST_F(NoticiaParserTest, givenParser_whenCallingParseNoticiaSinCuerpoWhiteLines
 	ASSERT_THAT(parsedNoticia.getPalabrasReservadas(), ElementsAre("EntidadExcluida"));
 }
 
-TEST_F(NoticiaParserTest, givenParser_whenCallingParseNoticiaWhiteLines_thenReturnsNoticiaInstance) {
+TEST_F(NoticiaPlainTextParserTest, givenParser_whenCallingParseNoticiaWhiteLines_thenReturnsNoticiaInstance) {
 	std::string noticia("\n"\
 			"Esto es el titulo de la noticia con cuerpo\n"\
 			"      \n"\
 			"el cuerpo");
 
 	std::stringstream input(noticia);
-	NoticiaParser parser(input, "stopList.txt");
+	NoticiaPlainTextParser parser(input, "stopList.txt");
 
 	Noticia parsedNoticia = parser.parse();
 
@@ -125,23 +125,23 @@ TEST_F(NoticiaParserTest, givenParser_whenCallingParseNoticiaWhiteLines_thenRetu
 	ASSERT_THAT(parsedNoticia.getPalabrasReservadas(), ElementsAre("EntidadExcluida"));
 }
 
-TEST_F(NoticiaParserTest, givenParser_whenCallingParseNoticiaWithJustWhiteLines_thenThrowsNoticiaInvalidaException) {
+TEST_F(NoticiaPlainTextParserTest, givenParser_whenCallingParseNoticiaWithJustWhiteLines_thenThrowsNoticiaInvalidaException) {
 	std::string noticia("     \t\t"\
 			"\n"\
 			"      \n"\
 			"");
 
 	std::stringstream input(noticia);
-	NoticiaParser parser(input, "stopList.txt");
+	NoticiaPlainTextParser parser(input, "stopList.txt");
 
 	ASSERT_THROW(parser.parse(), NoticiaInvalidaException);
 }
 
-TEST_F(NoticiaParserTest, givenParser_whenCallingParseNoticiaWithEmptyString_thenThrowsNoticiaInvalidaException) {
+TEST_F(NoticiaPlainTextParserTest, givenParser_whenCallingParseNoticiaWithEmptyString_thenThrowsNoticiaInvalidaException) {
 	std::string noticia("");
 
 	std::stringstream input(noticia);
-	NoticiaParser parser(input, "stopList.txt");
+	NoticiaPlainTextParser parser(input, "stopList.txt");
 
 	ASSERT_THROW(parser.parse(), NoticiaInvalidaException);
 }
