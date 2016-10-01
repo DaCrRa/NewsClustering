@@ -10,19 +10,22 @@
 #include <json/json.h>
 
 std::list<std::shared_ptr<Tweet> > TweetParser::parse() {
+	try {
+		Json::Value jsontuits;
+		input >> jsontuits;
 
-	Json::Value jsontuits;
-	input >> jsontuits;
+		std::list<std::shared_ptr<Tweet> > parsedTweets;
 
-	std::list<std::shared_ptr<Tweet> > parsedTweets;
-
-	for(auto& jsontuit : jsontuits) {
-		parsedTweets.push_back(std::shared_ptr<Tweet>(new Tweet(
-				jsontuit["id"].asInt(),
-				jsontuit["usuario"].asString(),
-				jsontuit["tuit"].asString(),
-				stopListFile
-		)));
+		for(auto& jsontuit : jsontuits) {
+			parsedTweets.push_back(std::shared_ptr<Tweet>(new Tweet(
+					jsontuit["id"].asInt(),
+					jsontuit["usuario"].asString(),
+					jsontuit["tuit"].asString(),
+					stopListFile
+			)));
+		}
+		return parsedTweets;
+	} catch (...) {
+		throw CannotParseException();
 	}
-	return parsedTweets;
 }

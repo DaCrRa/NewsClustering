@@ -14,6 +14,13 @@
 
 #include "Tweet.h"
 
+class CannotParseException : public std::exception {
+public:
+	const char* what() const throw() {
+		return "Cannot parse file";
+	}
+};
+
 class TweetParser {
 private:
 	std::istream& input;
