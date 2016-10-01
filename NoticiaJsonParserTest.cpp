@@ -38,7 +38,7 @@ TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParse_thenReturnsNoticiaIns
 			"{" \
 				"\"titulo\": \"Esto es el titulo de la noticia\""\
 			    "\"parrafos\":[ "\
-					"\"Esto es el primer parrafo del cuerpo de la noticia\"," \
+					"\"Esto es el primer parrafo del cuerpo de la noticia.\"," \
 			    	"\"Esto es la segunda frase del cuerpo de la noticia\"" \
 				"]" \
 			"}");
