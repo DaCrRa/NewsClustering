@@ -106,11 +106,11 @@ TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParseNoticiaWithoutTitulo_t
 	ASSERT_THROW(parser.parse(), NoticiaInvalidaException);
 }
 
-//TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParseNoticiaWithEmptyString_thenThrowsNoticiaInvalidaException) {
-//	std::string noticia("");
-//
-//	std::stringstream input(noticia);
-//	NoticiaParser parser(input, "stopList.txt");
-//
-//	ASSERT_THROW(parser.parse(), NoticiaInvalidaException);
-//}
+TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParseNoticiaBadJson_thenThrowsCannotParse) {
+	std::string noticia("{ mal formed json]");
+
+	std::stringstream input(noticia);
+	NoticiaJsonParser parser(input, "stopList.txt");
+
+	ASSERT_THROW(parser.parse(), CannotParseException);
+}
