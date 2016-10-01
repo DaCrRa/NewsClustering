@@ -78,36 +78,22 @@ TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParse_thenReturnsNoticiaIns
 			                                     "Esto es la segunda frase del cuerpo de la noticia"));
 	ASSERT_THAT(parsedNoticia.getPalabrasReservadas(), ElementsAre("EntidadExcluida2"));
 }
-//
-//TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParse_thenReturnsNoticiaInstance_3) {
-//	std::string noticia("Esto es el titulo de la noticia numero tres\n"\
-//			            "Esto es el primer parrafo del cuerpo de la noticia tres.\n"\
-//			            "Esto es la segunda frase del cuerpo de la noticia");
-//
-//	std::stringstream input(noticia);
-//	NoticiaParser parser(input, "stopList.txt");
-//
-//	Noticia parsedNoticia = parser.parse();
-//
-//	ASSERT_THAT(parsedNoticia.getTitulo(), StrEq("Esto es el titulo de la noticia numero tres"));
-//	ASSERT_THAT(parsedNoticia.getCuerpo(), StrEq("Esto es el primer parrafo del cuerpo de la noticia tres.\n"\
-//			                                     "Esto es la segunda frase del cuerpo de la noticia"));
-//	ASSERT_THAT(parsedNoticia.getPalabrasReservadas(), ElementsAre("EntidadExcluida"));
-//}
-//
-//TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParseNoticiaSinCuerpo_thenReturnsNoticiaInstance) {
-//	std::string noticia("Esto es el titulo de la noticia sin cuerpo");
-//
-//	std::stringstream input(noticia);
-//	NoticiaParser parser(input, "stopList.txt");
-//
-//	Noticia parsedNoticia = parser.parse();
-//
-//	ASSERT_THAT(parsedNoticia.getTitulo(), StrEq("Esto es el titulo de la noticia sin cuerpo"));
-//	ASSERT_THAT(parsedNoticia.getCuerpo(), StrEq(""));
-//	ASSERT_THAT(parsedNoticia.getPalabrasReservadas(), ElementsAre("EntidadExcluida"));
-//}
-//
+
+TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParseNoticiaSinCuerpo_thenReturnsNoticiaInstance) {
+	std::string noticia(
+				"{" \
+					"\"titulo\": \"Esto es el titulo de la noticia sin cuerpo\""\
+				"}");
+	std::stringstream input(noticia);
+	NoticiaJsonParser parser(input, "stopList.txt");
+
+	Noticia parsedNoticia = parser.parse();
+
+	ASSERT_THAT(parsedNoticia.getTitulo(), StrEq("Esto es el titulo de la noticia sin cuerpo"));
+	ASSERT_THAT(parsedNoticia.getCuerpo(), StrEq(""));
+	ASSERT_THAT(parsedNoticia.getPalabrasReservadas(), ElementsAre("EntidadExcluida"));
+}
+
 //TEST_F(NoticiaJsonParserTest, givenParser_whenCallingParseNoticiaSinCuerpoWhiteLines_thenReturnsNoticiaInstance) {
 //	std::string noticia("\n"\
 //			"Esto es el titulo de la noticia sin cuerpo\n"\
