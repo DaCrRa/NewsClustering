@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(NewsClustering)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -z defs -std=c++11")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin")
 
 #add_subdirectory(src)
@@ -28,6 +28,7 @@ add_library(TweetParser SHARED ${tweetparser_source_files})
 target_link_libraries(TweetParser Analyzer stdc++fs)
 
 set(noticiaparser_source_files
+   ${JSONCPP_SRC_FILE}
    Noticia.cpp
    NoticiaPlainTextParser.cpp
    NoticiaJsonParser.cpp
