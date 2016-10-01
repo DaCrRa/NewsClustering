@@ -7,8 +7,6 @@
 
 #include "TweetParser.h"
 
-#include <json/json.h>
-
 std::list<std::shared_ptr<Tweet> > TweetParser::parse() {
 	try {
 		Json::Value jsontuits;
@@ -17,21 +15,27 @@ std::list<std::shared_ptr<Tweet> > TweetParser::parse() {
 		std::list<std::shared_ptr<Tweet> > parsedTweets;
 
 		for(auto& jsontuit : jsontuits) {
-			Json::Value idJsonVal(jsontuit["id"]);
-			Json::Value usuarioJsonVal(jsontuit["usuario"].asString());
-			Json::Value tuitJsonVal(jsontuit["tuit"].asString());
-			if (idJsonVal.isNull() || usuarioJsonVal.isNull() || tuitJsonVal.isNull()) {
-				continue;
+			try {
+				parsedTweets.push_back(std::shared_ptr<Tweet>(new Tweet(
+						extractMandatoryFieldFrom(jsontuit, "id").asInt(),
+						extractMandatoryFieldFrom(jsontuit, "usuario").asString(),
+						extractMandatoryFieldFrom(jsontuit, "tuit").asString(),
+						stopListFile
+				)));
+			} catch (MissingTweetFieldException& e) {
+				// Skip this tweet, continue with the next one
 			}
-			parsedTweets.push_back(std::shared_ptr<Tweet>(new Tweet(
-					idJsonVal.asInt(),
-					usuarioJsonVal.asString(),
-					tuitJsonVal.asString(),
-					stopListFile
-			)));
 		}
 		return parsedTweets;
 	} catch (...) {
 		throw CannotParseException();
 	}
+}
+
+Json::Value TweetParser::extractMandatoryFieldFrom(const Json::Value& jsonTuit, const std::string& fieldName) {
+	Json::Value jsonVal(jsonTuit[fieldName]);
+	if (jsonVal.isNull()) {
+		throw MissingTweetFieldException(fieldName);
+	}
+	return jsonVal;
 }

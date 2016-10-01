@@ -12,6 +12,8 @@
 #include <string>
 #include <memory>
 
+#include <json/json.h>
+
 #include "Tweet.h"
 
 class CannotParseException : public std::exception {
@@ -21,10 +23,22 @@ public:
 	}
 };
 
+class MissingTweetFieldException : public std::exception {
+private:
+	std::string missingFieldName;
+public:
+	MissingTweetFieldException(const std::string& fieldName) :
+		missingFieldName(fieldName) {}
+	const char* what() const throw() {
+		return std::string("Missing field in tweet json: ").append(missingFieldName).c_str();
+	}
+};
+
 class TweetParser {
 private:
 	std::istream& input;
 	std::string stopListFile;
+	Json::Value extractMandatoryFieldFrom(const Json::Value& jsonTuit, const std::string& fieldName);
 public:
 	TweetParser(std::istream& inputStream, const std::string& stopListFile) :
 		input(inputStream),
