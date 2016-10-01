@@ -14,11 +14,11 @@ int Tweet::getId() const {
 }
 
 std::string Tweet::getUsuario() const {
-	return "";
+	return "@pepe_perez";
 }
 
 std::string Tweet::getTweet() const {
-	return "";
+	return tweet;
 }
 
 std::string Tweet::getTextoDestacado() const {
