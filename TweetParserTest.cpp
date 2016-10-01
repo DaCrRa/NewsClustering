@@ -13,6 +13,7 @@ using testing::StrEq;
 using testing::ElementsAre;
 using testing::UnorderedElementsAre;
 using testing::SizeIs;
+using testing::IsEmpty;
 using testing::Pointee;
 using testing::IsEmpty;
 using testing::Eq;
@@ -147,3 +148,14 @@ TEST_F(TweetParserTest, givenParser_whenCallingParseWithBadJson_thenThrowsCannot
 
 	ASSERT_THROW(parser.parse(), CannotParseException);
 }
+
+TEST_F(TweetParserTest, givenParser_whenCallingParseEmptyJson_thenReturnsEmptyList) {
+	std::string tweetsJson(
+		"[]");
+
+	std::stringstream input(tweetsJson);
+	TweetParser parser(input, "stopList.txt");
+
+	ASSERT_THAT(parser.parse(), IsEmpty());
+}
+
