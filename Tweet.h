@@ -12,6 +12,8 @@
 
 class Tweet : public AbstractItemAgrupable {
 private:
+	int id;
+	std::string usuario;
 	std::string tweet;
 	bool contieneEntidadMasFrecuenteDe(ItemAgrupable& n) const;
 	bool comparteAlgunaEntidadCon(ItemAgrupable& n) const;
@@ -21,6 +23,8 @@ public:
 			const std::string& t,
 			const std::string& palabrasReservadasFile) :
 			AbstractItemAgrupable(t, palabrasReservadasFile),
+			id(id),
+			usuario(usuario),
 			tweet(t) {}
 
 	int getId() const;

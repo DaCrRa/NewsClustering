@@ -10,11 +10,11 @@
 #include <algorithm>
 
 int Tweet::getId() const {
-	return 0;
+	return id;
 }
 
 std::string Tweet::getUsuario() const {
-	return "@pepe_perez";
+	return usuario;
 }
 
 std::string Tweet::getTweet() const {
