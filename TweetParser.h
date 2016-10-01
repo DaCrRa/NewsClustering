@@ -34,11 +34,23 @@ public:
 	}
 };
 
+class WrongIdFieldException : public std::exception {
+private:
+	std::string wrongIdValue;
+public:
+	WrongIdFieldException(const std::string& idValue) :
+		wrongIdValue(idValue) {}
+	const char* what() const throw() {
+		return std::string("Wrong id field value: ").append(wrongIdValue).c_str();
+	}
+};
+
 class TweetParser {
 private:
 	std::istream& input;
 	std::string stopListFile;
 	Json::Value extractMandatoryFieldFrom(const Json::Value& jsonTuit, const std::string& fieldName);
+	int asInt(const Json::Value& jsonTuitId);
 public:
 	TweetParser(std::istream& inputStream, const std::string& stopListFile) :
 		input(inputStream),

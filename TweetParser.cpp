@@ -20,17 +20,18 @@ std::list<std::shared_ptr<Tweet> > TweetParser::parse() {
 	for(auto& jsontuit : jsontuits) {
 		try {
 			parsedTweets.push_back(std::shared_ptr<Tweet>(new Tweet(
-					extractMandatoryFieldFrom(jsontuit, "id").asInt(),
+					asInt(extractMandatoryFieldFrom(jsontuit, "id")),
 					extractMandatoryFieldFrom(jsontuit, "usuario").asString(),
 					extractMandatoryFieldFrom(jsontuit, "tuit").asString(),
 					stopListFile
 			)));
-		} catch (...) {
+		} catch (MissingTweetFieldException& e) {
+			// Skip this tweet, continue with the next one
+		} catch (WrongIdFieldException& e) {
 			// Skip this tweet, continue with the next one
 		}
 	}
 	return parsedTweets;
-
 }
 
 Json::Value TweetParser::extractMandatoryFieldFrom(const Json::Value& jsonTuit, const std::string& fieldName) {
@@ -39,4 +40,11 @@ Json::Value TweetParser::extractMandatoryFieldFrom(const Json::Value& jsonTuit, 
 		throw MissingTweetFieldException(fieldName);
 	}
 	return jsonVal;
+}
+
+int TweetParser::asInt(const Json::Value& jsonTuitId) {
+	if (!jsonTuitId.isInt()) {
+		throw WrongIdFieldException(jsonTuitId.asString());
+	}
+	return jsonTuitId.asInt();
 }
