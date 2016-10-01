@@ -12,16 +12,8 @@
 #include <string>
 #include <memory>
 
-#include <json/json.h>
-
+#include "JsonParser.h"
 #include "Tweet.h"
-
-class CannotParseException : public std::exception {
-public:
-	const char* what() const throw() {
-		return "Cannot parse file";
-	}
-};
 
 class MissingTweetFieldException : public std::exception {
 private:
@@ -47,13 +39,13 @@ public:
 
 class TweetParser {
 private:
-	std::istream& input;
+	JsonParser parser;
 	std::string stopListFile;
 	Json::Value extractMandatoryFieldFrom(const Json::Value& jsonTuit, const std::string& fieldName);
 	int asInt(const Json::Value& jsonTuitId);
 public:
 	TweetParser(std::istream& inputStream, const std::string& stopListFile) :
-		input(inputStream),
+		parser(inputStream),
 		stopListFile(stopListFile) {}
 	std::list<std::shared_ptr<Tweet> > parse();
 };

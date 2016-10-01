@@ -19,23 +19,27 @@ set(analyzer_source_files
 add_library(Analyzer SHARED ${analyzer_source_files})
 
 include(jsoncpp.cmake)
-set(tweetparser_source_files
+set(jsonparser_sources
    ${JSONCPP_SRC_FILE}
+   JsonParser.cpp
+)
+add_library(JsonParser SHARED ${jsonparser_sources})
+
+set(tweetparser_source_files
    Tweet.cpp
    TweetParser.cpp
 )
 add_library(TweetParser SHARED ${tweetparser_source_files})
-target_link_libraries(TweetParser Analyzer stdc++fs)
+target_link_libraries(TweetParser Analyzer JsonParser stdc++fs)
 
 set(noticiaparser_source_files
-   ${JSONCPP_SRC_FILE}
    Noticia.cpp
    NoticiaPlainTextParser.cpp
    NoticiaJsonParser.cpp
    NoticiaFolderReader.cpp
 )
 add_library(NoticiaParser SHARED ${noticiaparser_source_files})
-target_link_libraries(NoticiaParser Analyzer stdc++fs)
+target_link_libraries(NoticiaParser Analyzer JsonParser stdc++fs)
 
 add_executable(NewsClustering "Main.cpp")
 target_link_libraries(NewsClustering Analyzer NoticiaParser TweetParser)

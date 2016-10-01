@@ -10,11 +10,15 @@
 
 #include "Noticia.h"
 #include "NoticiaParser.h"
+#include "JsonParser.h"
 
 class NoticiaJsonParser : public NoticiaParser {
+private:
+	JsonParser parser;
 public:
 	NoticiaJsonParser(std::istream& input, const std::string& stopListFile) :
-		NoticiaParser(input, stopListFile) {};
+		NoticiaParser(input, stopListFile),
+		parser(input) {};
 	Noticia parse();
 };
 

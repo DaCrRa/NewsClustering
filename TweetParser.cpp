@@ -8,12 +8,7 @@
 #include "TweetParser.h"
 
 std::list<std::shared_ptr<Tweet> > TweetParser::parse() {
-	Json::Value jsontuits;
-	try {
-		input >> jsontuits;
-	} catch (...) {
-		throw CannotParseException();
-	}
+	Json::Value jsontuits = parser.parse();
 
 	std::list<std::shared_ptr<Tweet> > parsedTweets;
 

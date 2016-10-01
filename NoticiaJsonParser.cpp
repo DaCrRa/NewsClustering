@@ -10,8 +10,7 @@
 #include <json/json.h>
 
 Noticia NoticiaJsonParser::parse() {
-	Json::Value noticiaJson;
-	input >> noticiaJson;
+	Json::Value noticiaJson = parser.parse();
 
 	std::string titulo(noticiaJson["titulo"].asString());
 	if (titulo.empty()) {
