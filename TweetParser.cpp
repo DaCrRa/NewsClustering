@@ -15,11 +15,12 @@ std::list<std::shared_ptr<Tweet> > TweetParser::parse() {
 	input >> jsontuits;
 
 	std::list<std::shared_ptr<Tweet> > parsedTweets;
-	for(Json::Value::const_iterator tuitIt = jsontuits.begin(); tuitIt != jsontuits.end(); ++tuitIt) {
+
+	for(auto& jsontuit : jsontuits) {
 		parsedTweets.push_back(std::shared_ptr<Tweet>(new Tweet(
-				(*tuitIt)["id"].asInt(),
-				(*tuitIt)["usuario"].asString(),
-				(*tuitIt)["tuit"].asString(),
+				jsontuit["id"].asInt(),
+				jsontuit["usuario"].asString(),
+				jsontuit["tuit"].asString(),
 				""
 		)));
 	}
