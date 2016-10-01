@@ -36,7 +36,7 @@ add_library(NoticiaParser SHARED ${noticiaparser_source_files})
 target_link_libraries(NoticiaParser Analyzer stdc++fs)
 
 add_executable(NewsClustering "Main.cpp")
-target_link_libraries(NewsClustering Analyzer NoticiaParser)
+target_link_libraries(NewsClustering Analyzer NoticiaParser TweetParser)
 
 include(googletest.cmake)
 
