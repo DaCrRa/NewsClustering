@@ -132,3 +132,18 @@ TEST_F(TweetParserTest, givenParser_whenCallingParseWithJsonWithOneTweetWithPala
 	ASSERT_THAT(parsedTweets.front()->getEntidades(), IsEmpty());
 	ASSERT_THROW(parsedTweets.front()->getMasFrecuente(), NoEntidadNombradaException);
 }
+
+TEST_F(TweetParserTest, givenParser_whenCallingParseWithBadJson_thenThrowsCannotParseException) {
+	std::string tweetsJson(
+		"[" \
+			"{" \
+				"\"id\": 0," \
+				"\"usuario\" : \"@pepe_perez\"," \
+				"\"tuit\": \"tuit con EntidadExcluida\"" \
+		"]");
+
+	std::stringstream input(tweetsJson);
+	TweetParser parser(input, "stopList.txt");
+
+	ASSERT_THROW(parser.parse(), CannotParseException);
+}
