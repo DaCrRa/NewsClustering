@@ -159,3 +159,13 @@ TEST_F(TweetParserTest, givenParser_whenCallingParseEmptyJson_thenReturnsEmptyLi
 	ASSERT_THAT(parser.parse(), IsEmpty());
 }
 
+
+TEST_F(TweetParserTest, givenParser_whenCallingParseEmptyJson_thenReturnsEmptyList_2) {
+	std::string tweetsJson(
+		"[{},{},{}]");
+
+	std::stringstream input(tweetsJson);
+	TweetParser parser(input, "stopList.txt");
+
+	ASSERT_THAT(parser.parse(), IsEmpty());
+}
