@@ -14,6 +14,9 @@ Noticia NoticiaJsonParser::parse() {
 	input >> noticiaJson;
 
 	std::string titulo(noticiaJson["titulo"].asString());
+	if (titulo.empty()) {
+		throw NoticiaInvalidaException();
+	}
 
 	std::string cuerpo;
 	for(auto& parrafoJson : noticiaJson["parrafos"]) {
