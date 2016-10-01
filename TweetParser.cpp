@@ -7,14 +7,21 @@
 
 #include "TweetParser.h"
 
+#include <json/json.h>
+
 std::list<std::shared_ptr<Tweet> > TweetParser::parse() {
-		return std::list<std::shared_ptr<Tweet> >({
-			std::shared_ptr<Tweet>(new Tweet(
-					0,
-					"",
-					"Liberan a los dos sospechosos detenidos por el asesinato de un ni�o de 11 a�os en Liverpool Liverpool",
-					""
-				)
-			)
-		});
+
+	Json::Value jsontuits;
+	input >> jsontuits;
+
+	std::list<std::shared_ptr<Tweet> > parsedTweets;
+	for(Json::Value::const_iterator tuitIt = jsontuits.begin(); tuitIt != jsontuits.end(); ++tuitIt) {
+		parsedTweets.push_back(std::shared_ptr<Tweet>(new Tweet(
+				(*tuitIt)["id"].asInt(),
+				(*tuitIt)["usuario"].asString(),
+				(*tuitIt)["tuit"].asString(),
+				""
+		)));
+	}
+	return parsedTweets;
 }
