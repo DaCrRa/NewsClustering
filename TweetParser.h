@@ -15,8 +15,11 @@
 #include "Tweet.h"
 
 class TweetParser {
+private:
+	std::istream& input;
 public:
-	TweetParser(std::istream& inputStream, const std::string& stopListFile) {}
+	TweetParser(std::istream& inputStream, const std::string& stopListFile) :
+		input(inputStream) {}
 	std::list<std::shared_ptr<Tweet> > parse();
 };
 

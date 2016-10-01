@@ -7,10 +7,8 @@ set(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin")
 #add_subdirectory(src)
 #add_subdirectory(test)
 
-#include(jsoncpp.cmake)
 
 set(analyzer_source_files
-#   ${JSONCPP_SRC_FILE}
    AbstractItemAgrupable.cpp
    EntidadNombrada.cpp
    AgrupadorDeGrupos.cpp
@@ -20,7 +18,9 @@ set(analyzer_source_files
 )
 add_library(Analyzer SHARED ${analyzer_source_files})
 
+include(jsoncpp.cmake)
 set(tweetparser_source_files
+   ${JSONCPP_SRC_FILE}
    Tweet.cpp
    TweetParser.cpp
 )
