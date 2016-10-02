@@ -41,7 +41,11 @@ set(noticiaparser_source_files
 add_library(NoticiaParser SHARED ${noticiaparser_source_files})
 target_link_libraries(NoticiaParser Analyzer JsonParser stdc++fs)
 
-add_library(GroupingSerializer SHARED GroupingJsonSerializer.cpp)
+set(groupingserializer_source_files
+   ${JSONCPP_SRC_FILE}
+   GroupingJsonSerializer.cpp
+)
+add_library(GroupingSerializer SHARED ${groupingserializer_source_files})
 #target_link_libraries(GroupingSerializer Analizer)
 
 add_executable(NewsClustering "Main.cpp")
