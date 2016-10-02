@@ -41,6 +41,9 @@ set(noticiaparser_source_files
 add_library(NoticiaParser SHARED ${noticiaparser_source_files})
 target_link_libraries(NoticiaParser Analyzer JsonParser stdc++fs)
 
+add_library(GroupingSerializer SHARED GroupingJsonSerializer.cpp)
+#target_link_libraries(GroupingSerializer Analizer)
+
 add_executable(NewsClustering "Main.cpp")
 target_link_libraries(NewsClustering Analyzer NoticiaParser TweetParser)
 
@@ -64,5 +67,5 @@ set(test_source_files
 )
 build_googletest_executable(NewsClusteringTest
    "${test_source_files}"
-   "Analyzer;NoticiaParser;TweetParser"
+   "Analyzer;NoticiaParser;TweetParser;GroupingSerializer"
 )

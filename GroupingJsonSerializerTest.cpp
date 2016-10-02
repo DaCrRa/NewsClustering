@@ -11,6 +11,7 @@
 
 #include "ItemAgrupableMock.h"
 #include "JsonParser.h"
+#include "GroupingJsonSerializer.h"
 
 TEST(GroupingJsonSerializerTest, givenEmptyGrouping_whenCallingSerialize_thenReturnsEmptyJsonArray) {
 	std::list<std::list<ItemAgrupablePtr> > grouping;
