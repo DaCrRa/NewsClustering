@@ -6,23 +6,19 @@
  */
 
 #include "NoticiaFolderReader.h"
+
 #include <experimental/filesystem>
 #include <fstream>
-#include "NoticiaPlainTextParser.h"
 
 std::list<ItemAgrupablePtr> NoticiaFolderReader::getNoticias() {
-	std::experimental::filesystem::path stopListPath = folder / std::experimental::filesystem::path(STOPLIST_FILENAME);
 
 	std::list<ItemAgrupablePtr> noticias;
 
-	std::experimental::filesystem::path newsSubFolder = folder / std::experimental::filesystem::path(NEWS_SUBFOLDER);
-
-	for(auto& newFile : std::experimental::filesystem::directory_iterator(newsSubFolder)) {
+	for(auto& newFile : std::experimental::filesystem::directory_iterator(folder)) {
 		try {
 			std::ifstream filestream(newFile.path());
-			NoticiaPlainTextParser p(stopListPath);
-			noticias.push_back(ItemAgrupablePtr(new Noticia(std::move(p.parse(filestream)))));
-		} catch (NoticiaInvalidaException& e) {
+			noticias.push_back(ItemAgrupablePtr(new Noticia(std::move(parser->parse(filestream)))));
+		} catch (...) {
 			// Just try the next one
 		}
 	}

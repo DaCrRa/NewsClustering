@@ -10,6 +10,8 @@
 
 #include <algorithm>
 
+#include "Noticia.h"
+
 class NoticiaInvalidaException : public std::exception {
 public:
 	const char* what() const throw() {

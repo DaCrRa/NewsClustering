@@ -12,17 +12,17 @@
 #include <experimental/filesystem>
 
 #include "ItemAgrupable.h"
+#include "NoticiaParser.h"
 
 class NoticiaFolderReader {
 private:
 	std::experimental::filesystem::path folder;
-	static const std::string STOPLIST_FILENAME;
-	static const std::string NEWS_SUBFOLDER;
+	std::shared_ptr<NoticiaParser> parser;
 public:
-	NoticiaFolderReader(const std::string& folderName) :
-		folder(folderName) {}
+	NoticiaFolderReader(const std::string& folderName,
+			const std::shared_ptr<NoticiaParser> p) :
+		folder(folderName),
+		parser(p) {}
 	std::list<ItemAgrupablePtr> getNoticias();
 };
-const std::string NoticiaFolderReader::STOPLIST_FILENAME = "ES_stopList.txt";
-const std::string NoticiaFolderReader::NEWS_SUBFOLDER = "news";
 #endif /* NOTICIAFOLDERREADER_H_ */
