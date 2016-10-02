@@ -1,0 +1,16 @@
+@startuml
+
+title NewsClustering
+
+class Analizador
+class NoticiaIf
+class Noticia
+class EntidadNombrada
+NoticiaIf <|-- Noticia
+
+EntidadNombrada *- NoticiaIf
+NoticiaIf *- Analizador
+
+Analizador ..> Noticia : instantiates
+
+@enduml

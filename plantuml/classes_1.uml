@@ -1,0 +1,12 @@
+@startuml
+
+title NewsClustering
+
+class Analizador
+class Noticia
+class EntidadNombrada
+
+EntidadNombrada *- Noticia
+Noticia *- Analizador
+
+@enduml

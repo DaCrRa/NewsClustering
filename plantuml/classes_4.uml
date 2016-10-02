@@ -1,0 +1,45 @@
+@startuml
+
+title NewsClustering
+
+package "json-cpp" {
+	class Json::Value
+}
+
+class ItemAgrupable
+class AbstractItemAgrupable
+class Noticia
+class EntidadNombrada
+class AgrupadorDeGrupos
+class AgrupadorDeItems
+class CriterioDeAgrupacion
+class PorEntidadMasNombrada
+class PorTematica
+class NoticiaParser
+class NoticiaFolderReader
+class Tweet
+class TweetParser
+
+NoticiaParser ..> Noticia : instantiates
+NoticiaFolderReader --* NoticiaParser
+NoticiaFolderReader --* ItemAgrupable
+
+ItemAgrupable <|-- AbstractItemAgrupable
+AbstractItemAgrupable <|-- Noticia
+AbstractItemAgrupable <|-- Tweet
+
+
+EntidadNombrada *-up- ItemAgrupable
+
+AgrupadorDeItems --* AgrupadorDeGrupos
+AgrupadorDeGrupos --* CriterioDeAgrupacion
+
+PorEntidadMasNombrada -up-|> CriterioDeAgrupacion
+PorTematica -up-|> CriterioDeAgrupacion
+
+AgrupadorDeGrupos --* ItemAgrupable
+
+TweetParser .left.> Tweet : instantiates
+TweetParser ..> Json::Value : uses
+
+@enduml
