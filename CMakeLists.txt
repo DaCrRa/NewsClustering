@@ -46,10 +46,9 @@ set(groupingserializer_source_files
    GroupingJsonSerializer.cpp
 )
 add_library(GroupingSerializer SHARED ${groupingserializer_source_files})
-#target_link_libraries(GroupingSerializer Analizer)
 
 add_executable(NewsClustering "Main.cpp")
-target_link_libraries(NewsClustering Analyzer NoticiaParser TweetParser)
+target_link_libraries(NewsClustering Analyzer NoticiaParser TweetParser GroupingSerializer)
 
 include(googletest.cmake)
 

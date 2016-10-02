@@ -19,6 +19,7 @@
 #include "AgrupadorDeItems.h"
 #include "PorTematica.h"
 #include "PorEntidadMasNombrada.h"
+#include "GroupingJsonSerializer.h"
 
 std::list<ItemAgrupablePtr> getPlainTextNoticias(const std::string& folder, const std::string& stopList) {
 	NoticiaFolderReader r(
@@ -91,6 +92,18 @@ int main(int argc, const char* argv[]) {
 			std::cout << "======" << std::endl;
 			std::cout << std::endl;
 		}
+
+		GroupingJsonSerializer s;
+		std::cout << "Guardando agrupacion por entidad mas nombrada en por_entidad.json...";
+		std::ofstream porEntidadOut("por_entidad.json");
+		s.serialize(agrupadosPorEntidad, porEntidadOut);
+		std::cout << "Hecho!" << std::endl;
+
+		std::cout << "Guardando agrupacion por tema en por_tema.json...";
+		std::ofstream porTemaOut("por_tema.json");
+		s.serialize(agrupadosPorTematica, porTemaOut);
+		std::cout << "Hecho!" << std::endl;
+
 	} catch (std::experimental::filesystem::filesystem_error& e) {
 		std::cerr << "Error al operar con el sistema de archivos" << std::endl;
 		std::cerr << e.what() << std::endl;
