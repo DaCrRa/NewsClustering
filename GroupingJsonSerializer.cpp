@@ -8,4 +8,5 @@
 #include "GroupingJsonSerializer.h"
 
 void GroupingJsonSerializer::serialize(const std::list<std::list<ItemAgrupablePtr> >& grouping, std::ostream& output) {
+	output << "[]";
 }
