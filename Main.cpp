@@ -92,8 +92,9 @@ int main(int argc, const char* argv[]) {
 			std::cout << std::endl;
 		}
 	} catch (std::experimental::filesystem::filesystem_error& e) {
-		std::cerr << "Error al operar con el sistem de archivos" << std::endl;
+		std::cerr << "Error al operar con el sistema de archivos" << std::endl;
 		std::cerr << e.what() << std::endl;
+		return 2;
 	}
 	return 0;
 }
