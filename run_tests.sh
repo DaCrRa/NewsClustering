@@ -3,7 +3,7 @@
 set -e
 
 # Docker image with needed tools. This one will be published
-docker build -t newsclustering `pwd`/docker/base
+docker build -t danielcr86/newsclustering `pwd`/docker/base
 
 # Docker image based on the previous, with user specific info (uid)
 docker build --build-arg uid=`id -u` -t newsclustering_user `pwd`/docker/user_specific
