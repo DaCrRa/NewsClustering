@@ -18,4 +18,4 @@ docker run \
           cd build && \
           cmake .. && \
           make NewsClusteringTest && \
-          bin/NewsClusteringTest"
+          bin/NewsClusteringTest --gtest_output=xml"
