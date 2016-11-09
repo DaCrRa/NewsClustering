@@ -2,19 +2,11 @@
 Práctica 2 del Curso de Experto en Arquitectura y Desarrollo de Software, sobre TDD y refactoring
 
 ## Requisitos
-- CMake 3.5.1
-- compilador C++11
+- Docker
 
-El resto de dependencias del proyecto son gestionadas automaticamente a traves de cmake.
+## Compilar y ejecutar pruebas
+    $ ./run_tests.sh
 
-## Compilar
-    $ mkdir build
-    $ cd build
-    $ cmake ..
-    $ make
+El script se encarga de construir una imagen docker
+y compilar el proyecto y los tests dentro de ellas
 
-## Ejecutar los tests
-    $ bin/NewsClusteringTest
-
-## Procesar los items almacenados en el directorio "data"
-    $ bin/NewsClustering ../data
